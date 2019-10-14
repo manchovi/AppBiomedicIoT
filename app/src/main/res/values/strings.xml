@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">App IoT Biomedic</string>
+    <string name="title_activity_menu_principal">MenuPrincipal</string>
+
+    <string name="usuario"><u>Registrarme ahora</u></string>
+    <string name="clave"><u>¿Se te olvidó tu contraseña?</u></string>
+    <string name="register"><u><b><i>Copyright</i></b></u></string>
+
+</resources>

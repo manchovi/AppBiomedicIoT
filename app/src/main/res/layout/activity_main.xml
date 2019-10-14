@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    tools:context=".MainActivity"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvClic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#470303"
+        android:text="Receiver Data Bluetooth"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        />
+
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/textView_estado_BT"
+    android:gravity="center_vertical|center_horizontal"
+    android:textSize="50sp"
+    android:text="0"
+    android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/texto_data"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_above="@+id/textView_estado_BT"
+        android:textSize="24sp"
+        android:text="0"
+        android:layout_weight="1" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/texto_temp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_above="@+id/texto_data"
+        android:textSize="24sp"
+        android:text="0"
+        android:layout_weight="1" />
+
+    </LinearLayout>

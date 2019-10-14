@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="12dp"
+    tools:context=".Pruebas">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="28dp"
+        android:text="Datos Biomédicos"
+        android:textAlignment="center"
+        android:textColor="#920303"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_d"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE DESCRIPCIÓN"
+        android:inputType="textPersonName"
+        android:layout_marginTop="20dp"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/etfc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE FRECUENCIA CARDIACA"
+        android:inputType="numberDecimal"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/etsp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE SPO2"
+        android:inputType="numberDecimal"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/etpa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE PRESIÓN ARTERIAL"
+        android:inputType="numberDecimal"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/etfr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE FRECUENCIA RESPIRATORIA"
+        android:inputType="numberDecimal"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/ettc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE TEMPERATURA CORPORAL"
+        android:inputType="numberDecimal"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/eta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE VALOR ALARMA"
+        android:inputType="number"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/etf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE FECHA"
+        android:inputType="date"
+        android:enabled="false"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/eth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE HORA"
+        android:inputType="time"
+        android:enabled="false"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/eti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="INGRESE # IDENTIFICACIÓN RESPONSABLE"
+        android:inputType="number"
+        android:text="" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Save BD Remote"
+        android:layout_marginTop="20dp"
+        android:background="#000"
+        android:textColor="#fff"
+        />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
