@@ -1,6 +1,7 @@
 package com.example.btasinktask;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,7 +45,9 @@ public class MenuPrincipal extends AppCompatActivity {
                             /*Intent intent = new Intent(DashboardLuces.this, luces_control_sms.class);
                             startActivity(intent);*/
                             //MainActivity.this.finishAffinity();
-                            finish();
+
+                            goBack();
+                            //finish();
                         }
                     })
                     .show();
@@ -126,7 +129,9 @@ public class MenuPrincipal extends AppCompatActivity {
                 /*Intent intent = new Intent(DashboardLuces.this, luces_control_sms.class);
                 startActivity(intent);*/
                 //DashboardLuces.this.finishAffinity();
-                MenuPrincipal.this.finish();
+
+                //MenuPrincipal.this.finish();
+                goBack();
             }
         });
         dialogo.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -136,6 +141,14 @@ public class MenuPrincipal extends AppCompatActivity {
         });
         dialogo.show();
 
+    }
+
+
+    public void goBack(){
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+        //finish();
+        finishAffinity();
     }
 
 

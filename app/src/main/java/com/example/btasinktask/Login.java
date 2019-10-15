@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,16 +15,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements View.OnClickListener{
 
     Dialog myDialog;
 
     EditText etEmail, etClave;
     TextInputLayout tiEmail, tiClave;
     Button btnLogin;
+
+    boolean v1 = false;
+    boolean v2 = false;
 
     RelativeLayout rellay0, rellay1, rellay2, rellay3;
     //Button btnOlvidoClave;
@@ -54,8 +59,10 @@ public class Login extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             //Salir
                             //login.this.finish();
-                            finishAffinity();
-                            //finish();
+
+                            goBack();
+
+
                         }
                     })
                     .show();
@@ -87,11 +94,75 @@ public class Login extends AppCompatActivity {
         tiClave= (TextInputLayout)findViewById(R.id.tiClave);
         btnLogin = (Button)findViewById(R.id.btnLogin);
 
-        myDialog = new Dialog(this);
+       limpiarDatos();
 
+        myDialog = new Dialog(this);
 
         handler.postDelayed(runnable, 0); //2000 is the timeout for the splash
 
+        btnLogin.setOnClickListener(this);
+
 
     }
+
+    private void limpiarDatos() {
+        etEmail.setText(null);
+        etClave.setText(null);
+        etEmail.requestFocus();
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnLogin:
+                //Acciones a realizar por el botón clic.
+                if(etEmail.getText().toString().length()==0){
+                    etEmail.setError("Debe Ingresar su e-mail");
+                    etEmail.requestFocus();
+                    v1 = false;
+                }else{
+                    v1 = true;
+                }
+
+                if(v1 && etClave.getText().toString().length()==0){
+                    etClave.setError("Debe Ingresar Clave");
+                    etClave.requestFocus();
+                    v2 = false;
+                }else{
+                    v2 = true;
+                }
+
+                if(v1 && v2){
+                    String user = etEmail.getText().toString();
+                    String clave = etClave.getText().toString();
+                    if(user.equals("manuel") && clave.equals("123")){
+                        Intent intent = new Intent(this, MenuPrincipal.class);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Toast.makeText(this, "Usuario o contraseña incorrectos.", Toast.LENGTH_SHORT).show();
+                        limpiarDatos();
+                    }
+                }
+
+                break;
+
+            default:
+
+                break;
+        }
+    }
+
+
+    public void goBack(){
+        //Intent intent = new Intent(this, Login.class);
+        //startActivity(intent);
+
+        //finish();
+
+        finishAffinity();
+    }
+
+
 }
