@@ -38,10 +38,10 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="100dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Iniciar sesión"
+                android:text="INICIAR SESIÓN"
                 android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp" />
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:id="@+id/linlay1"
@@ -63,7 +63,7 @@
                         android:layout_marginTop="20dp"
                         android:paddingLeft="0dp"
                         android:paddingRight="10dp"
-                        android:textColorHint="@color/white">
+                        android:textColorHint="@color/colorAccent">
                         <EditText
                             android:id="@+id/etEmail"
                             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                             android:paddingRight="15dp"
                             android:hint="Ingrese su e-mail"
                             android:inputType="textEmailAddress"
-                            android:textColor="#020405"
+                            android:textColor="@color/colorAccent"
                             android:textSize="15sp"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -106,7 +106,7 @@
                         app:passwordToggleEnabled="true"
                         android:paddingLeft="0dp"
                         android:paddingRight="10dp"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/colorAccent"
                         >
 
                         <EditText
@@ -119,7 +119,7 @@
                             android:drawablePadding="5dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
-                            android:textColor="#020405"
+                            android:textColor="@color/colorAccent"
                             android:textSize="15sp"
                             android:hint="Password"
                             android:inputType="textPassword"
@@ -140,11 +140,11 @@
                 android:fontFamily="sans-serif-medium"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
-                android:text="LOGIN"
+                android:text="ENTRAR"
                 android:background="@drawable/btn_mov1"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
 
                 />
             <!--android:background="@drawable/btn_bg"-->
