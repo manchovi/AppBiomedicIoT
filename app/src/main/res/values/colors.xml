@@ -49,4 +49,6 @@
 
     <color name="white">#FFFFFF</color>
 
+    <item name="textGrey" type="color">#bdbdbd</item>
+
 </resources>

@@ -14,12 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Login"></activity>
-        <activity android:name=".Splashscreen">
+        <activity android:name=".CardViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Splashscreen">
+
         </activity>
         <activity
             android:name=".MenuPrincipal"

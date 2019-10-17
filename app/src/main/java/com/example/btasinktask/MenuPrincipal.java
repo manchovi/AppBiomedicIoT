@@ -104,7 +104,6 @@ public class MenuPrincipal extends AppCompatActivity {
         carouselView.setImageListener(imageListener);
 
 
-
     }
 
 
