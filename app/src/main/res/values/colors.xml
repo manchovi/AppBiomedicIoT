@@ -50,5 +50,6 @@
     <color name="white">#FFFFFF</color>
 
     <item name="textGrey" type="color">#bdbdbd</item>
+    <color name="chovi3">#930d0f</color>
 
 </resources>

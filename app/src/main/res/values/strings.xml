@@ -2,6 +2,11 @@
     <string name="app_name">App IoT Biomedic</string>
     <string name="title_activity_menu_principal">MenuPrincipal</string>
 
+    <string name="msj1">SERVIDOR ONLINE O LOCAL</string>
+    <string name="dominio">Dominio o IP</string>
+    <string name="directorio">Directorio API o Web service</string>
+    <string name="portal">Directorio Portal Web</string>
+
     <string name="usuario"><u>Registrarme ahora</u></string>
     <string name="clave"><u>¿Se te olvidó tu contraseña?</u></string>
     <string name="register"><u><b><i>Copyright</i></b></u></string>
@@ -13,7 +18,25 @@
     <string name="option1">Option 1</string>
     <string name="option2">Option 2</string>
     <string name="option3">Option 3</string>
-    <string name="details">Details</string>
-    <string name="info">The olinguito is distinct from the other species within the genus, popularly known as "olingos", and also from the kinkajou (kinkajous resemble olingos, but are not closely related). Its average weight is 900 grams (2 lb), making it the smallest procyonid. The animal is an omnivorous frugivore that eats mainly fruits (such as figs), but also insects and nectar; this diet results in feces the size of small blueberries.</string>
+
+
+    <string name="details">Detalles</string>
+
+    <string name="info">Al ejecutar esta acción se deberá completar la sig. info:\n
+        *Introducir la IP del servidor.\n
+        *Introducir el directorio del portal web.\n
+        *Introducir el directorio del web service.</string>
+
+    <string name="info1">Al ejecutar esta acción se deberá completar la sig. info:\n
+        *Introducir información del especialista responsable.\n
+        *Introducir número de teléfono.\n
+        *Introducir e-mail.
+    </string>
+
+    <string name="configurations1">Servidor</string>
+    <string name="subtitle1">IP o Dominio</string>
+
+    <string name="configurations2">Especialísta</string>
+    <string name="subtitle2">Información Dr.</string>
 
 </resources>

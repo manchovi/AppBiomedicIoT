@@ -49,6 +49,9 @@
                     app:theme="@style/ToolbarCard"
                     app:titleTextAppearance="@style/Card.Title" />
 
+
+
+
                 <!--By Mark Gurney [CC BY 3.0 (http://creativecommons.org/licenses/by/3.0)], via Wikimedia Commons -->
                 <ImageView
                     android:id="@+id/imageView"
@@ -58,6 +61,10 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/olinguito"
                     android:src="@drawable/olinguito" />
+
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,6 +112,11 @@
 
 
             </LinearLayout>
+
+
+
+
+
 
         </androidx.cardview.widget.CardView>
 
