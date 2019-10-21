@@ -102,7 +102,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
-        toolbar.setTitleTextColor(getResources().getColor(R.color.mycolor1));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setTitleMargin(0, 0, 0, 0);
         toolbar.setSubtitle("HOSPITAL SANTA TERESA");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.mycolor));
@@ -150,6 +150,12 @@ public class MenuPrincipal extends AppCompatActivity {
         linearLayoutDetails2 = (ViewGroup) findViewById(R.id.linearLayoutDetails2);
         imageViewExpand2 = (ImageView) findViewById(R.id.imageViewExpand2);
 
+        linearLayoutDetails3 = (ViewGroup) findViewById(R.id.linearLayoutDetails3);
+        imageViewExpand3 = (ImageView) findViewById(R.id.imageViewExpand3);
+
+        linearLayoutDetails4 = (ViewGroup) findViewById(R.id.linearLayoutDetails4);
+        imageViewExpand4 = (ImageView) findViewById(R.id.imageViewExpand4);
+
         Toolbar toolbarCard1 = (Toolbar) findViewById(R.id.toolbarCard1);
         toolbarCard1.setTitle(R.string.configurations1);
         toolbarCard1.setSubtitle(R.string.subtitle1);
@@ -194,6 +200,55 @@ public class MenuPrincipal extends AppCompatActivity {
                 return true;
             }
         });
+
+
+
+        Toolbar toolbarCard3 = (Toolbar) findViewById(R.id.toolbarCard3);
+        toolbarCard3.setTitle(R.string.configurations3);
+        toolbarCard3.setSubtitle(R.string.subtitle3);
+        toolbarCard3.inflateMenu(R.menu.menu_card);
+        toolbarCard3.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_option1:
+                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option2:
+                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option3:
+                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+        Toolbar toolbarCard4 = (Toolbar) findViewById(R.id.toolbarCard4);
+        toolbarCard4.setTitle(R.string.configurations4);
+        toolbarCard4.setSubtitle(R.string.subtitle4);
+        toolbarCard4.inflateMenu(R.menu.menu_card);
+        toolbarCard4.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_option1:
+                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option2:
+                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option3:
+                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
 
 
     }

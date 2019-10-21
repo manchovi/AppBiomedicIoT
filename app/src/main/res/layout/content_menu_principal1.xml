@@ -242,7 +242,7 @@
                             android:layout_height="50dp"
                             android:layout_marginTop="0dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_settings_brightness"
+                            android:src="@drawable/ic_add_alert"
                             android:tint="@color/colorWhite"
                             android:layout_marginBottom="20dp"
                             />

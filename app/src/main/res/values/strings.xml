@@ -39,4 +39,12 @@
     <string name="configurations2">Especialísta</string>
     <string name="subtitle2">Información Dr.</string>
 
+    <string name="configurations3">Biomedic</string>
+    <string name="subtitle3">Temperatura Corporal</string>
+
+    <string name="configurations4">Biomedic</string>
+    <string name="subtitle4">Frecuencia Respiratoria</string>
+
+
+
 </resources>
