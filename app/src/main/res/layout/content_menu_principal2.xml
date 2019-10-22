@@ -101,7 +101,7 @@
                             android:id="@+id/toolbarCard1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/textGrey"
+                            android:background="#42A6F0"
                             app:popupTheme="@style/Theme.AppCompat.Light"
                             app:subtitleTextAppearance="@style/Card.Subtitle1"
                             app:theme="@style/ToolbarCard"
@@ -137,7 +137,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:onClick="toggleDetails1"
-                                android:background="#5DA2D1"
+                                android:background="#2DB9F8"
                                 android:orientation="horizontal"
                                 android:padding="8dp">
 
@@ -477,7 +477,7 @@
                                     android:id="@+id/toolbarCard4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/textGrey"
+                                    android:background="#F38E72"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -596,7 +596,7 @@
                             android:id="@+id/show_actions5"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="#585858"
+                            card_view:cardBackgroundColor="#449B47"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -615,7 +615,7 @@
                                     android:id="@+id/toolbarCard5"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/textGrey"
+                                    android:background="#4CAF50"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -651,7 +651,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails1"
-                                    android:background="#5F645F"
+                                    android:background="#5EB862"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -717,7 +717,7 @@
                             android:id="@+id/show_actions6"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="#2A7436"
+                            card_view:cardBackgroundColor="#979191"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -766,7 +766,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails2"
-                                    android:background="#388144"
+                                    android:background="#570303"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -833,6 +833,7 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
+                    android:background="@android:color/transparent"
                     >
 
                     <ScrollView
@@ -867,7 +868,7 @@
                                     android:id="@+id/toolbarCard7"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/textGrey"
+                                    android:background="#0F052231"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -881,7 +882,7 @@
                                     android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/heart4"
+                                    android:src="@drawable/ic_fc2"
 
                                     />
                                 <!--android:tint="@color/colorWhite"-->
@@ -903,7 +904,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails1"
-                                    android:background="#979191"
+                                    android:background="#B4B1A5"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -969,7 +970,7 @@
                             android:id="@+id/show_actions8"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="#186BAC"
+                            card_view:cardBackgroundColor="#13B1F8"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -999,7 +1000,7 @@
                                     android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/spo2ok"
+                                    android:src="@drawable/sp02"
                                     />
 
                                 <!--<TextView
@@ -1019,7 +1020,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails2"
-                                    android:background="#2175B6"
+                                    android:background="#2DB9F8"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 

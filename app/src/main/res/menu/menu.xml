@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_lateral"
+        android:title="Menú Lateral"
+        android:icon="@drawable/ic_view"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_monitor"
+        android:title="Monitor"
+        android:icon="@drawable/ic_video"
+        app:showAsAction="never"/>
+
+
+    <!--<item
+        android:id="@+id/menu_monitor1"
+        android:title="Monitor"
+        android:icon="@drawable/ic_video"
+        app:showAsAction="never"/>-->
+
+</menu>

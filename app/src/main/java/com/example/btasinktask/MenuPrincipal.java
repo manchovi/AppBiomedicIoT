@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -250,6 +252,100 @@ public class MenuPrincipal extends AppCompatActivity {
         });
 
 
+        Toolbar toolbarCard5 = (Toolbar) findViewById(R.id.toolbarCard5);
+        toolbarCard5.setTitle(R.string.configurations5);
+        toolbarCard5.setSubtitle(R.string.subtitle5);
+        toolbarCard5.inflateMenu(R.menu.menu_card);
+        toolbarCard5.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_option1:
+                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option2:
+                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option3:
+                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+        Toolbar toolbarCard6 = (Toolbar) findViewById(R.id.toolbarCard6);
+        toolbarCard6.setTitle(R.string.configurations6);
+        toolbarCard6.setSubtitle(R.string.subtitle6);
+        toolbarCard6.inflateMenu(R.menu.menu_card);
+        toolbarCard6.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_option1:
+                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option2:
+                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option3:
+                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+        Toolbar toolbarCard7 = (Toolbar) findViewById(R.id.toolbarCard7);
+        toolbarCard7.setTitle(R.string.configurations7);
+        toolbarCard7.setSubtitle(R.string.subtitle7);
+        toolbarCard7.inflateMenu(R.menu.menu_card);
+        toolbarCard7.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_option1:
+                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option2:
+                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option3:
+                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+        Toolbar toolbarCard8 = (Toolbar) findViewById(R.id.toolbarCard8);
+        toolbarCard8.setTitle(R.string.configurations8);
+        toolbarCard8.setSubtitle(R.string.subtitle8);
+        toolbarCard8.inflateMenu(R.menu.menu_card);
+        toolbarCard8.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_option1:
+                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option2:
+                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_option3:
+                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
 
     }
 
@@ -349,7 +445,8 @@ public class MenuPrincipal extends AppCompatActivity {
         //mBuilder.setTitle("<<<UTLA>>>");
 
         mBuilder.setCancelable(false);
-        final View mView = getLayoutInflater().inflate(R.layout.dialog_server, null);
+        //final View mView = getLayoutInflater().inflate(R.layout.dialog_server, null);
+        final View mView = getLayoutInflater().inflate(R.layout.alert_server, null);
 
         //controles donde muestro informacion del archivo credenciales.xml creado con
         //SharedPreferences.
@@ -369,7 +466,9 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Button btnSave = (Button)mView.findViewById(R.id.btnSave);      //BOTONES DEL DIALOG CONFIGURACION.
         Button btnCancel = (Button)mView.findViewById(R.id.btnCancel);
-        TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
+
+        //TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
+        ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
 
         final String[] lista =new String[]{
                 "http://",
@@ -428,6 +527,9 @@ public class MenuPrincipal extends AppCompatActivity {
         mBuilder.setView(mView);
         //final AlertDialog dialog = mBuilder.create();
         final android.app.AlertDialog dialog = mBuilder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //myDialog.show();
         dialog.show();
 
         //btnVerificarRespuesta.setOnClickListener(new View.OnClickListener() {
@@ -534,12 +636,46 @@ public class MenuPrincipal extends AppCompatActivity {
         });
 
 
-        txtclose.setOnClickListener(new View.OnClickListener() {
+        BtnCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
             }
         });
+
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button_green_round, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.menu_lateral){
+            //Acciones a realizar
+
+            return true;
+        }else if(id==R.id.menu_monitor) {
+
+            return true;
+        /*}else if(id==R.id.menu_monitor1){
+
+            return true;
+        }*/
+
+        }
+
+        return super.onOptionsItemSelected(item);
 
     }
 
