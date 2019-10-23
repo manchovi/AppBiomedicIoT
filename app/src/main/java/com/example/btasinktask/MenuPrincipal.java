@@ -812,10 +812,14 @@ public class MenuPrincipal extends AppCompatActivity {
 
         if(id==R.id.menu_lateral){
             //Acciones a realizar
+            Toast.makeText(this, "Clic en opción llamada al menú lateral", Toast.LENGTH_SHORT).show();
 
             return true;
         }else if(id==R.id.menu_monitor) {
-
+            //Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, SignalsMonitor.class);
+            startActivity(intent);
+            
             return true;
         /*}else if(id==R.id.menu_monitor1){
 

@@ -1,0 +1,165 @@
+/*
+  *  The circuit:
+ * LCD RS pin to digital pin 12
+ * LCD Enable pin to digital pin 11
+ * LCD D4 pin to digital pin 5
+ * LCD D5 pin to digital pin 4
+ * LCD D6 pin to digital pin 3
+ * LCD D7 pin to digital pin 2
+ * LCD R/W pin to ground
+ * 10K resistor:
+   * ends to +5V and ground
+   * wiper to LCD VO pin (pin 3)
+  */
+
+/*
+  De momento esta es la versión que tengo funcionando bien
+  Obviamente tengo que irla mejorando
+  Versión 1.0 - 22/08/2019
+*/
+#include <LiquidCrystal.h>
+int led = 13;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+const int analogInPin1 = A1;          // Analog input pin that the potentiometer is attached to
+const int analogInPin2 = A2;          // Analog input pin that the potentiometer is attached to
+const int analogInPin3 = A3;          // Analog input pin that the potentiometer is attached to
+const int analogInPin4 = A4;          // Analog input pin that the potentiometer is attached to
+const int analogInPin5 = A5;          // Analog input pin that the potentiometer is attached to
+
+/*
+double Spo2=0;
+double Frec_cardiaca=0;
+double Tension_arterial=0;
+double Frec_respiratoria=0;
+double Temp_corporal=0;
+*/
+
+int Spo2=0;
+int Frec_cardiaca=0;
+int Tension_arterial=0;
+int Frec_respiratoria=0;
+int Temp_corporal=0;
+
+
+int Alarma=0;
+
+const int onBoardLED = 13;           // pin number of on-board LED of maple mini
+
+char ch1, ch2;
+
+//Variable donde almacenaremos el numero aleatorio
+int randomNumber;
+
+void setup() {
+  //Serial.begin(9600);             //begin serial monitor with baud rate of 9600
+  Serial.begin(9600);               //begin hardware serial connected to bluetooth with baud rate of 9600
+
+  randomSeed(500);
+
+  //Serial.print("READY!");
+  pinMode(onBoardLED, OUTPUT);      // set pin to output
+  digitalWrite(onBoardLED, LOW);    // turn of LED
+
+  //INDICAMOS QUE TENEMOS CONECTADA UNA PANTALLA DE 16X2
+  lcd.begin(16, 2);
+
+  // Limpiamos la pantalla
+  lcd.clear();
+
+  // MOVER EL CURSOR A LA PRIMERA POSICION DE LA PANTALLA (0, 0)
+  //lcd.home();
+
+  // Situamos el cursor en la columna 0 fila 0
+  lcd.setCursor(0,0);
+  // IMPRIMIR "Hola Mundo" EN LA PRIMERA LINEA
+  lcd.print("BIOMEDIC IoT 019");
+
+  // MOVER EL CURSOR A LA SEGUNDA LINEA (1) PRIMERA COLUMNA (0)
+  lcd.setCursor (0, 1);
+  lcd.print("SPO2:x");
+
+  // ESPERAR UN SEGUNDO
+  delay(1000);
+
+
+}
+
+void loop() {
+  //delay(1000);
+  Spo2 = analogRead(analogInPin1);
+  Frec_cardiaca = analogRead(analogInPin2);
+  Tension_arterial = analogRead(analogInPin3);
+  Frec_respiratoria = analogRead(analogInPin4);
+  Temp_corporal = analogRead(analogInPin5);
+  Alarma=1;
+
+  //Genera un numero aleatorio entre 1 y 1023
+  randomNumber = random(1,1023);
+
+  // serial comm for bluetooth
+  if (Serial.available()){
+    ch1 =  Serial.read();
+    if (ch1 == 'a'){
+      digitalWrite(onBoardLED, HIGH); // turn On LED
+      ch1 =  Serial.read();
+    }else{
+      digitalWrite(onBoardLED, LOW); // turn Off LED
+    }
+  }
+
+
+  //String sb = "-1:992~356+8107,786$45#1f";
+  Serial.print(Spo2);
+  Serial.print(",");
+  Serial.print(randomNumber);     //Serial.print(Frec_cardiaca);
+  Serial.print(",");
+  Serial.print(Tension_arterial);
+  Serial.print(",");
+  Serial.print(Frec_respiratoria);
+  Serial.print(",");
+  Serial.print(Temp_corporal);     //Serial.print();
+  Serial.print(",");
+  Serial.print(Alarma);
+  Serial.print(",");
+  Serial.println("~");
+
+  //IMPRIMIR EN PANTALLA LCD
+  lcd.setCursor(5, 1);
+  //lcd.print(sensor1);
+  lcd.print(randomNumber);
+
+  delay(500);
+  //delay(1000);
+}
+
+double Analog_In_To_Voltage(int pin)
+{
+  int total = 0;    // total length of voltage sample
+  int sampleLength = 10;  // number of samples
+  int sampleRead[sampleLength]; // array containing voltages
+
+  // set array contents to 0
+  for (int arrIndex = 0; arrIndex < sampleLength ; arrIndex++)
+  {
+    sampleRead[arrIndex] = 0 ;
+  }
+  // take a sample of 10 values from analog input
+  for (int arrIndex = 0; arrIndex < sampleLength ; arrIndex++)
+  {
+    sampleRead[arrIndex] = analogRead(pin);
+
+  }
+  // sum of all values of the array
+  for (int arrIndex = 0; arrIndex < sampleLength ; arrIndex++)
+  {
+    total = sampleRead[arrIndex] + total;
+  }
+  // get the average value
+  int rawInputVal = total / sampleLength;
+  // convert the value into voltage from 0 to 3.3v
+  // for maple mini 12bit resolution (4095) @ 3.3v
+  double vPin = rawInputVal * (3.3 / 4095.0);
+  return vPin;
+}
+

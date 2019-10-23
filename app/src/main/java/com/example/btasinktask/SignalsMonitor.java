@@ -1171,8 +1171,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         }//FIN GRÁFICA IV
 
 
-
-        //vd_alarma.setText(p.getAlarma());
+        vd_alarma.setText(p.getAlarma());
 
         //tvTrama.setText("Trama: 0");
     }
@@ -1438,7 +1437,9 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             //Toast.makeText(getBaseContext(), "Contando: "+values[0], Toast.LENGTH_SHORT).show();
-            vd_alarma.setText(""+values[0]);
+
+            //vd_alarma.setText(""+values[0]);
+
             //progressBar.setProgress(values[0].intValue());
         }
 
@@ -1461,7 +1462,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         @Override
         protected void onCancelled() {
             super.onCancelled();
-            vd_alarma.setText("0");
+            //vd_alarma.setText("0");
             //progressBar.setProgress(0);
             Toast.makeText(getBaseContext(), "Proceso Cancelado o Detenido", Toast.LENGTH_LONG).show();
         }
@@ -1509,8 +1510,23 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
             //Esta segunda línea si transmite y guarda en la base de datos remota.
             //volleyBD.sendInfoServer(SignalsMonitor.this, "Internet of Things", vd_fc.getText().toString(), vd_spo2.getText().toString(), vd_ta.getText().toString(), vd_fr.getText().toString(), vd_tc.getText().toString(), "5", "2019-10-01", "1:40:02", "28227838");
             //Esta tercera...
-            volleyBD.sendInfoServer(SignalsMonitor.this, "Internet of Things", vd_fc.getText().toString(), vd_spo2.getText().toString(), vd_ta.getText().toString(), vd_fr.getText().toString(), vd_tc.getText().toString(), "5", volleyBD.getDate(), volleyBD.getTime(), "28227838");
+            volleyBD.sendInfoServer(SignalsMonitor.this,
+                    "Internet of Things",
+                    vd_fc.getText().toString(),
+                    vd_spo2.getText().toString(),
+                    vd_ta.getText().toString(),
+                    vd_fr.getText().toString(),
+                    vd_tc.getText().toString(),
+                    vd_alarma.getText().toString(),
+                    volleyBD.getDate(),
+                    volleyBD.getTime(),
+                    "28227838");
             //volleyBD.sendInfoServer(getBaseContext(), "IoT 2019-2020", vd_fc.getText().toString(), vd_spo2.getText().toString(), vd_ta.getText().toString(), vd_fr.getText().toString(), vd_tc.getText().toString(), vd_alarma.getText().toString(), "2019-10-01", "1:33:01", "28227838");
+
+            //OJO SR. Gámez...,
+            //Tendré que COLOCAR una ventana de configuración de tiempo de envio de datos a la base de datos remota (MySQL), para cambiar la constante de 5000 ms = 5 Seg.
+            //Además, colocare a esta misma ventana de configuración si se desea enviar los datos o registros de signos vitales de un paciente cada vez que se cumpla
+            //el intervalo de tiempo definido en esta ventana, o solo cuando se cumpla un umbral seteado a cada variable en la ventana de configuración de alerta temprana.
             mHandler.postDelayed(this, 5000);
         }
     };

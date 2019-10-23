@@ -23,7 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#960505">
+                android:background="@color/actbgcolor" >
+
+                <!--android:background="#960505"-->
 
                 <CheckBox
                     android:id="@+id/cb_spo2"
@@ -122,7 +124,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Y-Axis"
                         android:textSize="14dp"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:visibility="visible"
                         />
@@ -189,7 +191,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Alarm"
                         android:textSize="14dp"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:visibility="visible"
                         android:layout_marginTop="15dp"
@@ -235,7 +237,7 @@
                 android:checked="false"
                 android:text="Stream data  "
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textSize="15dp" />
 
             <TextView
@@ -297,7 +299,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="X-Axis: 0 "
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"
                 android:visibility="visible"
@@ -309,7 +311,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="Leyenda"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold" />
             <!--android:gravity="center"-->
@@ -320,7 +322,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="Send Data"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
