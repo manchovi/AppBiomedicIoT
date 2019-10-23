@@ -321,7 +321,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:text="Send Data"
+                android:text="Datos BD"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/cb_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Tiempo"
                 android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold" />

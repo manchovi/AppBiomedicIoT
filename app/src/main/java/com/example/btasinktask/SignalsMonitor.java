@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiCallback{
@@ -91,7 +96,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
     private GraphView graphPlot;
     private TextView txtXval, txtYval, tvTrama;
     private TextView vd_spo2, vd_fc, vd_ta, vd_fr, vd_tc, vd_alarma;
-    private CheckBox cb_spo2, cb_fc, cb_ta, cb_fr, cb_tc, cb_legends, cb_send;
+    private CheckBox cb_spo2, cb_fc, cb_ta, cb_fr, cb_tc, cb_legends, cb_send, cb_time;
     Switch swDataStream;
     boolean a = false;boolean b=false;boolean c=false;boolean d=false;boolean e=false;
 
@@ -126,6 +131,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
     boolean estadoVisibleoculto = false;
 
 
+    boolean estadoSendDataServer = false;
 
 
     /*
@@ -224,6 +230,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         cb_tc = (CheckBox) findViewById(R.id.cb_tc);
         cb_legends = (CheckBox)findViewById(R.id.cb_legends);
         cb_send = (CheckBox)findViewById(R.id.cb_send);
+        cb_time = (CheckBox)findViewById(R.id.cb_time);
 
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -234,6 +241,19 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         //Detengo el hilo que envia los datos de los sensores a la base de datos en el servidor
         //Base de datos MyQSL.
         stopRepeating();cb_send.setChecked(false);
+
+
+        cb_time.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    VentanaDialog2(SignalsMonitor.this);
+                }else{
+                    cb_time.setChecked(false);
+                }
+            }
+        });
+
 
         cb_send.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -728,6 +748,106 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         });
 
     }
+
+
+    public void VentanaDialog2(final Context context){
+        myDialog = new Dialog(context);
+        myDialog.setContentView(R.layout.configtime);
+        myDialog.setTitle("Time Send Server");
+        myDialog.setCancelable(false);
+
+        String valorTime = "";
+
+        CheckBox cb_enabledSend = (CheckBox)myDialog.findViewById(R.id.cb_enabledSend);
+        cb_enabledSend.setChecked(false);
+
+        final EditText etTiempo = (EditText)myDialog.findViewById(R.id.etTiempo);
+
+        Button btnCancelar = (Button)myDialog.findViewById(R.id.btnCancelar);
+        Button btnAplica = (Button)myDialog.findViewById(R.id.btnAplica);
+
+        valorTime = obtenerTiempo();
+        etTiempo.setText(valorTime);
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cb_time.setChecked(false);
+                myDialog.dismiss();
+            }
+        });
+
+        btnAplica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(etTiempo.getText().length() == 0) {
+                    etTiempo.setError("Ingrese el tiempo en segundos.");
+                    etTiempo.requestFocus();
+                }else{
+                    String t = etTiempo.getText().toString();
+                    createfiletime(t);
+                    Toast.makeText(SignalsMonitor.this, "Se guardo correctamente su configuración.", Toast.LENGTH_SHORT).show();
+                }
+                cb_time.setChecked(false);
+                myDialog.dismiss();
+
+            }
+        });
+
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+
+
+        cb_enabledSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean estado) {
+                if(estado){
+                    estadoSendDataServer=true;
+                }else{
+                    estadoSendDataServer=false;
+                }
+            }
+        });
+
+
+        /*cb_visibleoculto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b4) {
+                if(b4){
+                    estadoVisibleoculto=true;
+                    //Toast.makeText(context, "Activo Visible Oculto", Toast.LENGTH_SHORT).show();
+                }else{
+                    estadoVisibleoculto=false;
+                    //Toast.makeText(context, "Desactivo Visible Oculto", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });*/
+
+    }
+
+
+
+    public void createfiletime(String tiempo){
+        SharedPreferences preferences = getSharedPreferences("filetime", Context.MODE_PRIVATE);
+        //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
+        DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
+        String date= formatodate.format(new Date());
+        DateFormat formatotime= new SimpleDateFormat("HH:mm:ss a");
+        String time= formatotime.format(new Date());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("tiempo", tiempo);
+        editor.commit();
+    }
+
+
+
+    public String obtenerTiempo() {
+        SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
+        String tiempo = preferences.getString("tiempo","5");
+        return tiempo;   //return preferences.getString("tiempo", "Sin configurar.");
+    }
+
+
 
     private void verificarLegendsActive(boolean estadoTop, boolean estadoMiddle, boolean estadoBottom, boolean estadoVisibleoculto) {
         if(estadoTop && estadoVisibleoculto) {
