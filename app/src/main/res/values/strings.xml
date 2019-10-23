@@ -22,16 +22,39 @@
 
     <string name="details">Detalles</string>
 
-    <string name="info">Al ejecutar esta acción se deberá completar la sig. info:\n
-        *Introducir la IP del servidor.\n
-        *Introducir el directorio del portal web.\n
-        *Introducir el directorio del web service.</string>
-
-    <string name="info1">Al ejecutar esta acción se deberá completar la sig. info:\n
-        *Introducir información del especialista responsable.\n
-        *Introducir número de teléfono.\n
-        *Introducir e-mail.
+    <string name="info1">
+        Acceso a la ventana de configuración de parametros de referencia al servidor y base de datos
     </string>
+
+    <string name="info2">
+        Acceso a la ventana de configuración de datos de contacto del especialista o Dr.
+    </string>
+
+    <string name="info3">
+        Acceso a la ventana de configuración para alerta temprana a especialista responsable.
+    </string>
+
+    <string name="info4">
+        Monitor para acceso a información de variable fisiológica de paciente\n[*Temperatura Corporal]
+    </string>
+
+    <string name="info5">
+        Monitor para acceso a información de variable fisiológica de paciente\n[*Frecuencia Respiratoria]
+    </string>
+
+    <string name="info6">
+        Monitor para acceso a información de variable fisiológica de paciente\n[*Tensión Arterial]
+    </string>
+
+    <string name="info7">
+        Monitor para acceso a información de variable fisiológica de paciente\n[*Frecuencia Cardiaca]
+    </string>
+
+    <string name="info8">
+        Monitor para acceso a información de variable fisiológica de paciente\n[*SPO2]
+    </string>
+
+    <!--Acceso a la información del paciente con repecto a la variable médica SPO2 (Saturación Parcial del Oxígeno)-->
 
     <string name="configurations1">Configuración</string>
     <string name="subtitle1">Servidor Destino</string>

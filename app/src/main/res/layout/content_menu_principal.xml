@@ -48,7 +48,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@android:color/transparent"
+            >
 
 
 
@@ -66,7 +68,6 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
-                    android:background="@android:color/transparent"
                     >
 
                 <ScrollView
@@ -155,7 +156,6 @@
                                     android:id="@+id/imageViewExpand1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:background="@android:color/transparent"
                                     android:contentDescription="@string/details"
                                     android:src="@mipmap/more" />
                             </LinearLayout>
@@ -173,7 +173,7 @@
                                     android:id="@+id/textViewInfo1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/info"
+                                    android:text="@string/info1"
                                     android:textColor="#fff"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -289,7 +289,7 @@
                                     android:id="@+id/textViewInfo2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/info1"
+                                    android:text="@string/info2"
                                     android:textColor="@android:color/white"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -388,7 +388,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="toggleDetails2"
+                                    android:onClick="toggleDetails3"
                                     android:background="#FF4C4C"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
@@ -425,7 +425,7 @@
                                         android:id="@+id/textViewInfo3"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/info1"
+                                        android:text="@string/info3"
                                         android:textColor="@android:color/white"
                                         android:textSize="12sp" />
                                 </LinearLayout>
@@ -512,7 +512,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="toggleDetails1"
+                                    android:onClick="toggleDetails4"
                                     android:background="#F1643D"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
@@ -549,7 +549,7 @@
                                         android:id="@+id/textViewInfo4"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/info"
+                                        android:text="@string/info4"
                                         android:textColor="#fff"
                                         android:textSize="12sp" />
                                 </LinearLayout>
@@ -650,7 +650,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="toggleDetails1"
+                                    android:onClick="toggleDetails5"
                                     android:background="#5F645F"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
@@ -687,7 +687,7 @@
                                         android:id="@+id/textViewInfo5"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/info"
+                                        android:text="@string/info5"
                                         android:textColor="#fff"
                                         android:textSize="12sp" />
                                 </LinearLayout>
@@ -765,7 +765,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="toggleDetails2"
+                                    android:onClick="toggleDetails6"
                                     android:background="#388144"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
@@ -802,7 +802,7 @@
                                         android:id="@+id/textViewInfo6"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/info1"
+                                        android:text="@string/info6"
                                         android:textColor="@android:color/white"
                                         android:textSize="12sp"
                                         />
@@ -902,7 +902,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="toggleDetails1"
+                                    android:onClick="toggleDetails7"
                                     android:background="#979191"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
@@ -939,7 +939,7 @@
                                         android:id="@+id/textViewInfo7"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/info"
+                                        android:text="@string/info7"
                                         android:textColor="#fff"
                                         android:textSize="12sp" />
                                 </LinearLayout>
@@ -1018,7 +1018,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="toggleDetails2"
+                                    android:onClick="toggleDetails8"
                                     android:background="#2175B6"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
@@ -1055,7 +1055,7 @@
                                         android:id="@+id/textViewInfo8"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/info1"
+                                        android:text="@string/info8"
                                         android:textColor="@android:color/white"
                                         android:textSize="12sp"
                                         />

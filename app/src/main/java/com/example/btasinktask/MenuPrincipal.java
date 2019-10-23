@@ -44,8 +44,8 @@ import java.util.Date;
 
 public class MenuPrincipal extends AppCompatActivity {
 
-    private ViewGroup linearLayoutDetails1, linearLayoutDetails2, linearLayoutDetails3, linearLayoutDetails4;
-    private ImageView imageViewExpand1, imageViewExpand2, imageViewExpand3, imageViewExpand4;
+    private ViewGroup linearLayoutDetails1, linearLayoutDetails2, linearLayoutDetails3, linearLayoutDetails4, linearLayoutDetails5, linearLayoutDetails6, linearLayoutDetails7, linearLayoutDetails8;
+    private ImageView imageViewExpand1, imageViewExpand2, imageViewExpand3, imageViewExpand4, imageViewExpand5, imageViewExpand6, imageViewExpand7, imageViewExpand8;
 
     private LinearLayout linearLayoutCardContent;
 
@@ -157,6 +157,19 @@ public class MenuPrincipal extends AppCompatActivity {
 
         linearLayoutDetails4 = (ViewGroup) findViewById(R.id.linearLayoutDetails4);
         imageViewExpand4 = (ImageView) findViewById(R.id.imageViewExpand4);
+
+        linearLayoutDetails5 = (ViewGroup) findViewById(R.id.linearLayoutDetails5);
+        imageViewExpand5 = (ImageView) findViewById(R.id.imageViewExpand5);
+
+        linearLayoutDetails6 = (ViewGroup) findViewById(R.id.linearLayoutDetails6);
+        imageViewExpand6 = (ImageView) findViewById(R.id.imageViewExpand6);
+
+        linearLayoutDetails7 = (ViewGroup) findViewById(R.id.linearLayoutDetails7);
+        imageViewExpand7 = (ImageView) findViewById(R.id.imageViewExpand7);
+
+        linearLayoutDetails8 = (ViewGroup) findViewById(R.id.linearLayoutDetails8);
+        imageViewExpand8 = (ImageView) findViewById(R.id.imageViewExpand8);
+
 
         Toolbar toolbarCard1 = (Toolbar) findViewById(R.id.toolbarCard1);
         toolbarCard1.setTitle(R.string.configurations1);
@@ -383,6 +396,88 @@ public class MenuPrincipal extends AppCompatActivity {
         }
     }
 
+
+    public void toggleDetails3(View view) {
+        if (linearLayoutDetails3.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails3, DURATION);
+            imageViewExpand3.setImageResource(R.mipmap.more);
+            rotate3(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails3, DURATION);
+            imageViewExpand3.setImageResource(R.mipmap.less);
+            rotate3(180.0f);
+        }
+    }
+
+
+    public void toggleDetails4(View view) {
+        if (linearLayoutDetails4.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails4, DURATION);
+            imageViewExpand4.setImageResource(R.mipmap.more);
+            rotate4(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails4, DURATION);
+            imageViewExpand4.setImageResource(R.mipmap.less);
+            rotate4(180.0f);
+        }
+    }
+
+
+    public void toggleDetails5(View view) {
+        if (linearLayoutDetails5.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails5, DURATION);
+            imageViewExpand5.setImageResource(R.mipmap.more);
+            rotate5(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails5, DURATION);
+            imageViewExpand5.setImageResource(R.mipmap.less);
+            rotate5(180.0f);
+        }
+    }
+
+
+    public void toggleDetails6(View view) {
+        if (linearLayoutDetails6.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails6, DURATION);
+            imageViewExpand6.setImageResource(R.mipmap.more);
+            rotate6(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails6, DURATION);
+            imageViewExpand6.setImageResource(R.mipmap.less);
+            rotate6(180.0f);
+        }
+    }
+
+
+    public void toggleDetails7(View view) {
+        if (linearLayoutDetails7.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails7, DURATION);
+            imageViewExpand7.setImageResource(R.mipmap.more);
+            rotate7(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails7, DURATION);
+            imageViewExpand7.setImageResource(R.mipmap.less);
+            rotate7(180.0f);
+        }
+    }
+
+
+    public void toggleDetails8(View view) {
+        if (linearLayoutDetails8.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails8, DURATION);
+            imageViewExpand8.setImageResource(R.mipmap.more);
+            rotate8(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails8, DURATION);
+            imageViewExpand8.setImageResource(R.mipmap.less);
+            rotate8(180.0f);
+        }
+    }
+
+
+
+
+
     private void rotate1(float angle) {
         Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
@@ -398,6 +493,60 @@ public class MenuPrincipal extends AppCompatActivity {
         animation.setDuration(DURATION);
         imageViewExpand2.startAnimation(animation);
     }
+
+    private void rotate3(float angle) {
+        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(DURATION);
+        imageViewExpand3.startAnimation(animation);
+    }
+
+    private void rotate4(float angle) {
+        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(DURATION);
+        imageViewExpand4.startAnimation(animation);
+    }
+
+
+    private void rotate5(float angle) {
+        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(DURATION);
+        imageViewExpand5.startAnimation(animation);
+    }
+
+
+    private void rotate6(float angle) {
+        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(DURATION);
+        imageViewExpand6.startAnimation(animation);
+    }
+
+
+    private void rotate7(float angle) {
+        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(DURATION);
+        imageViewExpand7.startAnimation(animation);
+    }
+
+
+    private void rotate8(float angle) {
+        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(DURATION);
+        imageViewExpand8.startAnimation(animation);
+    }
+
+
 
 
 
@@ -678,9 +827,6 @@ public class MenuPrincipal extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
-
-
-
 
 }
 
