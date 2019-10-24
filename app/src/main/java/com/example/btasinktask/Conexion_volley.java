@@ -144,7 +144,7 @@ public class Conexion_volley {
                         toast.show();
                         */
                         Toast.makeText(context, "No hay nada que actualizar." +
-                                "\nNo ha realizado ningún cambio.", Toast.LENGTH_LONG).show();
+                                "\nNo ha realizado ningún cambio.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -153,7 +153,7 @@ public class Conexion_volley {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Sin Internet...", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Sin Internet...", Toast.LENGTH_SHORT).show();
             }
         }) {
             protected Map<String, String> getParams() throws AuthFailureError {

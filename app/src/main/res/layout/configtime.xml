@@ -5,6 +5,8 @@
     android:layout_height="185dp"
     android:background="#6B6767">
 
+    <!--android:background="#6B6767"-->
+
     <!--Header-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +65,7 @@
                 android:id="@+id/cb_enabledSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:text="Habilitar Envio Según Tiempo"
                 android:textColor="#fff"
                 android:textSize="14dp"

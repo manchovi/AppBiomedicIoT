@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/actbgcolor" >
+    android:background="@color/actbgcolor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,6 +35,7 @@
                     android:text="SPO2"
                     android:textColor="#fff"
                     android:checked="false"
+                    android:button="@drawable/cbcustom_spo2"
                     />
 
                 <CheckBox
@@ -233,7 +235,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="5dp"
                 android:checked="false"
                 android:text="Stream data  "
                 android:textAlignment="center"
@@ -294,15 +296,29 @@
                 android:visibility="gone"/>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | "
+                android:textColor="@color/color_ta"
+                />
+
+            <TextView
                 android:id="@+id/tvTrama"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="X-Axis: 0 "
+                android:text="X-Axis: 0"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"
                 android:visibility="visible"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | "
+                android:textColor="@color/color_ta"
                 />
 
             <CheckBox
@@ -316,25 +332,44 @@
                 android:textStyle="bold" />
             <!--android:gravity="center"-->
 
-            <CheckBox
-                android:id="@+id/cb_send"
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Datos BD"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:text="  | "
+                android:textColor="@color/color_ta"
+                />
 
             <CheckBox
                 android:id="@+id/cb_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:text="Tiempo"
+                android:text="Control Datos"
                 android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+            <CheckBox
+                android:id="@+id/cb_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:button="@drawable/estilopersonalizadocb"
+                />
+            <!--
+            app:buttonTint="@color/color_spo2"
+            android:theme="@style/CheckBox"        //No me funcionó.
+            -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | "
+                android:textColor="@color/color_ta"
+                />
 
         </LinearLayout>
 

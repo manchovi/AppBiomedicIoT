@@ -17,6 +17,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -132,7 +133,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
 
 
     boolean estadoSendDataServer = false;
-
+    boolean ultimoEstado = false;
+    int totalSegundos = 0;
 
     /*
     @Override
@@ -206,6 +208,30 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
 
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            new android.app.AlertDialog.Builder(this)
+                    .setIcon(R.drawable.ic_close)
+                    .setTitle("Warning")
+                    .setMessage("¿Confirme que desea salir de la ventana monitor?")
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            stopRepeating();
+                            finish();
+                        }
+                    })
+                    .show();
+            // Si el listener devuelve true, significa que el evento esta procesado, y nadie debe hacer nada mas
+            return true;
+        }
+        //para las demas cosas, se reenvia el evento al listener habitual
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signals_monitor);
@@ -235,13 +261,26 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
+        ultimoEstado = obtenerEstadoCbox();
+        if(ultimoEstado){
+            startRepeating();
+            cb_send.setChecked(ultimoEstado);
+            //cb_send.setChecked(true);
+            cb_send.setEnabled(false);
+        }else{
+            //stopRepeating();
+            cb_send.setChecked(false);
+            cb_send.setEnabled(false);
+        }
+
+
+
         //cb_legends.setChecked(false);
         cb_legends.setEnabled(false);
 
         //Detengo el hilo que envia los datos de los sensores a la base de datos en el servidor
         //Base de datos MyQSL.
-        stopRepeating();cb_send.setChecked(false);
-
 
         cb_time.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -255,6 +294,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         });
 
 
+
+        /*
         cb_send.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean estad) {
@@ -265,10 +306,10 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
                 }else{
                     //detenreHiloAsyncTask();
                     stopRepeating();
+        */
 
 
                     /*
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignalsMonitor.this);
                     builder.setIcon(R.drawable.ic_info);
                     builder.setTitle("Información");
@@ -291,10 +332,11 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
                     dialog.show();*/
 
 
+
+            /*
                 }
             }
-        });
-
+        });*/
 
 
         cb_spo2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -757,23 +799,31 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         myDialog.setCancelable(false);
 
         String valorTime = "";
+        //estadoSendDataServer=false;
 
         CheckBox cb_enabledSend = (CheckBox)myDialog.findViewById(R.id.cb_enabledSend);
-        cb_enabledSend.setChecked(false);
+        //cb_enabledSend.setChecked(false);
 
         final EditText etTiempo = (EditText)myDialog.findViewById(R.id.etTiempo);
 
         Button btnCancelar = (Button)myDialog.findViewById(R.id.btnCancelar);
         Button btnAplica = (Button)myDialog.findViewById(R.id.btnAplica);
 
+        ultimoEstado = obtenerEstadoCbox();
         valorTime = obtenerTiempo();
         etTiempo.setText(valorTime);
+        cb_enabledSend.setChecked(ultimoEstado);
 
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
+        cb_enabledSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                cb_time.setChecked(false);
-                myDialog.dismiss();
+            public void onCheckedChanged(CompoundButton compoundButton, boolean estado) {
+                if(estado){
+                    //estadoSendDataServer=true;
+                    ultimoEstado = true;
+                }else{
+                    //estadoSendDataServer=false;
+                    ultimoEstado = false;
+                }
             }
         });
 
@@ -785,8 +835,19 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
                     etTiempo.requestFocus();
                 }else{
                     String t = etTiempo.getText().toString();
-                    createfiletime(t);
-                    Toast.makeText(SignalsMonitor.this, "Se guardo correctamente su configuración.", Toast.LENGTH_SHORT).show();
+                    //createfiletime(estadoSendDataServer, t);
+                    createfiletime(ultimoEstado, t);
+
+                    if(obtenerEstadoCbox()){
+                        stopRepeating();
+                        startRepeating();
+                        cb_send.setChecked(true);cb_send.setEnabled(false);
+                    }else{
+                        stopRepeating();
+                        cb_send.setChecked(false);cb_send.setEnabled(false);
+                    }
+
+                    //Toast.makeText(SignalsMonitor.this, "Se guardo correctamente su configuración.", Toast.LENGTH_SHORT).show();
                 }
                 cb_time.setChecked(false);
                 myDialog.dismiss();
@@ -794,20 +855,17 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
             }
         });
 
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cb_time.setChecked(false);
+                myDialog.dismiss();
+            }
+        });
+
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
 
-
-        cb_enabledSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean estado) {
-                if(estado){
-                    estadoSendDataServer=true;
-                }else{
-                    estadoSendDataServer=false;
-                }
-            }
-        });
 
 
         /*cb_visibleoculto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -827,7 +885,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
 
 
 
-    public void createfiletime(String tiempo){
+    public void createfiletime(boolean estadocbox, String tiempo){
         SharedPreferences preferences = getSharedPreferences("filetime", Context.MODE_PRIVATE);
         //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
         DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
@@ -836,6 +894,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         String time= formatotime.format(new Date());
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("tiempo", tiempo);
+        editor.putBoolean("estadocbox", estadocbox);
         editor.commit();
     }
 
@@ -845,6 +904,13 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
         String tiempo = preferences.getString("tiempo","5");
         return tiempo;   //return preferences.getString("tiempo", "Sin configurar.");
+    }
+
+
+    public boolean obtenerEstadoCbox() {
+        SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
+        boolean estado = preferences.getBoolean("estadocbox",false);
+        return estado;   //return preferences.getString("tiempo", "Sin configurar.");
     }
 
 
@@ -925,8 +991,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         //Activando leyendas:
         dataSeries.setTitle("SPO2");
         dataSeries.setDrawDataPoints(true);
-        dataSeries.setDataPointsRadius(5);
-        dataSeries.setThickness(8);
+        dataSeries.setDataPointsRadius(3);
+        dataSeries.setThickness(2);
 
         /*
         SetGraphParam(121, -0.5, 4.1, -4.1);
@@ -966,8 +1032,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         int color2 = this.getResources().getColor(R.color.color_fc);
         dataSeries1.setColor(color2);
         dataSeries1.setDrawDataPoints(true);
-        dataSeries1.setDataPointsRadius(5);
-        dataSeries1.setThickness(8);
+        dataSeries1.setDataPointsRadius(3);
+        dataSeries1.setThickness(2);
         graphPlot.addSeries(dataSeries1);
         /**************************************************************/
 
@@ -989,8 +1055,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         int color3 = this.getResources().getColor(R.color.color_ta);
         dataSeries2.setColor(color3);
         dataSeries2.setDrawDataPoints(true);
-        dataSeries2.setDataPointsRadius(5);
-        dataSeries2.setThickness(8);
+        dataSeries2.setDataPointsRadius(3);
+        dataSeries2.setThickness(2);
         graphPlot.addSeries(dataSeries2);
         /**************************************************************/
 
@@ -1014,8 +1080,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         int color4 = this.getResources().getColor(R.color.color_fr);
         dataSeries3.setColor(color4);
         dataSeries3.setDrawDataPoints(true);
-        dataSeries3.setDataPointsRadius(5);
-        dataSeries3.setThickness(8);
+        dataSeries3.setDataPointsRadius(3);
+        dataSeries3.setThickness(2);
         graphPlot.addSeries(dataSeries3);
         /**************************************************************/
 
@@ -1039,8 +1105,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         int color5 = this.getResources().getColor(R.color.color_tc);
         dataSeries4.setColor(color5);
         dataSeries4.setDrawDataPoints(true);
-        dataSeries4.setDataPointsRadius(5);
-        dataSeries4.setThickness(8);
+        dataSeries4.setDataPointsRadius(3);
+        dataSeries4.setThickness(2);
         graphPlot.addSeries(dataSeries4);
         /**************************************************************/
     }
@@ -1088,7 +1154,9 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
                 //Esta activado. Obtenemos la lista de dispositivos BT emparejados con nuestro dispositivo android.
 
                 //tvInformacion.setText("Obteniendo dispositivos emparejados, espere...");
-                tvTrama.setText("Search Bluetooth...");
+
+                //tvTrama.setText("Search Bluetooth...");
+                tvTrama.setText("X-Axis: 0 ");
                 Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
                 //Si hay dispositivos emparejados
                 if (pairedDevices.size() > 0) {
@@ -1604,32 +1672,28 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
     public void startRepeating() {
     //public void startRepeating(View v) {
         //mHandler.postDelayed(mToastRunnable, 5000);
+
+        /*if(estadoSendDataServer){
+            mToastRunnable.run();
+        }else{
+            Toast.makeText(this, "Debe habilitar la opción antes.", Toast.LENGTH_SHORT).show();
+        }*/
+
         mToastRunnable.run();
+
     }
 
     public void stopRepeating() {
     //public void stopRepeating(View v) {
         mHandler.removeCallbacks(mToastRunnable);
         contador=0;
-        Toast.makeText(this, "Se detuvo el envio de datos al servidor.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Se detuvo el envio de datos al servidor.", Toast.LENGTH_SHORT).show();
     }
 
     private Runnable mToastRunnable = new Runnable() {
         @Override
         public void run() {
             contador++;
-            //vd_alarma.setText(""+contador);
-
-            /*
-            Toast.makeText(getBaseContext(), "Sava DataBase Info Sensor..."+
-                    "Frec_cardiaca: "+vd_fc.getText().toString(), Toast.LENGTH_SHORT).show();vd_alarma
-            */
-
-            //Esta primera línea si transmite y guarda en la base de datos remota.
-            //volleyBD.sendInfoServer(SignalsMonitor.this, "IoT 2019-2020", "90", "91", "92", "93", "94", "1", "2019-10-01", "1:40:02", "28227838");
-            //Esta segunda línea si transmite y guarda en la base de datos remota.
-            //volleyBD.sendInfoServer(SignalsMonitor.this, "Internet of Things", vd_fc.getText().toString(), vd_spo2.getText().toString(), vd_ta.getText().toString(), vd_fr.getText().toString(), vd_tc.getText().toString(), "5", "2019-10-01", "1:40:02", "28227838");
-            //Esta tercera...
             volleyBD.sendInfoServer(SignalsMonitor.this,
                     "Internet of Things",
                     vd_fc.getText().toString(),
@@ -1641,13 +1705,17 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
                     volleyBD.getDate(),
                     volleyBD.getTime(),
                     "28227838");
-            //volleyBD.sendInfoServer(getBaseContext(), "IoT 2019-2020", vd_fc.getText().toString(), vd_spo2.getText().toString(), vd_ta.getText().toString(), vd_fr.getText().toString(), vd_tc.getText().toString(), vd_alarma.getText().toString(), "2019-10-01", "1:33:01", "28227838");
 
             //OJO SR. Gámez...,
             //Tendré que COLOCAR una ventana de configuración de tiempo de envio de datos a la base de datos remota (MySQL), para cambiar la constante de 5000 ms = 5 Seg.
             //Además, colocare a esta misma ventana de configuración si se desea enviar los datos o registros de signos vitales de un paciente cada vez que se cumpla
             //el intervalo de tiempo definido en esta ventana, o solo cuando se cumpla un umbral seteado a cada variable en la ventana de configuración de alerta temprana.
-            mHandler.postDelayed(this, 5000);
+
+            //mHandler.postDelayed(this, 5000);
+
+            totalSegundos = Integer.parseInt(obtenerTiempo());
+            totalSegundos = totalSegundos * 1000;
+            mHandler.postDelayed(this, totalSegundos);
         }
     };
 

@@ -171,6 +171,10 @@ public class MenuPrincipal extends AppCompatActivity {
         imageViewExpand8 = (ImageView) findViewById(R.id.imageViewExpand8);
 
 
+        //toggleDetails1(null);
+        //toggleDetails1();
+
+
         Toolbar toolbarCard1 = (Toolbar) findViewById(R.id.toolbarCard1);
         toolbarCard1.setTitle(R.string.configurations1);
         toolbarCard1.setSubtitle(R.string.subtitle1);
@@ -371,6 +375,17 @@ public class MenuPrincipal extends AppCompatActivity {
     };
 
 
+    public void toggleDetails1() {
+        if (linearLayoutDetails1.getVisibility() == View.GONE) {
+            ExpandAndCollapseViewUtil.expand(linearLayoutDetails1, DURATION);
+            imageViewExpand1.setImageResource(R.mipmap.more);
+            rotate1(-180.0f);
+        } else {
+            ExpandAndCollapseViewUtil.collapse(linearLayoutDetails1, DURATION);
+            imageViewExpand1.setImageResource(R.mipmap.less);
+            rotate1(180.0f);
+        }
+    }
 
     public void toggleDetails1(View view) {
         if (linearLayoutDetails1.getVisibility() == View.GONE) {
