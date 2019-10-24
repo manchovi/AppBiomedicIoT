@@ -991,8 +991,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         //Activando leyendas:
         dataSeries.setTitle("SPO2");
         dataSeries.setDrawDataPoints(true);
-        dataSeries.setDataPointsRadius(3);
-        dataSeries.setThickness(2);
+        dataSeries.setDataPointsRadius(0);
+        dataSeries.setThickness(1);
 
         /*
         SetGraphParam(121, -0.5, 4.1, -4.1);

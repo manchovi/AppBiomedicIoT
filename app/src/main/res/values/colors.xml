@@ -3,7 +3,7 @@
     <color name="colorPrimary">@android:color/transparent</color>
     <color name="colorPrimaryDark">#00574B</color>
     <!--<color name="colorAccent">#D81B60</color>-->
-    <color name="colorAccent">#030F4E</color>
+    <color name="colorAccent">#45D0BB</color>
 
 
     <color name="bgButtonColor">#5a5a5a</color>

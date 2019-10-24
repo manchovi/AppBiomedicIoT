@@ -45,6 +45,7 @@
                     android:text="Frec. Cardiaca"
                     android:textColor="#fff"
                     android:checked="false"
+                    android:button="@drawable/cbcustom_fc"
                     />
 
                 <CheckBox
@@ -54,6 +55,7 @@
                     android:text="Tensión Arterial"
                     android:textColor="#fff"
                     android:checked="false"
+                    android:button="@drawable/cbcustom_ta"
                     />
 
                 <CheckBox
@@ -63,6 +65,7 @@
                     android:text="Frec. Respiratoria"
                     android:textColor="#fff"
                     android:checked="false"
+                    android:button="@drawable/cbcustom_fr"
                     />
 
                 <CheckBox
@@ -72,6 +75,7 @@
                     android:text="Temp. Corporal"
                     android:textColor="#fff"
                     android:checked="false"
+                    android:button="@drawable/cbcustom_tc"
                     />
 
             </LinearLayout>
@@ -240,7 +244,8 @@
                 android:text="Stream data  "
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -329,7 +334,9 @@
                 android:text="Leyenda"
                 android:textColor="@color/white"
                 android:textSize="16dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:button="@drawable/cbcustom_down"
+                />
             <!--android:gravity="center"-->
 
 
@@ -348,7 +355,9 @@
                 android:text="Control Datos"
                 android:textColor="@color/white"
                 android:textSize="16dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:button="@drawable/cbcustom_down"
+                />
             <CheckBox
                 android:id="@+id/cb_send"
                 android:layout_width="wrap_content"
