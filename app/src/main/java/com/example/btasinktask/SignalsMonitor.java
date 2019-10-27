@@ -1694,17 +1694,20 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
         @Override
         public void run() {
             contador++;
-            volleyBD.sendInfoServer(SignalsMonitor.this,
-                    "Internet of Things",
-                    vd_fc.getText().toString(),
-                    vd_spo2.getText().toString(),
-                    vd_ta.getText().toString(),
-                    vd_fr.getText().toString(),
-                    vd_tc.getText().toString(),
-                    vd_alarma.getText().toString(),
-                    volleyBD.getDate(),
-                    volleyBD.getTime(),
-                    "28227838");
+
+            if(contador>=2) {
+                volleyBD.sendInfoServer(SignalsMonitor.this,
+                        "Internet of Things",
+                        vd_fc.getText().toString(),
+                        vd_spo2.getText().toString(),
+                        vd_ta.getText().toString(),
+                        vd_fr.getText().toString(),
+                        vd_tc.getText().toString(),
+                        vd_alarma.getText().toString(),
+                        volleyBD.getDate(),
+                        volleyBD.getTime(),
+                        "28227838");
+            }
 
             //OJO SR. Gámez...,
             //Tendré que COLOCAR una ventana de configuración de tiempo de envio de datos a la base de datos remota (MySQL), para cambiar la constante de 5000 ms = 5 Seg.

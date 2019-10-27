@@ -178,4 +178,10 @@ public class Conexion_volley {
     }
 
 
+    //Método de consulta. Obtengo todos los datos o registros de una tabla.
+    public void consultaArticulos(final Context context, String codigo){
+
+    }
+
+
 }
