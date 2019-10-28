@@ -35,6 +35,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         Productos product = productList.get(position);
 
+
+        /*
         //loading the image
         Glide.with(mCtx)
                 .load(product.getImagen())
@@ -43,6 +45,22 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         holder.textViewCodigo1.setText(String.valueOf(product.getCodigo()));
         holder.textViewDescripcion1.setText(product.getDescripcion());
         holder.textViewPrecio1.setText(String.valueOf(product.getPrecio()));
+        */
+
+        String im = product.getImagen();
+
+        if(im.isEmpty()) {
+            holder.imageView.setImageResource(R.drawable.imgnoencontrada);
+        }else{
+            Glide.with(mCtx)
+                    .load(product.getImagen())
+                    .into(holder.imageView);
+
+            holder.textViewCodigo1.setText(String.valueOf(product.getCodigo()));
+            holder.textViewDescripcion1.setText(product.getDescripcion());
+            holder.textViewPrecio1.setText(String.valueOf(product.getPrecio()));
+        }
+
 
     }
 
