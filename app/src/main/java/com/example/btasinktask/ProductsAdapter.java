@@ -40,7 +40,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
                 .load(product.getImagen())
                 .into(holder.imageView);
 
-        holder.textViewCodigo1.setText(product.getCodigo());
+        holder.textViewCodigo1.setText(String.valueOf(product.getCodigo()));
         holder.textViewDescripcion1.setText(product.getDescripcion());
         holder.textViewPrecio1.setText(String.valueOf(product.getPrecio()));
 

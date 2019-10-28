@@ -30,6 +30,7 @@ public class Consulta_RecyclerView extends AppCompatActivity {
     RecyclerView recyclerView;
 
     //Adapter adapter;
+    //ArticulosAdapter adapter;
     ProductsAdapter adapter;
 
     @Override
@@ -50,52 +51,43 @@ public class Consulta_RecyclerView extends AppCompatActivity {
 
 
     private void loadProductos() {
-
-        //Toast.makeText(this, "dentro del metodo", Toast.LENGTH_LONG).show();
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        Toast.makeText(Consulta_RecyclerView.this, ""+response, Toast.LENGTH_SHORT).show();
-
+                        //Toast.makeText(Consulta_RecyclerView.this, ""+response, Toast.LENGTH_SHORT).show();
 
                         try {
                             JSONArray array = new JSONArray(response);
+                            int totalEncontrados = array.length();
+                            Toast.makeText(Consulta_RecyclerView.this, "Total: "+totalEncontrados, Toast.LENGTH_SHORT).show();
 
                             for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject articulosObject = array.getJSONObject(i);
 
-                                int codigo = articulosObject.getInt("codigo");
+                                /*int codigo = articulosObject.getInt("codigo");
                                 String descripcion = articulosObject.getString("descripcion");
                                 double precio = articulosObject.getDouble("precio");
                                 String img = articulosObject.getString("imagen");
                                 Productos objeto = new Productos(codigo, descripcion, precio, img);
-                                productosList.add(objeto);
+                                productosList.add(objeto);*/
 
-                                /*
                                 productosList.add(new Productos(
                                         articulosObject.getInt("codigo"),
                                         articulosObject.getString("descripcion"),
                                         articulosObject.getDouble("precio"),
                                         articulosObject.getString("imagen")
-                                ));*/
-
+                                ));
                             }
-
-                            //Adapter adapter = new Adapter(Consulta_RecyclerView.this, productosList);
 
                             adapter = new ProductsAdapter(Consulta_RecyclerView.this, productosList);
                             recyclerView.setAdapter(adapter);
 
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
