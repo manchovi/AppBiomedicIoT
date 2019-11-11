@@ -5,8 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/grad_bg"
+    android:background="#266496"
     tools:context=".Login">
+
+<!--android:background="@drawable/grad_bg"-->
+
 
 
     <RelativeLayout
@@ -16,40 +19,60 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
 
-        <ImageView
-            android:id="@+id/imgView_logo"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logohospital1" />
-
-
         <RelativeLayout
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible">
 
-            <TextView
-                android:id="@+id/tv_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="100dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="INICIAR SESIÓN"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
             <LinearLayout
                 android:id="@+id/linlay1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_login"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="0dp"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imgView_logo"
+                        android:layout_width="120dp"
+                        android:layout_height="100dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/logohospital1" />
+
+                    <TextView
+                        android:id="@+id/tv_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="BIOMEDIC SYSTEM IOT\nHOSPITAL SANTA TERESA\nMEGATEC~ZACATECOLUCA"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_login1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="LOG-IN"
+                        android:gravity="center"
+                        android:textColor="#8B0101"
+                        android:textSize="32sp" />
+
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,7 +86,7 @@
                         android:layout_marginTop="20dp"
                         android:paddingLeft="0dp"
                         android:paddingRight="10dp"
-                        android:textColorHint="@color/colorAccent">
+                        android:textColorHint="@color/black">
                         <EditText
                             android:id="@+id/etEmail"
                             android:layout_width="match_parent"
@@ -76,7 +99,7 @@
                             android:paddingRight="15dp"
                             android:hint="Ingrese su e-mail"
                             android:inputType="textEmailAddress"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/white"
                             android:textSize="15sp"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -106,7 +129,7 @@
                         app:passwordToggleEnabled="true"
                         android:paddingLeft="0dp"
                         android:paddingRight="10dp"
-                        android:textColorHint="@color/colorAccent"
+                        android:textColorHint="@color/black"
                         >
 
                         <EditText
@@ -119,7 +142,7 @@
                             android:drawablePadding="5dp"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/white"
                             android:textSize="15sp"
                             android:hint="Password"
                             android:inputType="textPassword"
@@ -136,14 +159,14 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/linlay1"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="25dp"
                 android:fontFamily="sans-serif-medium"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
                 android:text="ENTRAR"
                 android:background="@drawable/btn_mov1"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp"
 
                 />
@@ -171,7 +194,7 @@
             android:text="@string/usuario"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textColor="#020405" />
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 
@@ -182,7 +205,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
         android:visibility="gone">
         <!--android:layout_alignParentTop="true"-->
@@ -197,7 +220,7 @@
             android:text="@string/clave"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textColor="#020405"
+            android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
 

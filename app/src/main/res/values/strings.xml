@@ -74,11 +74,11 @@
     <string name="configurations6">Presión</string>
     <string name="subtitle6">Tensión Arterial</string>
 
-    <string name="configurations7">Frecuencia</string>
-    <string name="subtitle7">Cardiaca</string>
+    <string name="configurations7">SPO2</string>
+    <string name="subtitle7">Pulso/Frec Cardiaca</string>
 
-    <string name="configurations8">SPO2</string>
-    <string name="subtitle8">Saturación Parcial Oxígeno</string>
+    <string name="configurations8">MONITOR</string>
+    <string name="subtitle8">Signos Paciente</string>
 
     <string name="configurations9">Monitor</string>
     <string name="subtitle9">Signos Paciente</string>

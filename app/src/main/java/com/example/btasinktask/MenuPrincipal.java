@@ -18,6 +18,7 @@ import com.synnapps.carouselview.ImageListener;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.util.Patterns;
 import android.view.Gravity;
@@ -48,6 +49,8 @@ public class MenuPrincipal extends AppCompatActivity {
     private ImageView imageViewExpand1, imageViewExpand2, imageViewExpand3, imageViewExpand4, imageViewExpand5, imageViewExpand6, imageViewExpand7, imageViewExpand8;
 
     private LinearLayout linearLayoutCardContent;
+    private CardView config_server,config_especialista,alertaTemprana,config_tc,config_fr,config_pa,config_fc_spo2,config_monitorAll;
+
 
     private static final int DURATION = 250;
 
@@ -102,6 +105,16 @@ public class MenuPrincipal extends AppCompatActivity {
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
+        config_server = (CardView)findViewById(R.id.config_server);
+        config_especialista = (CardView)findViewById(R.id.config_especialista);
+        alertaTemprana = (CardView)findViewById(R.id.config_alertaTemprana);
+        config_tc = (CardView)findViewById(R.id.config_tc);
+        config_fr = (CardView)findViewById(R.id.config_fr);
+        config_pa = (CardView)findViewById(R.id.config_pa);
+        config_fc_spo2 = (CardView)findViewById(R.id.config_pa);
+        config_monitorAll = (CardView)findViewById(R.id.config_monitorAll);
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -143,6 +156,9 @@ public class MenuPrincipal extends AppCompatActivity {
                 config_server();
             }
         });
+
+
+
 
 
         //Codigo del cardview
