@@ -25,13 +25,13 @@ public class MiAsyncTask extends AsyncTask<BluetoothDevice, Dto_variables, Void>
     private Dto_variables datos = new Dto_variables();
     private BluetoothSocket mSocket = null;
     private BufferedReader mBufferedReader = null;
-    private MiCallback callback;
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private boolean recibiendo = false;
     private InputStream aStream = null;
     private InputStreamReader aReader = null;
     private int contadorConexiones = 0;
 
+    private MiCallback callback;
     public interface MiCallback {
 
         void onTaskCompleted();

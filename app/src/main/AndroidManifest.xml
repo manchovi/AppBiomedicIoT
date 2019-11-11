@@ -14,16 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Consulta_RecyclerView">
+
+        </activity>
+        <activity android:name=".Login" />
+
+        <activity android:name=".CardViewActivity"></activity>
+        <activity android:name=".Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".Login" />
-        <activity android:name=".CardViewActivity"></activity>
-        <activity android:name=".Splashscreen">
-
         </activity>
         <activity
             android:name=".MenuPrincipal"

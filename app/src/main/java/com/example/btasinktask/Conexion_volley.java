@@ -124,18 +124,6 @@ public class Conexion_volley {
                     //if (resultJSON == "1") {
                     if (resultJSON.equals("1")) {
                         Toast.makeText(context, "Datos Guardados Satisfactoriamente", Toast.LENGTH_SHORT).show();
-                        //Intent intent = new Intent(context, SignalsMonitor.class);
-                        //context.startActivity(intent);
-
-                        //Toast.makeText(getApplicationContext(), resultJSON + "-" + result_msj, Toast.LENGTH_LONG).show();
-                        //System.out.println("RESPUESTA DE SERVIDOR : "+response.toString());
-
-                        /*
-                        Toast toast = Toast.makeText(context, "Datos guardados correctamente. \n\nGRACIAS!!!", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();*/
-
-                    //} else if (resultJSON == "2") {
                     } else if (resultJSON.equals("2")) {
                         /*
                         Toast toast = Toast.makeText(context, "--> UTLA." +
