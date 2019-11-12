@@ -92,7 +92,7 @@
 
 
                         <LinearLayout
-                            android:id="@+id/linearLayoutCardContent"
+                            android:id="@+id/linearLayoutCardContent0"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
@@ -111,6 +111,7 @@
                         <!--android:background="@android:color/white"-->
 
                         <ImageView
+                            android:id="@+id/iv_config_server"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="0dp"
@@ -228,6 +229,7 @@
                             app:titleTextAppearance="@style/Card.Title" />
 
                         <ImageView
+                            android:id="@+id/iv_config_especialista"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="0dp"
@@ -366,6 +368,7 @@
                                     app:titleTextAppearance="@style/Card.Title" />
 
                                 <ImageView
+                                    android:id="@+id/iv_config_alerta"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_marginTop="0dp"
@@ -488,6 +491,7 @@
                                 <!--android:background="@android:color/white"-->
 
                                 <ImageView
+                                    android:id="@+id/iv_config_tc"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_marginTop="0dp"
@@ -626,6 +630,7 @@
                                 <!--android:background="@android:color/white"-->
 
                                 <ImageView
+                                    android:id="@+id/iv_config_fr"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_marginTop="0dp"
@@ -744,6 +749,7 @@
                                     app:titleTextAppearance="@style/Card.Title" />
 
                                 <ImageView
+                                    android:id="@+id/iv_config_pa"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_marginTop="0dp"
@@ -872,6 +878,7 @@
                                     app:titleTextAppearance="@style/Card.Title" />
 
                                 <ImageView
+                                    android:id="@+id/iv_config_spo2_pulso"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_marginTop="0dp"
@@ -996,6 +1003,7 @@
                                 <!--android:background="@android:color/white"-->
 
                                 <ImageView
+                                    android:id="@+id/iv_config_monitor"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_marginTop="0dp"

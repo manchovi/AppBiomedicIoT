@@ -13,38 +13,56 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignalMonitorFR"></activity>
-        <activity android:name=".SignalMonitorTA" />
-        <activity android:name=".SignalMonitorTC" />
-        <activity android:name=".SignalMonitorSpo2Pulso" />
-        <activity android:name=".Consulta_RecyclerView" />
-        <activity android:name=".Login" />
-        <activity android:name=".CardViewActivity" />
-        <activity android:name=".Splashscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".SignalMonitorFR"
+            android:screenOrientation="landscape">
+
         </activity>
+
+        <activity android:name=".SignalMonitorTA"
+            android:screenOrientation="landscape">
+
+        </activity>
+
+        <activity android:name=".SignalMonitorTC"
+            android:screenOrientation="landscape">
+
+        </activity>
+
+        <activity android:name=".SignalMonitorSpo2Pulso"
+            android:screenOrientation="landscape" >
+
+        </activity>
+
+        <activity android:name=".Consulta_RecyclerView" />
+
+        <activity android:name=".Login" />
+
+        <activity android:name=".CardViewActivity" />
+
+        <activity android:name=".Splashscreen">
+
+        </activity>
+
         <activity
             android:name=".MenuPrincipal"
             android:label="@string/title_activity_menu_principal"
             android:theme="@style/AppTheme.NoActionBar">
-
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
+
         <activity android:name=".Pruebas" />
+
         <activity
             android:name=".SignalsMonitor"
             android:screenOrientation="landscape" />
+
         <activity android:name=".MainActivity" />
+
     </application>
 
 </manifest>

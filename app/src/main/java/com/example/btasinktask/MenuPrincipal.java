@@ -48,8 +48,14 @@ public class MenuPrincipal extends AppCompatActivity {
     private ViewGroup linearLayoutDetails1, linearLayoutDetails2, linearLayoutDetails3, linearLayoutDetails4, linearLayoutDetails5, linearLayoutDetails6, linearLayoutDetails7, linearLayoutDetails8;
     private ImageView imageViewExpand1, imageViewExpand2, imageViewExpand3, imageViewExpand4, imageViewExpand5, imageViewExpand6, imageViewExpand7, imageViewExpand8;
 
-    private LinearLayout linearLayoutCardContent;
+
+    private LinearLayout linearLayoutCardContent0;
+    private ImageView iv_config_server, iv_config_especialista, iv_config_alerta, iv_config_tc, iv_config_fr, iv_config_pa, iv_config_spo2_pulso, iv_config_monitor;
+
+
+
     private CardView config_server,config_especialista,alertaTemprana,config_tc,config_fr,config_pa,config_fc_spo2,config_monitorAll;
+    private CardViewActivity config_server1;
 
 
     private static final int DURATION = 250;
@@ -149,16 +155,92 @@ public class MenuPrincipal extends AppCompatActivity {
         carouselView.setPageCount(sampleImages1.length);
         carouselView.setImageListener(imageListener);
 
-        linearLayoutCardContent = (LinearLayout)findViewById(R.id.linearLayoutCardContent);
-        linearLayoutCardContent.setOnClickListener(new View.OnClickListener() {
+        /*
+        linearLayoutCardContent0 = (LinearLayout)findViewById(R.id.linearLayoutCardContent0);
+        linearLayoutCardContent0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 config_server();
             }
         });
 
+        config_server.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                config_server();
+            }
+        });*/
+
+        iv_config_server = (ImageView)findViewById(R.id.iv_config_server);
+        iv_config_especialista = (ImageView)findViewById(R.id.iv_config_especialista);
+        iv_config_alerta = (ImageView)findViewById(R.id.iv_config_alerta);
+        iv_config_tc = (ImageView)findViewById(R.id.iv_config_tc);
+        iv_config_fr = (ImageView)findViewById(R.id.iv_config_fr);
+        iv_config_pa = (ImageView)findViewById(R.id.iv_config_pa);
+        iv_config_spo2_pulso = (ImageView)findViewById(R.id.iv_config_spo2_pulso);
+        iv_config_monitor = (ImageView)findViewById(R.id.iv_config_monitor);
 
 
+        iv_config_server.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                config_server();
+            }
+        });
+
+        iv_config_especialista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        iv_config_alerta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        iv_config_tc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTC.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_config_fr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuPrincipal.this, SignalMonitorFR.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_config_pa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTA.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_config_spo2_pulso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuPrincipal.this, SignalMonitorSpo2Pulso.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_config_monitor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuPrincipal.this, SignalsMonitor.class);
+                startActivity(intent);
+            }
+        });
 
 
         //Codigo del cardview
