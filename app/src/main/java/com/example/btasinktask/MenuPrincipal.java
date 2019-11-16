@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -110,6 +111,11 @@ public class MenuPrincipal extends AppCompatActivity {
 
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+
+        //Función para evitar la rotación de la pantalla del CELULAR.
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //y esto para pantalla completa (oculta incluso la barra de estado)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         config_server = (CardView)findViewById(R.id.config_server);
         config_especialista = (CardView)findViewById(R.id.config_especialista);
@@ -242,7 +248,6 @@ public class MenuPrincipal extends AppCompatActivity {
             }
         });
 
-
         //Codigo del cardview
         linearLayoutDetails1 = (ViewGroup) findViewById(R.id.linearLayoutDetails1);
         imageViewExpand1 = (ImageView) findViewById(R.id.imageViewExpand1);
@@ -267,10 +272,6 @@ public class MenuPrincipal extends AppCompatActivity {
 
         linearLayoutDetails8 = (ViewGroup) findViewById(R.id.linearLayoutDetails8);
         imageViewExpand8 = (ImageView) findViewById(R.id.imageViewExpand8);
-
-
-        //toggleDetails1(null);
-        //toggleDetails1();
 
 
         Toolbar toolbarCard1 = (Toolbar) findViewById(R.id.toolbarCard1);

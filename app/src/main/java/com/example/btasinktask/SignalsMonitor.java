@@ -274,8 +274,6 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
             cb_send.setEnabled(false);
         }
 
-
-
         //cb_legends.setChecked(false);
         cb_legends.setEnabled(false);
 
@@ -411,6 +409,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
                 }
             }
         });
+
 
         /*
         cb_ta.setOnClickListener(new View.OnClickListener() {
@@ -1425,32 +1424,14 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
     }
 
     void plotValue(double xVal, double yVal, String spo2){
-        //if(a) {
-            //@SuppressLint("DefaultLocale") String xd_alarma = String.format("%3.3f", alarma);
             @SuppressLint("DefaultLocale") String fyVal = String.format("%3.2f", yVal);
             @SuppressLint("DefaultLocale") String fxVal = String.format("%3.2f", xVal);
-
-            //dataSeries.resetData(new DataPoint[]{});  //Con esta línea logro el efecto de mostrar unicamente
-            //un punto con el dato que se recibe dentro de la grafica
-
             dataSeries.appendData(new DataPoint(xVal, yVal), false, (int) plotSize);
-            //dataSeries.appendData(new DataPoint(xVal, yVal), true, (int) plotSize);
-            //dataSeries.appendData(new DataPoint(xVal, yVal), false, 1);
             tvTrama.setText("X-Axis: "+xVal+" ");
-
-            //int color1 = getContext().getResources().getColor(R.color.color_spo2);
-
-                /*
-                    int color1 = this.getResources().getColor(R.color.color_spo2);
-                    vd_spo2.setTextColor(color1);
-                    vd_spo2.setText(spo2);
-                */
-        //}
     }
 
 
-    void plotValue1(double xVal1, double yVal1, String fc)         //x = time y = value
-    {
+    void plotValue1(double xVal1, double yVal1, String fc){
         //if(b) {
             @SuppressLint("DefaultLocale") String fyVal = String.format("%3.2f", yVal1);
             @SuppressLint("DefaultLocale") String fxVal = String.format("%3.2f", xVal1);
@@ -1539,7 +1520,6 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
 
 
     //CREACIÓN DE UN NUEVO HILO PARA ENVIO DE DATOS A LA NUBE POP INTERNET
-
     void hilo(){
         new Thread(new Runnable() {
             @Override
@@ -1589,8 +1569,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
     //datos de los sensores a una base de datos en Internet duránte cierto tiempo. No ocupe
     //esta opción debido al problema que ya comente. Opte por otras....
     /*Las opciones son: */
-    public class hiloAsyncTask extends AsyncTask<Void, Integer, Boolean>
-    {
+    public class hiloAsyncTask extends AsyncTask<Void, Integer, Boolean>{
 
         /*
         public hiloAsyncTask() {
@@ -1654,7 +1633,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
             //progressBar.setProgress(0);
             Toast.makeText(getBaseContext(), "Proceso Cancelado o Detenido", Toast.LENGTH_LONG).show();
         }
-    }
+    }     //FinHiloAsyncTask
 
 
     @Override
