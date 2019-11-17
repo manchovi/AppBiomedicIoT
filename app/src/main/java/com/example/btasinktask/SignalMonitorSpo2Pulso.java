@@ -247,7 +247,8 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                     estado_sw = true;
                     ResetGraph();
                     ResetGraph1();
-                    plotCount = 0;
+                    plotCount = 0;     //Estas variables son las que hacen posible reiniciar la onda desde cero.
+                    plotCount1 = 0;    //Esquina izquierda de la cuadricula donde se pinta el valor leido por el sensor.
                     setCheckBoxAll(true,true);
                     //cb_legends.setChecked(true);
                     cb_legends.setEnabled(true);
@@ -616,8 +617,8 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         //Activando leyendas:
         dataSeries.setTitle("SPO2");
         dataSeries.setDrawDataPoints(true);
-        dataSeries.setDataPointsRadius(0);
-        dataSeries.setThickness(1);
+        dataSeries.setDataPointsRadius(3);
+        dataSeries.setThickness(2);
 
         /*
         SetGraphParam(121, -0.5, 4.1, -4.1);
@@ -631,7 +632,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         plotSize = 151;
         for (int i = 0; i < 150; i++) {
             //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
-            dataSeries.appendData(new DataPoint(i, 1.0), false, (int) plotSize);
+            dataSeries.appendData(new DataPoint(i, 2.0), false, (int) plotSize);
         }
         graphPlot.addSeries(dataSeries);
 
@@ -645,7 +646,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         DataPoint[] points = new DataPoint[140];
         for (int i = 0; i < 140; i++) {
             //points[i] = new DataPoint(i, 5.0 * Math.sin(i/4.5));
-            points[i] = new DataPoint(i, 2.0);
+            points[i] = new DataPoint(i, 4.0);
         }
 
         dataSeries1 = new LineGraphSeries<>(points);

@@ -554,7 +554,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         plotSize = 151;
         for (int i = 0; i < 150; i++) {
             //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
-            dataSeries.appendData(new DataPoint(i, 1.0), false, (int) plotSize);
+            dataSeries.appendData(new DataPoint(i, 3.0), false, (int) plotSize);
         }
 
         //Activando leyendas:
