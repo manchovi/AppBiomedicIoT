@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp"
+    tools:context=".Activity_Register_Dr">
+
+    <!--   android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"-->
+
+    <!--<ImageView
+        android:id="@+id/BtnCerrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close1"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="7dp"
+        android:elevation="5dp"
+        android:layout_alignParentRight="true"
+        android:background="#6c706b" />-->
+    <!--android:background="@drawable/cerclebackground"-->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="25dp"
+        app:cardBackgroundColor="#03A9F4"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="25dp"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#03A9F4"
+
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:fontFamily="cursive"
+                            android:text="Registro de Especialista"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:textColor="#ffffff"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="0dp"
+                        android:layout_weight=".90"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/BtnCerrar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="7dp"
+                            android:background="@drawable/circulo2"
+                            android:src="@drawable/ic_close4" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#FFFFFF"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="Complete Datos Personales"
+                            android:textAlignment="center"
+                            android:textColor="#03168B"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_dui"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red"
+                            >
+
+                            <EditText
+                                android:id="@+id/et_dui"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:ems="10"
+                                android:hint="* Introduzca documento de identidad"
+                                android:inputType="text"
+                                android:textColor="#03168B"
+                                android:textSize="14dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_nombres"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red"
+                            >
+
+                            <EditText
+                                android:id="@+id/et_nombres"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:ems="10"
+                                android:hint="* Introduzca nombres"
+                                android:inputType="text"
+                                android:textColor="#03168B"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_apellidos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red"
+                            >
+
+                            <EditText
+                                android:id="@+id/et_apellidos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:ems="10"
+                                android:hint="* Introduzca apellidos"
+                                android:inputType="text"
+                                android:textColor="#03168B"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_direccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <EditText
+                                android:id="@+id/et_direccion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:ems="10"
+                                android:hint="Introduzca dirección de residencia o trabajo"
+                                android:inputType="text"
+                                android:textColor="#03168B"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_telefono"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red"
+                            >
+
+                            <EditText
+                                android:id="@+id/et_telefono"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:ems="10"
+                                android:hint="* Teléfono personal (+503xxxx0000)"
+                                android:inputType="phone"
+                                android:textColor="#03168B"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_especialidad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <EditText
+                                android:id="@+id/et_especialidad"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:ems="10"
+                                android:hint="Introduzca Especialización Ejerce Hospital"
+                                android:inputType="text"
+                                android:textColor="#03168B"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:text="* Sexo:"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+
+                            >
+
+                            <CheckBox
+                                android:id="@+id/cb_masculino"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="25dp"
+                                android:button="@drawable/cbcustom_spo2"
+                                android:checked="true"
+                                android:text="Masculino"
+                                android:textColor="#000" />
+
+
+                            <CheckBox
+                                android:id="@+id/cb_femenino"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginBottom="10dp"
+                                android:button="@drawable/cbcustom_spo2"
+                                android:checked="false"
+                                android:text="Femenino"
+                                android:textColor="#000" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_comentario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/grey"
+                            >
+
+                        <EditText
+                            android:id="@+id/et_comentario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:textSize="14dp"
+                            android:hint="Introduzca Otra Información Interés"
+                            />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="Complete Datos Acceso [LOGIN]"
+                            android:textAlignment="center"
+                            android:textColor="#03168B"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_usuario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red">
+
+                            <EditText
+                                android:id="@+id/et_usuario"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:ems="10"
+                                android:hint="* LOGIN: Ingrese su e-mail"
+                                android:inputType="textEmailAddress"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_password1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red"
+                            app:counterOverflowTextAppearance="@style/CounterOverFlow"
+                            app:counterTextAppearance="@style/Counter"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:passwordToggleEnabled="true">
+                            <!--
+                            app:counterEnabled="true"
+                            app:counterMaxLength="10"
+                            app:errorEnabled="true"
+                            -->
+                            <EditText
+                                android:id="@+id/et_password1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:ems="10"
+                                android:hint="* Clave Acceso"
+                                android:inputType="textPassword"
+                                android:maxLength="10"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_password2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red"
+                            app:counterOverflowTextAppearance="@style/CounterOverFlow"
+                            app:counterTextAppearance="@style/Counter"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:passwordToggleEnabled="true">
+                            <!--
+                            app:counterEnabled="true"
+                            app:counterMaxLength="10"
+                            app:errorEnabled="true"
+                            -->
+                            <EditText
+                                android:id="@+id/et_password2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:hint="* Confirme Clave Acceso"
+                                android:inputType="textPassword"
+                                android:maxLength="10"
+                                android:textSize="14dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="Complete Datos de Seguridad\nRecuperación Contraseña"
+                            android:textAlignment="center"
+                            android:textColor="#03168B"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/sp_questions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/estilos3spinner"
+                            android:spinnerMode="dialog"
+                            style="@style/Card.Subtitle"
+                            />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ti_respuesta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:textColorHint="@color/red"
+                            >
+
+                            <EditText
+                                android:id="@+id/et_respuesta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:ems="10"
+                                android:hint="* Introduzca la Respuesta"
+                                android:inputType="text"
+                                android:textColor="#03168B"
+                                android:textSize="14dp"
+                                android:visibility="gone"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--android:entries="@array/interrogantes"-->
+
+
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:elevation="5dp"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnCancel"
+                                style="@style/Widget.AppCompat.Button.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:background="@drawable/buttonstyle1"
+                                android:text="Cerrar"
+                                android:textColor="#181717"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="***"
+                                android:textColor="#fff" />
+
+                            <!--android:background="@android:color/transparent"-->
+                            <Button
+                                android:id="@+id/btnSave"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:alpha="1"
+                                android:background="@drawable/buttonstyle1"
+                                android:elevation="0dp"
+                                android:text="Guardar"
+                                android:textColor="#181717" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

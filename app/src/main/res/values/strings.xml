@@ -83,4 +83,33 @@
     <string name="configurations9">Monitor</string>
     <string name="subtitle9">Signos Paciente</string>
 
+
+    <array name="interrogantes">
+        <item>¿Cuál es el nombre de tu universidad favorita?</item>
+        <item>¿Cuál es la ubicación de tu universidad favorita?</item>
+        <item>¿Cuál es el nombre de tu profesor favorito?</item>
+        <item>¿Cuál es el nombre de tu materia favorita?</item>
+        <item>¿Cuál es el nombre de tu profesor de laboratorios?</item>
+        <item>¿Cuál es el año que vas egrasar de tu carrera universitaria?</item>
+        <item>¿Cuál es el nombre de tu mascota favorita?</item>
+        <item>¿Cuál es el nombre de tu mejor amig@?</item>
+        <item>¿Cuál es el número de tu primer celular?</item>
+        <item>¿Cuál es el nombre de tu primer novi@?"</item>
+        <item>¿Cuál es el lugar de tu nacimiento?</item>
+        <item>¿Cuál es tu color favorito?</item>
+        <item>¿Cuál es el color de tu vehículo?</item>
+        <item>¿Cuál es la fecha de tu nacimiento?</item>
+        <item>¿Cuál es el nombre de tu hijo(a) favorito?</item>
+    </array>
+
+
+    <string name="spn_title">Choose a option</string>
+    <string-array name="dlangs">
+        <item>Python</item>
+        <item>PHP</item>
+        <item>Perl</item>
+        <item>Tcl</item>
+        <item>Ruby</item>
+    </string-array>
+
 </resources>
