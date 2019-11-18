@@ -135,7 +135,7 @@
                             android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red"
+                            android:textColorHint="@color/grey"
                             >
 
                             <EditText
@@ -159,7 +159,7 @@
                             android:layout_marginTop="0dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red"
+                            android:textColorHint="@color/grey"
                             >
 
                             <EditText
@@ -182,7 +182,7 @@
                             android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red"
+                            android:textColorHint="@color/grey"
                             >
 
                             <EditText
@@ -226,7 +226,7 @@
                             android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red"
+                            android:textColorHint="@color/grey"
                             >
 
                             <EditText
@@ -255,7 +255,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="0dp"
                                 android:ems="10"
-                                android:hint="Introduzca Especialización Ejerce Hospital"
+                                android:hint="Introduzca su Especialidad"
                                 android:inputType="text"
                                 android:textColor="#03168B"
                                 android:textSize="14dp" />
@@ -346,7 +346,7 @@
                             android:layout_marginTop="1dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red">
+                            android:textColorHint="@color/grey">
 
                             <EditText
                                 android:id="@+id/et_usuario"
@@ -366,7 +366,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red"
+                            android:textColorHint="@color/grey"
                             app:counterOverflowTextAppearance="@style/CounterOverFlow"
                             app:counterTextAppearance="@style/Counter"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -399,7 +399,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red"
+                            android:textColorHint="@color/grey"
                             app:counterOverflowTextAppearance="@style/CounterOverFlow"
                             app:counterTextAppearance="@style/Counter"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -455,8 +455,7 @@
                             android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/red"
-                            >
+                            android:textColorHint="@color/grey">
 
                             <EditText
                                 android:id="@+id/et_respuesta"

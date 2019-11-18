@@ -3,14 +3,19 @@ package com.example.btasinktask;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -32,6 +37,8 @@ import org.w3c.dom.Text;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
@@ -43,6 +50,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     boolean v1 = false;
     boolean v2 = false;
+    boolean estado_correo = false;
+    boolean estado_password = false;
 
     RelativeLayout rellay0, rellay1, rellay2, rellay3;
     //Button btnOlvidoClave;
@@ -71,8 +80,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private Button btnCancel, btnSave;
     int conta = 0;
 
-    //Fin: Variables registro de especialistar
+    boolean status_documento = false; boolean status_nombres = false; boolean status_apellidos = false;
+    boolean status_direccion = false; boolean status_telefono = false; boolean status_especialidad = false;
+    boolean status_sexo = false; boolean status_comentario = false; boolean status_usuario = false;
+    boolean status_clave = false; boolean status_clave1 = false; boolean status_pregunta = false; boolean status_respuesta = false;
 
+    String sexo = "";
+
+    //private Cursor fila;
+    db_SQLite base = new db_SQLite(this);
+
+    //Fin: Variables registro de especialistar
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -166,17 +184,103 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     v2 = true;
                 }
 
-                if(v1 && v2){
+                if(v1 && v2) {
                     String user = etEmail.getText().toString();
                     String clave = etClave.getText().toString();
-                    if(user.equals("manuel") && clave.equals("123")){
+
+                    if (Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches() == false) {
+                        //mEmail.setBackgroundColor(Color.GREEN);
+                        etEmail.setText(null);
+                        tiEmail.setError("Correo invalido.");
+                        etEmail.requestFocus();
+                        estado_correo = false;
+                    } else {
+                        estado_correo = true;
+                        tiEmail.setError(null);
+                    }
+
+                    if (estado_correo == false && (user.length() == 0 || clave.length() == 0)) {
+                        Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_LONG).show();
+                        et_usuario.requestFocus();
+
+                    } else {
+
+                        db_SQLite admin=new db_SQLite(this);
+                        SQLiteDatabase db=admin.getWritableDatabase();
+                        Cursor fila=db.rawQuery("select * from tb_especialista where usuario='"+user+"' and clave='"+clave+"'",null);
+
+
+                        if(fila.moveToFirst()){
+                            //capturamos los valores del cursos y lo almacenamos en variable
+                            String documento = fila.getString(0);
+                            String nombres = fila.getString(1);
+                            String apellidos = fila.getString(2);
+                            String direccion = fila.getString(3);
+                            String telefono = fila.getString(4);
+                            String especialidad = fila.getString(5);
+                            String sexo = fila.getString(6);
+                            String comentario = fila.getString(7);
+                            String usuario = fila.getString(8);
+                            String pass = fila.getString(9);
+                            String pregunta = fila.getString(10);
+                            String respuesta = fila.getString(11);
+
+                            //preguntamos si los datos ingresados son iguales
+                            if (user.equals(usuario) && clave.equals(pass)) {
+                                //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
+                                DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
+                                String date= formatodate.format(new Date());
+                                DateFormat formatotime= new SimpleDateFormat("HH:mm:ss a");
+                                String time= formatotime.format(new Date());
+
+                                //Archivo para variables de inicio de sesión
+                                SharedPreferences preferences = getSharedPreferences("variablesesion", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+
+                                editor.putString("tipo", documento);
+                                editor.putString("nombrecompleto", nombres +" "+apellidos);
+                                editor.putString("usuario", usuario);
+                                editor.putString("fechahora", date +" "+ time);
+
+                                if(documento.equals("1")){
+                                    editor.putBoolean("habilitaOpciones", true);
+                                }else{
+                                    editor.putBoolean("habilitaOpciones", false);
+                                }
+
+                                editor.commit();
+
+                                //Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent menuPrincipal = new Intent(this, MenuPrincipal.class);
+                                //menuPrincipal.putExtra("usuario", usuario.toString());
+                                menuPrincipal.putExtra("senal", "1");
+                                menuPrincipal.putExtra("tipo", documento);
+                                menuPrincipal.putExtra("username", nombres + " " + apellidos);
+                                startActivity(menuPrincipal);
+                                finish();
+                                //limpiamos las las cajas de texto
+                                etEmail.setText("");
+                                etClave.setText("");
+                            }
+                        }else {
+                                /*Toast toast = Toast.makeText(getApplicationContext(), "Campo respuesta es obligatorio", Toast.LENGTH_SHORT);
+                                  toast.setGravity(Gravity.CENTER, 0, 0);
+                                  toast.show();*/
+                            //limpiamos las las cajas de texto
+                            etEmail.setText("");
+                            etClave.setText("");
+                            etEmail.requestFocus();
+                            Toast.makeText(getApplicationContext(), "Sorry. Usuario desconocido. \nVuelta a intentarlo nuevamente.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    /*if(user.equals("manuel") && clave.equals("123")){
                         Intent intent = new Intent(this, MenuPrincipal.class);
                         startActivity(intent);
                         finish();
                     }else{
                         Toast.makeText(this, "Usuario o contraseña incorrectos.", Toast.LENGTH_SHORT).show();
                         limpiarDatos();
-                    }
+                    }*/
                 }
 
                 break;
@@ -214,15 +318,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         //mBuilder.setTitle("<<<UTLA>>>");
         mBuilder.setCancelable(false);
         final View mView = getLayoutInflater().inflate(R.layout.activity__register__dr, null);
-
-
-        //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
-        DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
-        String date = formatodate.format(new Date());
-
-        DateFormat formatotime = new SimpleDateFormat("HH:mm:ss a");
-        String time = formatotime.format(new Date());
-
 
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -302,13 +397,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         });
 
 
+        sexo = "Masculino";
+
+
         cb_masculino.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean estado_masculino) {
                 if(estado_masculino){
                     cb_femenino.setChecked(false);
+                    sexo = "Masculino";
                 }else{
                     cb_femenino.setChecked(true);
+                    sexo = "Femenino";
                 }
             }
         });
@@ -318,8 +418,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             public void onCheckedChanged(CompoundButton compoundButton, boolean estado_femenino) {
                 if(estado_femenino){
                     cb_masculino.setChecked(false);
+                    sexo = "Femenino";
                 }else{
                     cb_masculino.setChecked(true);
+                    sexo = "Masculino";
                 }
             }
         });
@@ -336,6 +438,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             }
         });
 
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -347,13 +453,320 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onClick(View view) {
                 //Aca tengo que meter todo el código para guardar datos en la base de datos SQLite Native.
-                Toast.makeText(Login.this, "Guardar", Toast.LENGTH_SHORT).show();
+
+                /*if(!et_dui.getText().toString().isEmpty()){
+                    status_documento = true;
+                    ti_dui.setError(null);
+                    //ti_dui.setVisibility(View.GONE);
+                }else{
+                    status_documento = false;
+                    ti_dui.setError("Campo obligatorio");
+                    et_dui.requestFocus();
+                }
+
+                if(status_documento && !et_nombres.getText().toString().isEmpty()){
+                   status_nombres = true;
+                   ti_nombres.setError(null);
+                }else{
+                    status_nombres = false;
+                    ti_nombres.setError("Campo obligatorio");
+                    et_nombres.requestFocus();
+                }
+
+                if(status_nombres && !et_apellidos.getText().toString().isEmpty()){
+                    status_apellidos = true;
+                    ti_apellidos.setError(null);
+                }else{
+                    status_apellidos = false;
+                    ti_apellidos.setError("Campo obligatorio");
+                    et_apellidos.requestFocus();
+                }
+
+                //Campo dirección no lo valido porque lo he dejado como campo no obligatorio
+
+                if(status_apellidos && !et_telefono.getText().toString().isEmpty()){
+                    status_telefono = true;
+                    ti_telefono.setError(null);
+                }else{
+                    status_telefono = false;
+                    ti_telefono.setError("Campo obligatorio");
+                    et_telefono.requestFocus();
+                }
+
+                //Campo especialidad no lo valido porque lo he dejado como campo no obligatorio
+
+                //Campo comentario no lo valido porque lo he dejado como campo no obligatorio
+
+                *//*if(status_telefono && (!et_usuario.getText().toString().isEmpty())){
+                    status_usuario = true;
+                    ti_usuario.setError(null);
+                } else{
+                    status_usuario = false;
+                    ti_usuario.setError("Campo obligatorio");
+                    et_usuario.requestFocus();
+
+                }*//*
+
+                if(status_telefono && Patterns.EMAIL_ADDRESS.matcher(et_usuario.getText().toString()).matches() == true){
+                    status_usuario = true;
+                    ti_usuario.setError(null);
+                }else{
+                    ti_usuario.setError("Correo Inválido");
+                    et_usuario.setText(null);
+                    et_usuario.requestFocus();
+                    status_usuario = false;
+                }
+
+
+                if(status_usuario && !et_password1.getText().toString().isEmpty()){
+                    status_clave = true;
+                    ti_password1.setError(null);
+                }else{
+                    status_clave = false;
+                    ti_password1.setError("Campo obligatorio");
+                    et_password1.requestFocus();
+                }
+
+
+                if(status_clave && !et_password2.getText().toString().isEmpty()){
+                    status_clave1 = true;
+                    ti_password2.setError(null);
+                }else{
+                    status_clave1 = false;
+                    ti_password2.setError("Campo obligatorio");
+                    et_password2.requestFocus();
+                }
+
+
+                if (status_clave && status_clave1) {
+                    if(Objects.equals(et_password1.getText().toString(), et_password2.getText().toString())){
+                        status_clave = true;
+                        status_clave1 = true;
+                    }else{
+                        status_clave = false;
+                        status_clave1 = false;
+                        Toast.makeText(getApplicationContext(), "La contraseña ingresada no coincide.\n", Toast.LENGTH_LONG).show();
+                        et_password1.setText(null);
+                        et_password2.setText(null);
+                        et_password1.requestFocus();
+                    }
+
+                }else { }
+
+                if(status_clave1 && sp_questions.getSelectedItemPosition() > 0){
+                    status_pregunta = true;
+                }else{
+                    status_pregunta = false;
+                    Toast.makeText(Login.this, "Campo Pregunta de Seguridad Obligatorio\nDebe Seleccionar una Opción", Toast.LENGTH_SHORT).show();
+                }
+
+                if(status_pregunta && !et_respuesta.getText().toString().isEmpty()){
+                    status_respuesta = true;
+                    ti_respuesta.setError(null);
+                    //ti_respuesta.setVisibility(View.GONE);
+                }else{
+                    status_respuesta = false;
+                    ti_respuesta.setError("Campo obligatorio");
+                    //ti_respuesta.setVisibility(View.VISIBLE);
+                    et_respuesta.requestFocus();
+                }
+
+                if(status_documento && status_nombres && status_apellidos && status_telefono && status_usuario && status_clave && status_clave1 && status_pregunta && status_respuesta){
+                    Toast.makeText(Login.this, "Hoy si, a guardar...", Toast.LENGTH_SHORT).show();
+                }*/
+
+
+
+
+                if(!et_dui.getText().toString().isEmpty()){
+                    status_documento = true;
+                    ti_dui.setError(null);
+
+                    if(status_documento && !et_nombres.getText().toString().isEmpty()){
+                        status_nombres = true;
+                        ti_nombres.setError(null);
+
+                        if(status_nombres && !et_apellidos.getText().toString().isEmpty()){
+                            status_apellidos = true;
+                            ti_apellidos.setError(null);
+
+                            //Campo dirección no lo valido porque lo he dejado como campo no obligatorio
+
+                            if(status_apellidos && !et_telefono.getText().toString().isEmpty()){
+                                status_telefono = true;
+                                ti_telefono.setError(null);
+
+                                //Campo especialidad no lo valido porque lo he dejado como campo no obligatorio
+                                //Campo comentario no lo valido porque lo he dejado como campo no obligatorio
+                                /*if(status_telefono && (!et_usuario.getText().toString().isEmpty())){
+                                    status_usuario = true;
+                                    ti_usuario.setError(null);
+                                } else{
+                                    status_usuario = false;
+                                    ti_usuario.setError("Campo obligatorio");
+                                    et_usuario.requestFocus();
+
+                                }*/
+
+                                if(status_telefono && Patterns.EMAIL_ADDRESS.matcher(et_usuario.getText().toString()).matches() == true){
+                                    status_usuario = true;
+                                    ti_usuario.setError(null);
+
+                                    if(status_usuario && !et_password1.getText().toString().isEmpty()){
+                                        status_clave = true;
+                                        ti_password1.setError(null);
+
+
+                                        if(status_clave && !et_password2.getText().toString().isEmpty()){
+                                            status_clave1 = true;
+                                            ti_password2.setError(null);
+
+                                            if (status_clave && status_clave1) {
+                                                if(Objects.equals(et_password1.getText().toString(), et_password2.getText().toString())){
+                                                    status_clave = true;
+                                                    status_clave1 = true;
+
+                                                    if(status_clave1 && sp_questions.getSelectedItemPosition() > 0){
+                                                        status_pregunta = true;
+
+                                                        if(status_pregunta && !et_respuesta.getText().toString().isEmpty()){
+                                                            status_respuesta = true;
+                                                            ti_respuesta.setError(null);
+
+                                                            if(status_documento && status_nombres && status_apellidos && status_telefono && status_usuario && status_clave && status_clave1 && status_pregunta && status_respuesta){
+                                                                //Toast.makeText(Login.this, "Hoy si, a guardar...", Toast.LENGTH_SHORT).show();
+
+                                                                dto datos = new dto();
+
+                                                                //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
+                                                                DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
+                                                                String date = formatodate.format(new Date());
+
+                                                                DateFormat formatotime = new SimpleDateFormat("HH:mm:ss a");
+                                                                String time = formatotime.format(new Date());
+
+                                                                SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                                                        "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                                                Date date1 = new Date();
+                                                                String fecha = dateFormat.format(date1);
+
+                                                                datos.setDocumento(et_dui.getText().toString());
+                                                                datos.setNombres(et_nombres.getText().toString());
+                                                                datos.setApellidos(et_apellidos.getText().toString());
+                                                                datos.setDireccion(et_direccion.getText().toString());
+                                                                datos.setTelefono(et_telefono.getText().toString());
+                                                                datos.setEspecialidad(et_especialidad.getText().toString());
+                                                                datos.setSexo(sexo.toString());
+                                                                datos.setComentario(et_comentario.getText().toString());
+                                                                datos.setEmail(et_usuario.getText().toString());
+                                                                datos.setClave(et_password1.getText().toString());
+                                                                datos.setPregunta(sp_questions.getSelectedItem().toString());
+                                                                datos.setRespuesta(et_respuesta.getText().toString());
+                                                                datos.setFecha(fecha.toString());
+
+                                                                if(base.addRegister(datos)){
+                                                                    Toast.makeText(getApplicationContext(), "Registro creado correctamente",Toast.LENGTH_LONG).show();
+                                                                    et_dui.setText(null);
+                                                                    et_nombres.setText(null);
+                                                                    et_apellidos.setText(null);
+                                                                    et_direccion.setText(null);
+                                                                    et_telefono.setText(null);
+                                                                    et_especialidad.setText(null);
+                                                                    sexo = "";
+                                                                    et_comentario.setText(null);
+                                                                    et_usuario.setText(null);
+                                                                    et_password1.setText(null);
+                                                                    et_password2.setText(null);
+                                                                    sp_questions.setSelection(0);
+                                                                    et_respuesta.setText(null);
+                                                                    cb_masculino.setChecked(true);cb_femenino.setChecked(false);
+                                                                    et_dui.requestFocus();
+                                                                    conta=0;
+
+                                                                }else{
+                                                                    Toast.makeText(getApplicationContext(), "Error. Ya existe un registro con este" +
+                                                                            " nombre de usuario: "+et_usuario.getText().toString(),Toast.LENGTH_LONG).show();
+                                                                }
+
+                                                            }
+
+                                                        }else{
+                                                            status_respuesta = false;
+                                                            ti_respuesta.setError("Campo obligatorio");
+                                                            //ti_respuesta.setVisibility(View.VISIBLE);
+                                                            et_respuesta.requestFocus();
+                                                        }
+
+                                                    }else{
+                                                        status_pregunta = false;
+                                                        Toast.makeText(Login.this, "Campo Pregunta de Seguridad Obligatorio\nDebe Seleccionar una Opción", Toast.LENGTH_SHORT).show();
+                                                    }
+
+                                                }else{
+                                                    status_clave = false;
+                                                    status_clave1 = false;
+                                                    Toast.makeText(getApplicationContext(), "Las claves ingresadas no coincide.", Toast.LENGTH_LONG).show();
+                                                    et_password1.setText(null);
+                                                    et_password2.setText(null);
+                                                    et_password1.requestFocus();
+                                                }
+
+                                            }else { }
+
+                                        }else{
+                                            status_clave1 = false;
+                                            ti_password2.setError("Campo obligatorio");
+                                            et_password2.requestFocus();
+                                        }
+
+
+
+                                    }else{
+                                        status_clave = false;
+                                        ti_password1.setError("Campo obligatorio");
+                                        et_password1.requestFocus();
+                                    }
+
+                                }else{
+                                    ti_usuario.setError("Correo Inválido");
+                                    et_usuario.setText(null);
+                                    et_usuario.requestFocus();
+                                    status_usuario = false;
+                                }
+
+
+                            }else{
+                                status_telefono = false;
+                                ti_telefono.setError("Campo obligatorio");
+                                et_telefono.requestFocus();
+                            }
+
+
+
+                        }else{
+                            status_apellidos = false;
+                            ti_apellidos.setError("Campo obligatorio");
+                            et_apellidos.requestFocus();
+                        }
+
+                    }else{
+                        status_nombres = false;
+                        ti_nombres.setError("Campo obligatorio");
+                        et_nombres.requestFocus();
+                    }
+
+                }else{
+                    status_documento = false;
+                    ti_dui.setError("Campo obligatorio");
+                    et_dui.requestFocus();
+                }
+
+
+
+
 
             }
         });
-
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
 
     }
 
