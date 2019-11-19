@@ -131,4 +131,81 @@ public class db_SQLite extends SQLiteOpenHelper {
 
 
 
+
+    //Métodos de los usuarios: En este caso los especialistas de atención sanitaria.
+
+    //Función para consultar la existencia del nombre de usuario o dirección de correo.
+    public boolean consultaUser(dto datos) {
+        boolean estado = false;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        try {
+            String user = datos.getEmail();
+            Cursor fila = bd.rawQuery("select usuario from tb_especialista where usuario='"+user+"'", null);
+            if(fila.moveToFirst()){
+                estado = true;
+            }else{
+                estado = false;
+            }
+            bd.close();
+        } catch (Exception e) {
+            estado = false;
+            Log.e("error.",e.toString());
+        }
+        return estado;
+    }
+
+    //Función para consultar la existencia del nombre de usuario o dirección de correo.
+    public boolean verificoRespuesta(dto datos) {
+        boolean estado = false;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        try {
+            String user = datos.getRespuesta();
+            Cursor fila = bd.rawQuery("select respuesta from tb_especialista where respuesta='"+datos.getRespuesta()+"'", null);
+            if(fila.moveToFirst()){
+                estado = true;
+            }else{
+                estado = false;
+            }
+            bd.close();
+        } catch (Exception e) {
+            estado = false;
+            Log.e("error.",e.toString());
+        }
+        return estado;
+    }
+
+    //Función para actualizar datos
+    public boolean updateClave(dto datos){
+        //GestionSQLiteOpenHelper gestionSQLiteOpenHelper = new GestionSQLiteOpenHelper(this, "gestionn", null, 1);
+        //SQLiteDatabase bd = gestionSQLiteOpenHelper.getWritableDatabase();
+        boolean estado = true;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        try{
+            String codigo = datos.getDocumento();
+            String clave = datos.getClave();
+            ContentValues registro = new ContentValues();
+            //registro.put("codigo",codigo);
+            registro.put("clave",clave);
+            int cant = (int)this.getWritableDatabase().update("tb_especialista", registro, "documento='"+codigo+"'", null);
+            //int cant = bd.update("usuarios", registro,"codigo="+codigo,null);
+            bd.close();
+
+            if (cant > 0) estado = true;
+            else estado = false;
+            /*if(cant==1){
+                return true;
+            }else{
+                return false;
+            }*/
+        }catch(Exception e){
+            estado = false;
+            Log.e("error.",e.toString());
+        }
+
+        return estado;
+    }
+
+
+
+
 }

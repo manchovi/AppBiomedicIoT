@@ -16,6 +16,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,8 +27,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -292,7 +295,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
             case R.id.btnOlvidoClave:
                 //Toast.makeText(this, "Recuperar Contraseña", Toast.LENGTH_SHORT).show();
-
+                recuperarPassword();
                 break;
 
             default:
@@ -771,6 +774,231 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void recuperarPassword(){
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Login.this);
+        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        //mBuilder.setIcon(R.drawable.ic_servidor);
+        //mBuilder.setTitle("<<<UTLA>>>");
+
+        mBuilder.setCancelable(false);
+        final View mView = getLayoutInflater().inflate(R.layout.activity__recambiar_clave, null);
+
+        final TextInputLayout ti_usuario = (TextInputLayout)mView.findViewById(R.id.ti_usuario);
+        final EditText et_usuario = (EditText)mView.findViewById(R.id.et_usuario);
+        ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
+        Button btnAceptar = (Button)mView.findViewById(R.id.btnAceptar);
+
+        //y esto para pantalla completa (oculta incluso la barra de estado)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+        mBuilder.setView(mView);
+        final android.app.AlertDialog dialog = mBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        BtnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(Login.this, "O.K.", Toast.LENGTH_SHORT).show();
+
+                if(!et_usuario.getText().toString().isEmpty()){
+                    if (Patterns.EMAIL_ADDRESS.matcher(et_usuario.getText().toString()).matches() == false) {
+                        ti_usuario.setError("Correo invalido.");
+                        ti_usuario.requestFocus();
+                        estado_correo = false;
+                    } else {
+                        estado_correo = true;
+                        ti_usuario.setError(null);
+                    }
+
+                    if(estado_correo==true){
+                        dto datos = new dto();
+                        datos.setEmail(et_usuario.getText().toString());
+                        if(base.consultaUser(datos)){
+                            String correo = et_usuario.getText().toString();
+                            Cursor fila = base.getWritableDatabase().rawQuery("select documento,nombres,apellidos,direccion,telefono,especialidad,sexo,comentario,usuario,clave,pregunta,respuesta,fecha from tb_especialista where usuario='"+correo+"'", null);
+                            if (fila.moveToFirst()) {
+                                String documento = fila.getString(0);
+                                String nombres = fila.getString(1);
+                                String apellidos = fila.getString(2);
+                                String direccion = fila.getString(3);
+                                String telefono = fila.getString(4);
+                                String especialidad = fila.getString(5);
+                                String sexo = fila.getString(6);
+                                String comentario = fila.getString(7);
+                                String email = fila.getString(8);
+                                String clave = fila.getString(9);
+                                String pregunta = fila.getString(10);
+                                String respuesta = fila.getString(11);
+                                String fecha = fila.getString(12);
+
+
+                                //Toast.makeText(getApplicationContext(),"Usuario encontrado: " + nombres + " " + apellidos,Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                                recuperarPassword1(documento, nombres + " "+ apellidos, pregunta);
+
+                            } else {
+                                //Toast.makeText(getApplicationContext(), "No se encontrarón resultados que mostrar para la busqueda especificada", Toast.LENGTH_SHORT).show();
+                            }
+                            base.close();
+
+                        }else{
+                            Toast.makeText(getApplicationContext(), "No se han encontrado resultados en la busqueda especificada.",Toast.LENGTH_LONG).show();
+                            et_usuario.setText(null);
+                            et_usuario.requestFocus();
+                        }
+
+                    }else{
+                        et_usuario.setText(null);
+                        et_usuario.requestFocus();
+                        Toast.makeText(getApplicationContext(), "El nombre de usuario ingresado no es válido. Debe ser una dirección de e-mail.", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Es obligatorio que ingrese su nombre de usuario.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+
+    private void recuperarPassword1(final String documento, String nombres, String pregunta){
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Login.this);
+        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        //mBuilder.setIcon(R.drawable.ic_servidor);
+        //mBuilder.setTitle("<<<UTLA>>>");
+
+        mBuilder.setCancelable(false);
+        final View mView = getLayoutInflater().inflate(R.layout.activity_recambiar_clave1, null);
+
+        /*Toast.makeText(this, "Información Recibida: "+ "\n" +
+                "Documento: "+documento+"\n" +
+                "Nombre Completo: "+nombres+"\n" +
+                "Pregutna: "+pregunta, Toast.LENGTH_SHORT).show();*/
+        TextView tv_mensaje = mView.findViewById(R.id.tv_mensaje);
+
+        ImageView ivclose = (ImageView)mView.findViewById(R.id.ivclose);
+
+        Button btnAceptar = (Button)mView.findViewById(R.id.btnAceptar);
+        Button btnCompleteOperation = (Button)mView.findViewById(R.id.btnCompleteOperation);
+
+        TextView tv_question_bd = (TextView)mView.findViewById(R.id.tv_question_bd);
+        final TextView tv_id = (TextView)mView.findViewById(R.id.tv_id);                    //En este campo envio el id del registro a verificar.
+        //tv_id.setText(""+id);
+
+        final EditText et_respuesta = (EditText)mView.findViewById(R.id.et_respuesta);
+        //final TextInputLayout tiCorreo = (TextInputLayout)myDialog.findViewById(R.id.tiCorreo);
+
+        tv_question_bd.setText(nombres +"\n"+pregunta);
+
+        tv_mensaje.setText("FELICIDADES!!! " + nombres +"\n YA PUEDE RESTABLECER SU CLAVE");
+
+        final LinearLayout bloque1 = (LinearLayout)mView.findViewById(R.id.bloque1);
+        final LinearLayout bloque2 = (LinearLayout)mView.findViewById(R.id.bloque2);
+        bloque2.setEnabled(false);
+        bloque2.setVisibility(View.INVISIBLE);
+        bloque2.setVisibility(View.GONE);
+
+        final EditText et_pass1 = (EditText)mView.findViewById(R.id.et_pass1);
+        final EditText et_pass2 = (EditText)mView.findViewById(R.id.et_pass2);
+        et_pass1.setEnabled(false);
+        et_pass2.setEnabled(false);
+
+
+        mBuilder.setView(mView);
+        final android.app.AlertDialog dialog = mBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        ivclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (et_respuesta.getText().toString().isEmpty()) {
+                    //Toast.makeText(getApplicationContext(),"Debe ingresar los datos de su cuenta.",Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "Campo respuesta es obligatorio.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }else{
+                    //Toast.makeText(getApplicationContext(), "Vamos bien...", Toast.LENGTH_LONG).show();
+                    dto datos = new dto();
+                    datos.setRespuesta(et_respuesta.getText().toString());
+                    if(base.verificoRespuesta(datos)) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "EXCELENTE. \nAhora puede ingresar una nueva clave para su cuenta.", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        et_respuesta.setText(null);
+                        bloque2.setVisibility(View.VISIBLE);
+                        bloque2.setEnabled(true);
+                        et_pass1.setEnabled(true);
+                        et_pass2.setEnabled(true);
+                        bloque1.setVisibility(View.GONE);
+                    }else{
+                        Toast toast = Toast.makeText(getApplicationContext(), "La respuesta ingresada es incorrecta. \n\nRespuesta: " + et_respuesta.getText().toString(), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        et_respuesta.setText(null);
+                        et_respuesta.requestFocus();
+                    }
+                }
+            }
+        });
+
+
+        btnCompleteOperation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((!et_pass1.getText().toString().isEmpty()) && (!et_pass2.getText().toString().isEmpty())) {
+                    if (Objects.equals(et_pass1.getText().toString(), et_pass2.getText().toString())) {
+                        String clave=et_pass1.getText().toString();
+                        String codigo=documento;
+                        //tv_id.setText(codigo);
+
+                        dto datos = new dto();
+                        datos.setDocumento(codigo);
+                        datos.setClave(clave);
+                        if(base.updateClave(datos)) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "FELICIDADES!!!.\nSu clave ha sido restablecida correctamente.", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                            //myDialog.cancel();
+                            dialog.dismiss();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Error al intentar actualizar su clave.\n" +
+                                    "Intentelo mas tarde...", Toast.LENGTH_LONG).show();
+                        }
+
+                    }else{
+                        Toast toast = Toast.makeText(getApplicationContext(), "Las contraseñas ingresadas no coinciden", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        et_pass1.requestFocus();
+                        et_pass1.setText(null);
+                        et_pass2.setText(null);
+                    }
+                }else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Debe ingresar y confirmar clave nueva", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            }
+        });
+
+
+
 
     }
 

@@ -54,7 +54,7 @@
     <item name="textGrey1" type="color">#03A9F4</item>
     <item name="textGrey" type="color">#090909</item>
 
-    <color name="chovi3">#930d0f</color>
+    <color name="chovi3">#03A9F4</color>
     <color name="color_toolbar">#03A9F4</color>
 
 </resources>
