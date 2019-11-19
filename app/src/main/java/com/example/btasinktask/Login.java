@@ -254,7 +254,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 editor.commit();
 
                                 //Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                                Intent menuPrincipal = new Intent(this, MenuPrincipal.class);
+                                //Intent menuPrincipal = new Intent(this, MenuPrincipal.class);
+                                Intent menuPrincipal = new Intent(this, Activity_lista_pacientes.class);
                                 //menuPrincipal.putExtra("usuario", usuario.toString());
                                 menuPrincipal.putExtra("senal", "1");
                                 menuPrincipal.putExtra("tipo", documento);

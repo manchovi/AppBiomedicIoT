@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_Register_Dr">
-
-        </activity>
-        <activity android:name=".PruebasDemos"></activity>
+        <activity android:name=".Activity_lista_pacientes"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activity_Register_Dr"></activity>
+        <activity android:name=".PruebasDemos" />
         <activity
             android:name=".SignalMonitorFR"
             android:screenOrientation="landscape" />
