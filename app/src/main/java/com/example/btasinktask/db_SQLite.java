@@ -19,6 +19,8 @@ public class db_SQLite extends SQLiteOpenHelper {
         super(context, "db_hospital.db",null, 1);
     }
 
+    ArrayList<String> listaEspecialista;               //Va a representar la información que se va a mostrar en el combo
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL("create table usuarios(codigo integer not null primary key autoincrement,nombres varchar(50) not null,apellidos varchar(50) not null,usuario varchar(100) not null,clave varchar(10) not null,pregunta varchar(100) not null,respuesta varchar(100) not null, fecha datetime NOT NULL)");
@@ -207,6 +209,47 @@ public class db_SQLite extends SQLiteOpenHelper {
         }
 
         return estado;
+    }
+
+
+    //Métdo que devuelve la lista de los especialistas registrados.
+    //Obtengo datos en un arrayList y los retorno.
+    public ArrayList<String> consultaEspecialistas(){
+        boolean estado = false;
+        //SQLiteDatabase bd = this.getWritableDatabase();
+        SQLiteDatabase bd = this.getReadableDatabase();
+        //ArrayList<String> listaEspecialista;             //Va a representar la información que se va a mostrar en el combo
+
+        dto especialista = null;                           //Creamos la instancia vacia.
+
+        ArrayList<dto> especialistaList;                   //Entidad que representa a los datos de la tabla, en esta caso la tabla Articulos
+        especialistaList = new ArrayList<dto>();
+
+        try{
+            //Cursor fila = bd.rawQuery("select * from tb_especialista",null);
+            Cursor fila = bd.rawQuery("select documento, nombres, apellidos from tb_especialista",null);
+            while (fila.moveToNext()){
+                especialista = new dto();
+                especialista.setDocumento(fila.getString(0));
+                especialista.setNombres(fila.getString(1));
+                especialista.setApellidos(fila.getString(2));
+                especialistaList.add(especialista);
+            }
+
+            listaEspecialista = new ArrayList<String>();
+            //listaEspecialista = new ArrayList<>();
+            listaEspecialista.add("Seleccione Especialista Responsable");
+
+            for(int i=0;i<= especialistaList.size();i++){
+                listaEspecialista.add(especialistaList.get(i).getDocumento()+" ~ "+especialistaList.get(i).getNombres()+" "+especialistaList.get(i).getApellidos());
+            }
+
+            //bd().close();
+
+        }catch (Exception e){
+
+        }
+        return listaEspecialista;
     }
 
 

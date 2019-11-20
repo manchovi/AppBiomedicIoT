@@ -1,6 +1,8 @@
 package com.example.btasinktask;
 
 public class dto {
+
+    //Objeto de Datos de Transferencia para Tabla: tb_especialista
     String documento;
     String nombres;
     String apellidos;

@@ -50,7 +50,6 @@
                 android:background="@android:color/transparent"
                 android:orientation="vertical">
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -330,7 +329,7 @@
 
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ti_nombres_contacto_paciente"
+                            android:id="@+id/ti_nombre_contacto_paciente"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="1dp"
@@ -339,7 +338,7 @@
                             android:textColorHint="@color/grey">
 
                             <EditText
-                                android:id="@+id/et_nombres_contacto_paciente"
+                                android:id="@+id/et_nombre_contacto_paciente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -423,7 +422,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:background="@drawable/estilos3spinner"
-                            android:spinnerMode="dialog"
+                            android:spinnerMode="dropdown"
                             style="@style/Card.Subtitle"
                             />
 
