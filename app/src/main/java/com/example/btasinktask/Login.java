@@ -11,6 +11,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -144,7 +145,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         btnLogin = (Button)findViewById(R.id.btnLogin);
 
         btnRegistrar = (Button)findViewById(R.id.btnRegistrar);
+        btnRegistrar.setPaintFlags(btnRegistrar.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         btnOlvidoClave = (Button)findViewById(R.id.btnOlvidoClave);
+        btnOlvidoClave.setPaintFlags(btnOlvidoClave.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
        limpiarDatos();
 

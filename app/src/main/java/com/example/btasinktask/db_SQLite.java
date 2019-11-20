@@ -23,7 +23,6 @@ public class db_SQLite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL("create table usuarios(codigo integer not null primary key autoincrement,nombres varchar(50) not null,apellidos varchar(50) not null,usuario varchar(100) not null,clave varchar(10) not null,pregunta varchar(100) not null,respuesta varchar(100) not null, fecha datetime NOT NULL)");
         db.execSQL("create table tb_especialista(documento varchar(100) not null primary key,nombres varchar(50) not null,apellidos varchar(50) not null,direccion varchar(150),telefono varchar(15) not null,especialidad varchar(100),sexo varchar(15) not null, comentario varchar(250) not null, usuario varchar(100) not null, clave varchar(50) not null, pregunta varchar(100) not null,respuesta varchar(100) not null, fecha datetime NOT NULL)");
-
         db.execSQL("create table tb_pacientes(codigo integer not null primary key autoincrement, dui varchar(15) not null, nombres varchar(50) not null, apellidos varchar(50) not null, direccion varchar(200) not null, telefono varchar(15) not null, estado varchar(255) not null, fecha datetime NOT NULL, comentario text, nombre_contacto_pariente varchar(250), telefono_contacto_pariente varchar(15), direccion_contacto_pariente varchar(250), documento_especialista varchar(15) not null, FOREIGN KEY(documento_especialista) REFERENCES tb_especialista(documento))");
 
 

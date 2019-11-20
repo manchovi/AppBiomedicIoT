@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +18,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -56,7 +60,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             //MainActivity.this.finishAffinity();
                             //finish();
-                            confirmacion();
+                            //confirmacion();
+                            goBack();
                         }
                     })
                     .show();
@@ -188,8 +193,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
         if(id==R.id.menu_pacientes){
             //Acciones a realizar
-            Toast.makeText(this, "Clic en opción pacientes", Toast.LENGTH_SHORT).show();
-
+            //Toast.makeText(this, "Clic en opción pacientes", Toast.LENGTH_SHORT).show();
+            dialogRegisterPacientes();
             return true;
         }else if(id==R.id.menu_salir) {
             /*Intent intent = new Intent(this, SignalsMonitor.class);
@@ -205,6 +210,43 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+
+    }
+
+    private void dialogRegisterPacientes(){
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Activity_lista_pacientes.this);
+        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        //mBuilder.setIcon(R.drawable.ic_servidor);
+        //mBuilder.setTitle("<<<UTLA>>>");
+        mBuilder.setCancelable(false);
+        final View mView = getLayoutInflater().inflate(R.layout.activity__register__pacientes, null);
+
+        ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
+        Button btnSalir = (Button)mView.findViewById(R.id.btnSalir);
+
+        //y esto para pantalla completa (oculta incluso la barra de estado)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+        mBuilder.setView(mView);
+        final android.app.AlertDialog dialog = mBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        BtnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
 
     }
 

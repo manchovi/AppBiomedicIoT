@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="#03A9F4"
+        app:cardBackgroundColor="#0A0A0A"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:background="#03A9F4"
+                    android:background="#080809"
 
                     android:orientation="horizontal">
 
@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
                             android:fontFamily="cursive"
-                            android:text="Registro de Especialista"
+                            android:text="* Registro de Paciente"
                             android:textAlignment="center"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:textColor="#ffffff"
@@ -115,7 +115,7 @@
                         android:background="#FFFFFF"
                         android:orientation="vertical">
 
-                        <TextView
+                        <!--<TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -126,7 +126,7 @@
                             android:textAlignment="center"
                             android:textColor="#03168B"
                             android:textSize="14dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold" />-->
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ti_dui"
@@ -135,7 +135,8 @@
                             android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/grey">
+                            android:textColorHint="@color/grey"
+                            >
 
                             <EditText
                                 android:id="@+id/et_dui"
@@ -146,7 +147,7 @@
                                 android:paddingLeft="1dp"
                                 android:drawableStart="@drawable/ic_num"
                                 android:ems="10"
-                                android:hint="* Introduzca documento de identidad"
+                                android:hint="* Documento de identidad"
                                 android:inputType="text"
                                 android:textColor="#03168B"
                                 android:textSize="14dp" />
@@ -168,12 +169,12 @@
                                 android:id="@+id/et_nombres"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="1dp"
                                 android:drawablePadding="5dp"
                                 android:paddingLeft="1dp"
-                                android:drawableStart="@drawable/ic_person"
+                                android:drawableStart="@drawable/ic_user"
                                 android:ems="10"
-                                android:hint="* Introduzca nombres"
+                                android:hint="* Nombres Paciente"
                                 android:inputType="text"
                                 android:textColor="#03168B"
                                 android:textSize="14dp" />
@@ -199,7 +200,7 @@
                                 android:paddingLeft="1dp"
                                 android:drawableStart="@drawable/ic_person1"
                                 android:ems="10"
-                                android:hint="* Introduzca apellidos"
+                                android:hint="* Apellidos Paciente"
                                 android:inputType="text"
                                 android:textColor="#03168B"
                                 android:textSize="14dp" />
@@ -223,7 +224,7 @@
                                 android:paddingLeft="1dp"
                                 android:drawableStart="@drawable/ic_add_location"
                                 android:ems="10"
-                                android:hint="Introduzca dirección de residencia o trabajo"
+                                android:hint="Dirección de Residencia"
                                 android:inputType="text"
                                 android:textColor="#03168B"
                                 android:textSize="14dp" />
@@ -249,7 +250,7 @@
                                 android:paddingLeft="1dp"
                                 android:drawableStart="@drawable/ic_call"
                                 android:ems="10"
-                                android:hint="* Teléfono personal (+503xxxx0000)"
+                                android:hint="* Teléfono Personal o Casa"
                                 android:inputType="phone"
                                 android:textColor="#03168B"
                                 android:textSize="14dp" />
@@ -270,55 +271,23 @@
                                 android:layout_marginTop="0dp"
                                 android:drawablePadding="5dp"
                                 android:paddingLeft="1dp"
-                                android:drawableStart="@drawable/ic_especialidad"
+                                android:drawableStart="@drawable/ic_accessible"
                                 android:ems="10"
-                                android:hint="Introduzca su Especialidad"
+                                android:hint="* Estado Paciente"
                                 android:inputType="text"
                                 android:textColor="#03168B"
                                 android:textSize="14dp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:text="* Sexo:"
-                            android:textColor="@color/black" />
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
 
-                            >
-
-                            <CheckBox
-                                android:id="@+id/cb_masculino"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="25dp"
-                                android:button="@drawable/cbcustom_spo2"
-                                android:checked="true"
-                                android:text="Masculino"
-                                android:textColor="#000" />
-
-
-                            <CheckBox
-                                android:id="@+id/cb_femenino"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="25dp"
-                                android:layout_marginBottom="10dp"
-                                android:button="@drawable/cbcustom_spo2"
-                                android:checked="false"
-                                android:text="Femenino"
-                                android:textColor="#000" />
-
-                        </LinearLayout>
+                            />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ti_comentario"
@@ -339,7 +308,7 @@
                             android:paddingLeft="1dp"
                             android:drawableStart="@drawable/ic_comment"
                             android:textSize="14dp"
-                            android:hint="Introduzca Otra Información Interés"
+                            android:hint="Comentarios"
                             android:background="@drawable/estiloedit"
                             />
 
@@ -349,11 +318,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="15dp"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
-                            android:text="Complete Datos Acceso [LOGIN]"
+                            android:text="Información de Contacto \nAmig@ o Pariente del Paciente"
                             android:textAlignment="center"
                             android:textColor="#03168B"
                             android:textSize="14dp"
@@ -361,7 +330,7 @@
 
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ti_usuario"
+                            android:id="@+id/ti_nombres_contacto_paciente"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="1dp"
@@ -370,87 +339,67 @@
                             android:textColorHint="@color/grey">
 
                             <EditText
-                                android:id="@+id/et_usuario"
+                                android:id="@+id/et_nombres_contacto_paciente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:drawablePadding="5dp"
                                 android:paddingLeft="1dp"
-                                android:drawableStart="@drawable/ic_email"
+                                android:drawableStart="@drawable/ic_user"
                                 android:ems="10"
-                                android:hint="* LOGIN: Ingrese su e-mail"
-                                android:inputType="textEmailAddress"
+                                android:hint="Nombre Completo Contacto Paciente"
+                                android:inputType="text"
+                                android:textColor="#03168B"
                                 android:textSize="14dp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ti_password1"
+                            android:id="@+id/ti_telefono_contacto_paciente"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
                             android:textColorHint="@color/grey"
-                            app:counterOverflowTextAppearance="@style/CounterOverFlow"
-                            app:counterTextAppearance="@style/Counter"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:passwordToggleEnabled="true">
-                            <!--
-                            app:counterEnabled="true"
-                            app:counterMaxLength="10"
-                            app:errorEnabled="true"
-                            -->
+                            >
+
                             <EditText
-                                android:id="@+id/et_password1"
+                                android:id="@+id/et_telefono_contacto_paciente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="0dp"
                                 android:drawablePadding="5dp"
                                 android:paddingLeft="1dp"
-                                android:drawableStart="@drawable/ic_lock"
+                                android:drawableStart="@drawable/ic_call1"
                                 android:ems="10"
-                                android:hint="* Clave Acceso"
-                                android:inputType="textPassword"
-                                android:maxLength="10"
+                                android:hint="Teléfono Contacto Paciente"
+                                android:inputType="phone"
+                                android:textColor="#03168B"
                                 android:textSize="14dp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ti_password2"
+                            android:id="@+id/ti_direccion_contacto_paciente"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:textColorHint="@color/grey"
-                            app:counterOverflowTextAppearance="@style/CounterOverFlow"
-                            app:counterTextAppearance="@style/Counter"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:passwordToggleEnabled="true">
-                            <!--
-                            app:counterEnabled="true"
-                            app:counterMaxLength="10"
-                            app:errorEnabled="true"
-                            -->
+                            android:paddingRight="20dp">
+
                             <EditText
-                                android:id="@+id/et_password2"
+                                android:id="@+id/et_direccion_contacto_paciente"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="0dp"
                                 android:drawablePadding="5dp"
                                 android:paddingLeft="1dp"
-                                android:drawableStart="@drawable/ic_lock"
-                                android:hint="* Confirme Clave Acceso"
-                                android:inputType="textPassword"
-                                android:maxLength="10"
+                                android:drawableStart="@drawable/ic_location1"
+                                android:ems="10"
+                                android:hint="Dirección Contacto Paciente"
+                                android:inputType="text"
+                                android:textColor="#03168B"
                                 android:textSize="14dp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -461,14 +410,14 @@
                             android:fontFamily="sans-serif-condensed-medium"
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
-                            android:text="Complete Datos de Seguridad\nRecuperación Contraseña"
+                            android:text="Seleccione Especialísta Responsable \nAtención Sanitaria Paciente"
                             android:textAlignment="center"
                             android:textColor="#03168B"
                             android:textSize="14dp"
                             android:textStyle="bold" />
 
                         <Spinner
-                            android:id="@+id/sp_questions"
+                            android:id="@+id/sp_especialista"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
@@ -478,34 +427,7 @@
                             style="@style/Card.Subtitle"
                             />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ti_respuesta"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:textColorHint="@color/grey">
-
-                            <EditText
-                                android:id="@+id/et_respuesta"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="0dp"
-                                android:drawablePadding="5dp"
-                                android:paddingLeft="1dp"
-                                android:drawableStart="@drawable/ic_description"
-                                android:ems="10"
-                                android:hint="* Introduzca la Respuesta"
-                                android:inputType="text"
-                                android:textColor="#03168B"
-                                android:textSize="14dp"
-                                android:visibility="gone"
-                                />
-                        </com.google.android.material.textfield.TextInputLayout>
-
                         <!--android:entries="@array/interrogantes"-->
-
 
 
                         <LinearLayout
@@ -525,7 +447,7 @@
                             android:orientation="horizontal">
 
                             <Button
-                                android:id="@+id/btnCancel"
+                                android:id="@+id/btnSalir"
                                 style="@style/Widget.AppCompat.Button.Small"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
@@ -543,7 +465,7 @@
 
                             <!--android:background="@android:color/transparent"-->
                             <Button
-                                android:id="@+id/btnSave"
+                                android:id="@+id/btnGuardar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
                                 android:alpha="1"

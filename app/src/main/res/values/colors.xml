@@ -3,7 +3,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#00574B</color>
     <!--<color name="colorAccent">#D81B60</color>-->
-    <color name="colorAccent">#45D0BB</color>
+    <color name="colorAccent">#2196F3</color>
 
 
     <color name="bgButtonColor">#5a5a5a</color>
@@ -47,6 +47,8 @@
     <color name="mycolor">#000000</color>
     <color name="black">#000000</color>
     <color name="mycolor1">#EC0707</color>
+
+    <color name="yellow">#F3DB04</color>
 
     <color name="white">#FFFFFF</color>
 
