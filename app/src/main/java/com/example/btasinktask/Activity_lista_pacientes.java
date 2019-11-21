@@ -31,7 +31,11 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class Activity_lista_pacientes extends AppCompatActivity {
 
@@ -62,6 +66,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
     boolean status_comentario = false; boolean status_nombre_contacto_pariente = false;
     boolean status_telefono_contacto_pariente = false; boolean status_direccion_contacto_pariente = false;
     boolean status_documento_especialista  = false;
+
+    String documento = "";
+    db_SQLite base = new db_SQLite(this);
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -252,8 +259,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         final TextInputLayout ti_telefono = (TextInputLayout)mView.findViewById(R.id.ti_telefono);
         final EditText et_telefono = (EditText)mView.findViewById(R.id.et_telefono);
 
-        final TextInputLayout ti_especialidad = (TextInputLayout)mView.findViewById(R.id.ti_especialidad);
-        final EditText et_especialidad = (EditText)mView.findViewById(R.id.et_especialidad);
+        final TextInputLayout ti_estado = (TextInputLayout)mView.findViewById(R.id.ti_estado);
+        final EditText et_estado = (EditText)mView.findViewById(R.id.et_estado);
 
         final TextInputLayout ti_comentario = (TextInputLayout)mView.findViewById(R.id.ti_comentario);
         final EditText et_comentario = (EditText)mView.findViewById(R.id.et_comentario);
@@ -286,7 +293,7 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                     toast.show();*/
                     String dato_SP = sp_especialista.getSelectedItem().toString();
                     String s[] = dato_SP.split("~");
-                    String documento = s[0];
+                    documento = s[0];
                     String nombres = s[1];
                     /*Toast.makeText(Activity_lista_pacientes.this, "Documento: "+documento+"\n" +
                             "Nombre: "+nombres, Toast.LENGTH_SHORT).show();*/
@@ -337,7 +344,110 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                     status_documento = true;
                     ti_dui.setError(null);
 
-                    Toast.makeText(Activity_lista_pacientes.this, "Vamos bien...", Toast.LENGTH_SHORT).show();
+                    if(status_documento && !et_nombres.getText().toString().isEmpty()) {
+                        status_nombres = true;
+                        ti_nombres.setError(null);
+
+                        if(status_nombres && !et_apellidos.getText().toString().isEmpty()) {
+                            status_apellidos = true;
+                            ti_apellidos.setError(null);
+
+                            //Campo dirección no lo valido porque lo he dejado como campo no obligatorio
+
+                            if(status_apellidos && !et_telefono.getText().toString().isEmpty()) {
+                                status_telefono = true;
+                                ti_telefono.setError(null);
+
+                                if(status_telefono && !et_estado.getText().toString().isEmpty()) {
+                                    status_estado = true;
+                                    ti_estado.setError(null);
+
+                                        //Campo fecha, comentario, nombre_cont_p, telefono_cont_p, direccion_cont_p no lo valido porque lo he dejado como campo no obligatorio
+                                        if(status_estado && sp_especialista.getSelectedItemPosition() > 0) {
+                                            status_documento_especialista = true;
+
+                                            if(status_documento && status_nombres && status_apellidos && status_telefono && status_estado && status_documento_especialista){
+
+                                                dto_pacientes datos = new dto_pacientes();
+
+                                                //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
+                                                DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
+                                                String date = formatodate.format(new Date());
+
+                                                DateFormat formatotime = new SimpleDateFormat("HH:mm:ss a");
+                                                String time = formatotime.format(new Date());
+
+                                                SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                                        "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                                Date date1 = new Date();
+                                                String fecha = dateFormat.format(date1);
+
+                                                datos.setDui(et_dui.getText().toString());
+                                                datos.setNombres(et_nombres.getText().toString());
+                                                datos.setApellidos(et_apellidos.getText().toString());
+                                                datos.setDireccion(et_direccion.getText().toString());
+                                                datos.setTelefono(et_telefono.getText().toString());
+                                                datos.setEstado1(et_estado.getText().toString());
+                                                datos.setFecha1(fecha.toString());
+                                                datos.setComentario(et_comentario.getText().toString());
+                                                datos.setNombre_cont_p(et_nombre_contacto_paciente.getText().toString());
+                                                datos.setTelefono_cont_p(et_telefono_contacto_paciente.getText().toString());
+                                                datos.setDireccion_cont_p(et_direccion_contacto_paciente.getText().toString());
+                                                datos.setDocumento_especialista(documento);
+
+                                                if(base.addRegisterPaciente(datos)){
+                                                    Toast.makeText(getApplicationContext(), "Registro paciente guardado correctamente",Toast.LENGTH_LONG).show();
+                                                    et_dui.setText(null);
+                                                    et_nombres.setText(null);
+                                                    et_apellidos.setText(null);
+                                                    et_direccion.setText(null);
+                                                    et_telefono.setText(null);
+                                                    et_estado.setText(null);
+                                                    et_comentario.setText(null);
+                                                    et_nombre_contacto_paciente.setText(null);
+                                                    et_telefono_contacto_paciente.setText(null);
+                                                    et_direccion_contacto_paciente.setText(null);
+                                                    sp_especialista.setSelection(0);
+                                                    et_dui.requestFocus();
+                                                    conta=0;
+
+                                                }else{
+                                                    Toast.makeText(getApplicationContext(), "Error. Ya existe un registro con este" +
+                                                            " número de DUI: "+et_dui.getText().toString(),Toast.LENGTH_LONG).show();
+                                                }
+
+                                            }else{
+                                                Toast.makeText(Activity_lista_pacientes.this, "Completo los campo con obligatorios (*)", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }else{
+                                            status_documento_especialista = false;
+                                            Toast.makeText(Activity_lista_pacientes.this, "Seleccione el Especialista Responsable", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                }else{
+                                    status_estado = false;
+                                    ti_estado.setError("Campo obligatorio");
+                                    et_estado.requestFocus();
+                                }
+
+                            }else{
+                                status_telefono = false;
+                                ti_telefono.setError("Campo obligatorio");
+                                et_telefono.requestFocus();
+                            }
+
+                        }else{
+                            status_apellidos = false;
+                            ti_apellidos.setError("Campo obligatorio");
+                            et_apellidos.requestFocus();
+                        }
+
+                    }else{
+                        status_nombres = false;
+                        ti_nombres.setError("Campo obligatorio");
+                        et_nombres.requestFocus();
+                    }
 
                 }else{
                     status_documento = false;

@@ -21,6 +21,7 @@ public class db_SQLite extends SQLiteOpenHelper {
 
     ArrayList<String> listaEspecialista;               //Va a representar la información que se va a mostrar en el combo
 
+    String verifico = "";
     @Override
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL("create table usuarios(codigo integer not null primary key autoincrement,nombres varchar(50) not null,apellidos varchar(50) not null,usuario varchar(100) not null,clave varchar(10) not null,pregunta varchar(100) not null,respuesta varchar(100) not null, fecha datetime NOT NULL)");
@@ -136,6 +137,57 @@ public class db_SQLite extends SQLiteOpenHelper {
 
 
 
+    public boolean addRegisterPaciente(dto_pacientes datos){
+        boolean estado = true;
+        int resultado;
+        try{
+            //codigo, dui, nombres, apellidos, direccion, telefono, estado, fecha, comentario, nombre_contacto_pariente, telefono_contacto_pariente,
+            // direccion_contacto_pariente, documento_especialista
+            String dui = datos.getDui();
+            String nombres = datos.getNombres();
+            String apellidos = datos.getApellidos();
+            String direccion = datos.getDireccion();
+            String telefono = datos.getTelefono();
+            String estado1 = datos.getEstado1();
+            String fe = datos.getFecha1();
+            String comentario = datos.getComentario();
+            String nombre_cont_p = datos.getNombre_cont_p();
+            String telefono_cont_p = datos.getTelefono_cont_p();
+            String direccion_cont_p = datos.getDireccion_cont_p();
+            String documento_especialista = datos.getDocumento_especialista();
+
+            //getting the current time for joining date
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String fecha1 = sdf.format(cal.getTime());
+
+            Cursor fila = this.getWritableDatabase().rawQuery("select dui from tb_pacientes where dui='"+datos.getDui()+"'", null);
+            if(fila.moveToFirst()==true){
+                estado = false;
+            }else {
+                //estado = (boolean)this.getWritableDatabase().insert("datos","nombre, correo, telefono",registro);
+                //resultado = (int) this.getWritableDatabase().insert("usuarios", "nombres,apellidos,usuario,clave,pregunta,respuesta", registro);
+                String SQL = "INSERT INTO tb_pacientes \n" +
+                        "(dui,nombres,apellidos,direccion,telefono,estado,fecha,comentario,nombre_contacto_pariente,telefono_contacto_pariente,direccion_contacto_pariente,documento_especialista)" +
+                        "VALUES \n" +
+                        "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+                //resultado = (int) this.getWritableDatabase().insert("usuarios", "nombres,apellidos,usuario,clave,pregunta,respuesta", registro);
+                this.getWritableDatabase().execSQL(SQL, new String[]{dui,nombres,apellidos,direccion,telefono,estado1,fe,comentario,nombre_cont_p,telefono_cont_p,direccion_cont_p,documento_especialista});
+                //if (resultado > 0) estado = true;
+                //else estado = false;
+                estado = true;
+            }
+        }catch (Exception e){
+            estado = false;
+            Log.e("error.",e.toString());
+        }
+        return estado;
+    }
+
+
+
+
 
 
     //Métodos de los usuarios: En este caso los especialistas de atención sanitaria.
@@ -229,11 +281,16 @@ public class db_SQLite extends SQLiteOpenHelper {
             //Cursor fila = bd.rawQuery("select * from tb_especialista",null);
             Cursor fila = bd.rawQuery("select documento, nombres, apellidos from tb_especialista",null);
             while (fila.moveToNext()){
-                especialista = new dto();
-                especialista.setDocumento(fila.getString(0));
-                especialista.setNombres(fila.getString(1));
-                especialista.setApellidos(fila.getString(2));
-                especialistaList.add(especialista);
+                verifico = fila.getString(0);
+                if(verifico.equals("1")){
+
+                }else {
+                    especialista = new dto();
+                    especialista.setDocumento(fila.getString(0));
+                    especialista.setNombres(fila.getString(1));
+                    especialista.setApellidos(fila.getString(2));
+                    especialistaList.add(especialista);
+                }
             }
 
             listaEspecialista = new ArrayList<String>();

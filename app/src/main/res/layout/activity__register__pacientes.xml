@@ -256,7 +256,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/ti_especialidad"
+                            android:id="@+id/ti_estado"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -264,7 +264,7 @@
                             android:paddingRight="20dp">
 
                             <EditText
-                                android:id="@+id/et_especialidad"
+                                android:id="@+id/et_estado"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="0dp"
@@ -360,8 +360,7 @@
                             android:layout_marginTop="10dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:textColorHint="@color/grey"
-                            >
+                            android:textColorHint="@color/grey">
 
                             <EditText
                                 android:id="@+id/et_telefono_contacto_paciente"
