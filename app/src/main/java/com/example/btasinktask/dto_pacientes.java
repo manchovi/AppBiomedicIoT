@@ -34,6 +34,17 @@ public class dto_pacientes {
         this.documento_especialista = documento_especialista;
     }
 
+
+    public dto_pacientes(String dui, String nombres, String apellidos, String direccion, String telefono, String fecha1, String documento_especialista) {
+        this.dui = dui;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.fecha1 = fecha1;
+        this.documento_especialista = documento_especialista;
+    }
+
     public String getDui() {
         return dui;
     }
@@ -128,6 +139,22 @@ public class dto_pacientes {
 
     public void setDocumento_especialista(String documento_especialista) {
         this.documento_especialista = documento_especialista;
+    }
+
+    @Override
+    public String toString() {
+        return dui + " " + nombres + " " + apellidos + " " + direccion + " " + telefono + " " + fecha1 + " " + documento_especialista;
+        //return dui +  " ~ " + nombres + " ~ " + apellidos;
+
+
+        /*return dui;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.fecha1 = fecha1;
+        this.documento_especialista = documento_especialista;*/
+
     }
 
 }

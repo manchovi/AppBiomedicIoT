@@ -22,6 +22,10 @@ public class db_SQLite extends SQLiteOpenHelper {
     ArrayList<String> listaEspecialista;               //Va a representar la información que se va a mostrar en el combo
 
     String verifico = "";
+
+    ArrayList<dto_pacientes> pacientesList;      //Entidad que representa a los datos de la tabla, en esta caso la tabla Articulos
+    ArrayList<String> listaPacientes;            //Va a representar la información que se va a mostrar en el combo
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL("create table usuarios(codigo integer not null primary key autoincrement,nombres varchar(50) not null,apellidos varchar(50) not null,usuario varchar(100) not null,clave varchar(10) not null,pregunta varchar(100) not null,respuesta varchar(100) not null, fecha datetime NOT NULL)");
@@ -191,7 +195,6 @@ public class db_SQLite extends SQLiteOpenHelper {
 
 
     //Métodos de los usuarios: En este caso los especialistas de atención sanitaria.
-
     //Función para consultar la existencia del nombre de usuario o dirección de correo.
     public boolean consultaUser(dto datos) {
         boolean estado = false;
@@ -307,6 +310,147 @@ public class db_SQLite extends SQLiteOpenHelper {
 
         }
         return listaEspecialista;
+    }
+
+
+    //Método para cargar datos de consulta base de datos SQLite en ListView
+    //public ArrayList<dto_pacientes> consultaListaArticulos(){
+
+    public ArrayList<String> consultaListaPacientes(String duiEspecialista){
+        //public ArrayList<String> consultaListaPacientes(){
+        boolean estado = false;
+        //SQLiteDatabase bd = this.getWritableDatabase();
+        SQLiteDatabase bd = this.getReadableDatabase();
+
+        dto_pacientes pacientes = null;                   //Creamos la instancia vacia.
+        pacientesList = new ArrayList<dto_pacientes>();
+
+        try{
+            //codigo,dui,nombres,apellidos,direccion,telefono,estado,fecha,comentario,nombre_contacto_pariente,telefono_contacto_pariente,direccion_contacto_pariente,documento_especialista
+            //Cursor fila = bd.rawQuery("select * from tb_pacientes",null);
+
+            //Cursor fila = bd.rawQuery("select dui,nombres,apellidos,direccion,telefono,estado,fecha,comentario,nombre_contacto_pariente,telefono_contacto_pariente,direccion_contacto_pariente, documento_especialista from tb_pacientes",null);
+            //Cursor fila = bd.rawQuery("select dui,nombres,apellidos,direccion,telefono,estado,fecha,comentario,nombre_contacto_pariente,telefono_contacto_pariente,direccion_contacto_pariente, documento_especialista from tb_pacientes where documento_especialista='"+duiEspecialista+"'",null);
+
+            /*Cursor fila = bd.rawQuery("select tb_pacientes.dui,\n" +
+                    "tb_pacientes.nombres,\n" +
+                    "tb_pacientes.apellidos,\n" +
+                    "tb_pacientes.nombre_contacto_pariente,\n" +
+                    "tb_pacientes.telefono_contacto_pariente,\n" +
+                    "tb_pacientes.direccion_contacto_pariente, \n" +
+                    "tb_pacientes.documento_especialista from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '"+duiEspecialista+"'",null);*/
+
+            Cursor fila = bd.rawQuery("select tb_pacientes.dui,\n" +
+                    "tb_pacientes.nombres,\n" +
+                    "tb_pacientes.apellidos,\n" +
+                    "tb_pacientes.direccion,\n" +
+                    "tb_pacientes.telefono,\n" +
+                    "tb_pacientes.estado, \n" +
+                    "tb_pacientes.documento_especialista from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '"+duiEspecialista+"'",null);
+
+            while (fila.moveToNext()){
+                pacientes = new dto_pacientes();
+                pacientes.setDui(fila.getString(0));
+                pacientes.setNombres(fila.getString(1));
+                pacientes.setApellidos(fila.getString(2));
+                pacientes.setDireccion(fila.getString(3));
+                pacientes.setTelefono(fila.getString(4));
+                pacientes.setEstado1(fila.getString(5));
+                pacientes.setDocumento_especialista(fila.getString(6));
+                /*pacientes.setFecha1(fila.getString(6));
+                pacientes.setComentario(fila.getString(7));
+                pacientes.setNombre_cont_p(fila.getString(8));
+                pacientes.setTelefono_cont_p(fila.getString(9));
+                pacientes.setDireccion_cont_p(fila.getString(10));
+                pacientes.setDocumento_especialista(fila.getString(11));*/
+
+                pacientesList.add(pacientes);
+
+                Log.i("Documento: ", String.valueOf(pacientes.getDui()));
+                Log.i("Nombres: ", pacientes.getNombres().toString());
+                Log.i("Apellidos: ", String.valueOf(pacientes.getApellidos()));
+                Log.i("Dirección: ", String.valueOf(pacientes.getDireccion()));
+                Log.i("Teléfono: ", String.valueOf(pacientes.getTelefono()));
+                Log.i("Estado: ", String.valueOf(pacientes.getEstado1()));
+                Log.i("DocumentoEspecialista: ", String.valueOf(pacientes.getDocumento_especialista()));
+
+            }
+
+            listaPacientes = new ArrayList<String>();
+            //listaArticulos = new ArrayList<>();
+            //listaPacientes.add("Seleccione");
+            for(int i=0;i<=pacientesList.size();i++){
+                        listaPacientes.add("# Paciente:"+(i+1)+"\n"+
+                        pacientesList.get(i).getDui()+"\n"+
+                        pacientesList.get(i).getNombres()+"\n"+
+                        pacientesList.get(i).getApellidos()+"\n"+
+                        pacientesList.get(i).getDireccion()+"\n"+
+                        pacientesList.get(i).getTelefono()+"\n"+
+                        pacientesList.get(i).getEstado1()+"\n"+
+                        pacientesList.get(i).getDocumento_especialista());
+                /*listaPacientes.add("Dui: "+pacientesList.get(i).getDui()+"\n"+
+                        "Nombre Paciente:"+pacientesList.get(i).getNombres()+"\n"+
+                        "Apellidos Paciente:"+pacientesList.get(i).getApellidos());*/
+            }
+        }catch (Exception e){
+
+        }
+        return listaPacientes;
+    }
+
+
+
+    public ArrayList<dto_pacientes> consultaListaPacientes1(String duiEspecialista){
+        //public ArrayList<String> consultaListaPacientes(){
+        boolean estado = false;
+        //SQLiteDatabase bd = this.getWritableDatabase();
+        SQLiteDatabase bd = this.getReadableDatabase();
+
+        dto_pacientes pacientes = null;                   //Creamos la instancia vacia.
+        pacientesList = new ArrayList<dto_pacientes>();
+
+        try{
+
+            Cursor fila = bd.rawQuery("select tb_pacientes.dui,\n" +
+                    "tb_pacientes.nombres,\n" +
+                    "tb_pacientes.apellidos,\n" +
+                    "tb_pacientes.direccion,\n" +
+                    "tb_pacientes.telefono,\n" +
+                    "tb_pacientes.fecha, \n" +
+                    "tb_pacientes.documento_especialista from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '"+duiEspecialista+"'",null);
+
+            while (fila.moveToNext()){
+                pacientes = new dto_pacientes();
+                pacientes.setDui(fila.getString(0));
+                pacientes.setNombres(fila.getString(1));
+                pacientes.setApellidos(fila.getString(2));
+                pacientes.setDireccion(fila.getString(3));
+                pacientes.setTelefono(fila.getString(4));
+                pacientes.setFecha1(fila.getString(5));
+                pacientes.setDocumento_especialista(fila.getString(6));
+                /*pacientes.setFecha1(fila.getString(6));
+                pacientes.setComentario(fila.getString(7));
+                pacientes.setNombre_cont_p(fila.getString(8));
+                pacientes.setTelefono_cont_p(fila.getString(9));
+                pacientes.setDireccion_cont_p(fila.getString(10));
+                pacientes.setDocumento_especialista(fila.getString(11));*/
+
+                pacientesList.add(pacientes);
+
+                Log.i("Documento: ", String.valueOf(pacientes.getDui()));
+                Log.i("Nombres: ", pacientes.getNombres().toString());
+                Log.i("Apellidos: ", String.valueOf(pacientes.getApellidos()));
+                Log.i("Dirección: ", String.valueOf(pacientes.getDireccion()));
+                Log.i("Teléfono: ", String.valueOf(pacientes.getTelefono()));
+                Log.i("Estado: ", String.valueOf(pacientes.getEstado1()));
+                Log.i("DocumentoEspecialista: ", String.valueOf(pacientes.getDocumento_especialista()));
+
+            }
+
+        }catch (Exception e){
+
+        }
+        return pacientesList;
     }
 
 

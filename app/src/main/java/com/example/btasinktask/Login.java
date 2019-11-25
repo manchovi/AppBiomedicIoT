@@ -262,7 +262,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 Intent menuPrincipal = new Intent(this, Activity_lista_pacientes.class);
                                 //menuPrincipal.putExtra("usuario", usuario.toString());
                                 menuPrincipal.putExtra("senal", "1");
-                                menuPrincipal.putExtra("tipo", documento);
+                                menuPrincipal.putExtra("documento", documento);
                                 menuPrincipal.putExtra("username", nombres + " " + apellidos);
                                 startActivity(menuPrincipal);
                                 finish();
