@@ -455,5 +455,58 @@ public class db_SQLite extends SQLiteOpenHelper {
 
 
 
+    //Función para actualizar los datos del paciente y contactos del paciente.
+    public boolean actualizoPacientes(dto_pacientes datos){
+        boolean estado = true;
+        int resultado;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        try{
+
+            int codigo=datos.getCodigo();
+            String dui=datos.getDui();
+            String nombres=datos.getNombres();
+            String apellidos=datos.getApellidos();
+            String direccion=datos.getDireccion();
+            String telefono=datos.getTelefono();
+            String estado1=datos.getEstado1();
+            String fecha1=datos.getFecha1();
+            String comentario=datos.getComentario();
+            String nombre_cont_p=datos.getNombre_cont_p();
+            String telefono_cont_p=datos.getTelefono_cont_p();
+            String direccion_cont_p=datos.getDireccion_cont_p();
+            String documento_especialista=datos.getDocumento_especialista();
+            //datos.getNombreEspecialistaResponsable();
+
+            //String[] parametros = {String.valueOf(datos.getCodigo())};
+
+            ContentValues registro = new ContentValues();
+            //registro.put("codigo", codigo);
+            //registro.put("dui", dui);
+            registro.put("nombres", nombres);
+            registro.put("apellidos", apellidos);
+            registro.put("direccion", direccion);
+            registro.put("telefono", telefono);
+            registro.put("estado", estado1);
+            //registro.put("fecha", fecha1);
+            registro.put("comentario", comentario);
+            registro.put("nombre_contacto_pariente", nombre_cont_p);
+            registro.put("telefono_contacto_pariente", telefono_cont_p);
+            registro.put("direccion_contacto_pariente", direccion_cont_p);
+            //int cant = (int) this.getWritableDatabase().update("articulos", registro, "codigo=" + codigo, null);
+            int cant = (int) bd.update("tb_pacientes", registro, "codigo=" + codigo, null);
+            //bd.update("articulos",registro,"codigo=?",parametros);
+
+            bd.close();
+            if(cant>0) estado = true;
+            else estado = false;
+        }catch (Exception e){
+            estado = false;
+            Log.e("error.",e.toString());
+        }
+        return estado;
+    }
+
+
+
 
 }

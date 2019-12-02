@@ -1,9 +1,9 @@
 package com.example.btasinktask;
 
-public class dto_pacientes {
+public class dto_pacientes1 {
 
     //Objeto de Datos de Transferencia para Tabla: tb_pacientes
-    int codigo;
+
     String dui;
     String nombres;
     String apellidos;
@@ -17,13 +17,10 @@ public class dto_pacientes {
     String direccion_cont_p;
     String documento_especialista;  //FK.
 
-    String nombreEspecialistaResponsable;
-
-    public dto_pacientes() {
+    public dto_pacientes1() {
     }
 
-    public dto_pacientes(int codigo,String dui, String nombres, String apellidos, String direccion, String telefono, String estado1, String fecha1, String comentario, String nombre_cont_p, String telefono_cont_p, String direccion_cont_p, String documento_especialista) {
-        this.codigo = codigo;
+    public dto_pacientes1(String dui, String nombres, String apellidos, String direccion, String telefono, String estado1, String fecha1, String comentario, String nombre_cont_p, String telefono_cont_p, String direccion_cont_p, String documento_especialista) {
         this.dui = dui;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -39,8 +36,7 @@ public class dto_pacientes {
     }
 
 
-    public dto_pacientes(int codigo, String dui, String nombres, String apellidos, String direccion, String telefono, String fecha1, String documento_especialista) {
-        this.codigo = codigo;
+    public dto_pacientes1(String dui, String nombres, String apellidos, String direccion, String telefono, String fecha1, String documento_especialista) {
         this.dui = dui;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -48,14 +44,6 @@ public class dto_pacientes {
         this.telefono = telefono;
         this.fecha1 = fecha1;
         this.documento_especialista = documento_especialista;
-    }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
     }
 
     public String getDui() {
@@ -152,15 +140,6 @@ public class dto_pacientes {
 
     public void setDocumento_especialista(String documento_especialista) {
         this.documento_especialista = documento_especialista;
-    }
-
-
-    public String getNombreEspecialistaResponsable() {
-        return nombreEspecialistaResponsable;
-    }
-
-    public void setNombreEspecialistaResponsable(String nombreEspecialistaResponsable) {
-        this.nombreEspecialistaResponsable = nombreEspecialistaResponsable;
     }
 
     @Override

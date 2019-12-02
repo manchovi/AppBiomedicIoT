@@ -118,12 +118,11 @@
 
 
                         <androidx.cardview.widget.CardView
-                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            card_view:cardUseCompatPadding="true"
-                            card_view:cardElevation="4dp"
-                            card_view:cardCornerRadius="3dp"
+                            app:cardUseCompatPadding="true"
+                            app:cardElevation="5dp"
+                            app:cardCornerRadius="3dp"
                             android:layout_margin="6dp">
 
                             <LinearLayout
@@ -132,7 +131,8 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:padding="6dp"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:background="#E7EAEB">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -140,14 +140,14 @@
                                     android:orientation="horizontal"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="0dp"
-                                    android:background="#03A9F4"
-                                    >
+                                    android:background="#FF5722"
+                                    android:gravity="center">
+
 
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:src="@drawable/ic_search"/>
-
+                                        android:src="@drawable/ic_details" />
 
                                     <TextView
                                         android:id="@+id/tvInfo"
@@ -167,8 +167,9 @@
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Código:"
-                                    android:layout_marginTop="25dp"
-                                    />
+                                    android:layout_marginTop="5dp"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"/>
 
                                 <TextView
                                     android:id="@+id/tv_codigo1"
@@ -176,14 +177,19 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                                    android:text="xxxxx" />
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
 
                                 <TextView
                                     android:id="@+id/tvdui"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Documento de Identidad" />
+                                    android:text="Documento de Identidad"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
 
 
                                 <TextView
@@ -192,15 +198,37 @@
                                     android:layout_width="wrap_content"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:layout_height="wrap_content"
-                                    android:text="xxxxx" />
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
 
                                 <TextView
                                     android:id="@+id/tvnombres"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Nombre Paciente" />
+                                    android:text="Nombre Paciente"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
 
+
+
+
+                            <LinearLayout
+                                android:id="@+id/ll_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:visibility="visible">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/tvnombres1"
@@ -208,7 +236,84 @@
                                     android:layout_width="wrap_content"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:layout_height="wrap_content"
-                                    android:text="xxxxx" />
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="left"
+                                android:orientation="vertical"
+                                >
+                                <TextView
+                                    android:id="@+id/tvapellidos1"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:layout_width="wrap_content"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                    android:layout_height="wrap_content"
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    android:paddingLeft="10dp"
+                                    />
+                            </LinearLayout>
+                            </LinearLayout>
+
+
+
+
+
+
+
+                                <LinearLayout
+                                   android:id="@+id/ll_names"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center"
+                                    android:visibility="gone"
+                                    >
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+                                            <EditText
+                                                android:id="@+id/et_nombres1"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:visibility="visible"
+                                                android:hint="Nombres del paciente"
+                                                android:textSize="12dp"
+                                                />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+                                        <EditText
+                                            android:id="@+id/et_apellidos1"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:visibility="visible"
+                                            android:hint="Apellidos del paciente"
+                                            android:textSize="12dp"
+                                            />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+
 
 
 
@@ -217,7 +322,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Dirección Paciente" />
+                                    android:text="Dirección Paciente"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
 
 
                                 <TextView
@@ -226,7 +334,18 @@
                                     android:layout_width="wrap_content"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:layout_height="wrap_content"
-                                    android:text="xxxxx" />
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+
+                                <EditText
+                                    android:id="@+id/et_direccion1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:hint="Introduzca dirección paciente"
+                                    android:textSize="12dp"
+                                    />
 
 
                                 <TextView
@@ -234,7 +353,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Teléfono Paciente" />
+                                    android:text="Teléfono Paciente"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
 
 
                                 <TextView
@@ -243,14 +365,28 @@
                                     android:layout_width="wrap_content"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:layout_height="wrap_content"
-                                    android:text="xxxxx" />
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/et_telefono1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:hint="Introduzca teléfono paciente"
+                                    android:textSize="12dp"
+                                    />
+
 
                                 <TextView
                                     android:id="@+id/tvestado"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Estado Paciente" />
+                                    android:text="Estado Paciente"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
 
 
                                 <TextView
@@ -259,8 +395,47 @@
                                     android:layout_width="wrap_content"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:layout_height="wrap_content"
-                                    android:text="xxxxx" />
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/et_estado1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:hint="Introduzca estado paciente"
+                                    android:textSize="12dp"
+                                    />
 
+
+                                <TextView
+                                    android:id="@+id/tvcomentario"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@android:style/TextAppearance"
+                                    android:text="Comentarios"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
+
+
+                                <TextView
+                                    android:id="@+id/tvcomentario1"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:layout_width="wrap_content"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                    android:layout_height="wrap_content"
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/et_comentario1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:hint="Introduzca comentario"
+                                    android:textSize="12dp"
+                                    />
 
 
                                 <TextView
@@ -268,43 +443,308 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Fecha de creación: "
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="5dp"
                                     />
+
+                                <!--aqui botones-->
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+
+
+                        <androidx.cardview.widget.CardView
+                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            card_view:cardUseCompatPadding="true"
+                            card_view:cardElevation="5dp"
+                            card_view:cardCornerRadius="3dp"
+                            android:layout_margin="0dp">
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="6dp"
+                                android:gravity="center"
+                                android:background="#E7EAEB"
+                                >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:background="#FF5722"
+                                    android:gravity="center"
+                                    >
 
-                                    <Button
-                                        android:id="@+id/btnEdit"
-                                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                                        android:layout_width="0dp"
+                                    <ImageView
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Editar" />
+                                        android:src="@drawable/ic_details"
+                                        />
 
-                                    <Button
-                                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                    <TextView
+                                        android:id="@+id/tvInfo2"
+                                        android:textColor="#000"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Cerrar"
-                                        android:id="@+id/btnClose" />
+                                        android:text="Pariente o Contacto del Paciente"
+                                        android:padding="5dp"
+                                        />
+
                                 </LinearLayout>
 
+
+                                <TextView
+                                    android:id="@+id/tvnombrepariente"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@android:style/TextAppearance"
+                                    android:text="Nombre Pariente del paciente"
+                                    android:layout_marginTop="5dp"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
+
+
+                                <TextView
+                                    android:id="@+id/tvnombrepariente1"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:layout_width="wrap_content"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                    android:layout_height="wrap_content"
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/et_nombrepariente1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:hint="Nombre Pariente del Paciente (Familiar o amigo)"
+                                    android:textSize="12dp"
+                                    />
+
+
+
+                                <TextView
+                                    android:id="@+id/tvtelefonopariente"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@android:style/TextAppearance"
+                                    android:text="Teléfono de Contacto Pariente"
+                                    android:layout_marginTop="5dp"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
+
+
+                                <TextView
+                                    android:id="@+id/tvtelefonopariente1"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:layout_width="wrap_content"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                    android:layout_height="wrap_content"
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/et_telefonopariente1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:hint="Teléfono Pariente del Paciente (Familiar o amigo)"
+                                    android:textSize="12dp"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/tvdireccionpariente"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@android:style/TextAppearance"
+                                    android:text="Dirección de Contacto Pariente"
+                                    android:layout_marginTop="5dp"
+                                    android:textColor="@color/chovi3"
+                                    android:textSize="12dp"
+                                    />
+
+
+                                <TextView
+                                    android:id="@+id/tvdireccionpariente1"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:layout_width="wrap_content"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                    android:layout_height="wrap_content"
+                                    android:text="xxxxx"
+                                    android:textSize="12dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/et_direccionpariente1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:hint="Dirección Pariente del Paciente (Familiar o amigo)"
+                                    android:textSize="12dp"
+                                    />
+
                             </LinearLayout>
+
 
                         </androidx.cardview.widget.CardView>
 
 
 
+
+
+
+
+                    <androidx.cardview.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardUseCompatPadding="true"
+                        card_view:cardElevation="5dp"
+                        card_view:cardCornerRadius="3dp"
+                        android:layout_margin="0dp">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="6dp"
+                        android:gravity="center"
+                        android:background="#E7EAEB"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginLeft="0dp"
+                            android:background="#FF5722"
+                            android:gravity="center"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_details"/>
+
+                            <TextView
+                                android:id="@+id/tvInfo3"
+                                android:textColor="#000"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Responsable del Monitoreo del Paciente"
+                                android:padding="5dp"
+                                />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/tvespecialistaresponsable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@android:style/TextAppearance"
+                            android:text="Dr. Especialísta Responsable"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/chovi3"
+                            android:textSize="12dp"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/tvespecialistaresponsable1"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:layout_width="wrap_content"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_height="wrap_content"
+                            android:text="xxxxx"
+                            android:textSize="12dp"
+                            />
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_botones1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="visible"
+                            >
+
+                            <Button
+                                android:id="@+id/btnEdit"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Editar" />
+
+                            <Button
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Cerrar"
+                                android:id="@+id/btnClose" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_botones2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            >
+
+                            <Button
+                                android:id="@+id/btnEdit1"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Guardar" />
+
+                            <Button
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Cancelar"
+                                android:id="@+id/btnCancelar" />
+
+                            <Button
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Cerrar"
+                                android:id="@+id/btnClose1" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
 
+
+
+
+
+
+
+
+                    </LinearLayout>
                 </ScrollView>
-
-
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

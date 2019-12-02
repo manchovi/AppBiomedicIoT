@@ -1,20 +1,11 @@
 package com.example.btasinktask;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,17 +26,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Activity_lista_pacientes extends AppCompatActivity {
+public class Activity_lista_pacientesc1 extends AppCompatActivity {
 
     AlertDialog.Builder dialogo; AlertDialog.Builder dialog;
 
@@ -64,6 +58,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
     ListView listView;
     ArrayList<String> list;
 
+
+    dto datos = new dto();
     int conta = 0;
 
     boolean status_documento = false; boolean status_nombres = false; boolean status_apellidos = false;
@@ -77,10 +73,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
     db_SQLite conexion = new db_SQLite(this);
     db_SQLite base = new db_SQLite(this);
 
-    dto datos = new dto();
-    dto_pacientes dato = new dto_pacientes();
-
     List<dto_pacientes> pacienteList;
+
 
     //ArrayAdapter adapter;
     //ArrayAdapter<dto_pacientes> adapter;
@@ -113,46 +107,18 @@ public class Activity_lista_pacientes extends AppCompatActivity {
     String dui_especialista = "";
     String nombreUser = "";
 
-    Cursor fila;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pacientes);
 
-
-        try {
-            Intent intent = getIntent();
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                dui_especialista = bundle.getString("documento");
-                senal = bundle.getString("senal");
-                nombreUser = bundle.getString("username");
-
-                //Toast.makeText(this, "Documento Especialista: "+dui_especialista, Toast.LENGTH_SHORT).show();
-                if (senal.equals("1")) {
-
-                }
-            }
-        }catch (Exception e){
-
-        }
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setTitleMargin(0, 0, 0, 0);
-
-        if(dui_especialista.trim().equals("1")){
-            toolbar.setSubtitle("Master: "+nombreUser);
-            toolbar.setSubtitleTextColor(getResources().getColor(R.color.mycolor1));
-        }else{
-            toolbar.setSubtitle("Dr.: "+nombreUser);
-            toolbar.setSubtitleTextColor(getResources().getColor(R.color.grey1));
-        }
-        //toolbar.setSubtitle("Dr. "+nombreUser);
-        //toolbar.setSubtitleTextColor(getResources().getColor(R.color.mycolor));
-        toolbar.setTitle("HISTORIAL DE PACIENTES");
+        toolbar.setSubtitle("HISTORIAL DE PACIENTES");
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.mycolor));
+        toolbar.setTitle("REGISTRO DE PACIENTES");
         setSupportActionBar(toolbar);
 
         //y esto para pantalla completa (oculta incluso la barra de estado)
@@ -173,13 +139,26 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
 
 
-        //Leo las variables seteadas en el login del fichero XML
-        Toast.makeText(this, "Documento Especialista: "+dui_especialista, Toast.LENGTH_SHORT).show();
+        try {
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                dui_especialista = bundle.getString("documento");
+                senal = bundle.getString("senal");
+                nombreUser = bundle.getString("username");
+
+                Toast.makeText(this, "Documento Especialista: "+dui_especialista, Toast.LENGTH_SHORT).show();
+                if (senal.equals("1")) {
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+
+        //Aquii
         //Cargardatos();
         showPacienteFromDatabase(dui_especialista);
-
-
-
 
        /*et_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -220,7 +199,7 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
     private void confirmacion(){
         String mensaje = "¿Realmente desea cerrar esta pantalla?";
-        dialogo = new AlertDialog.Builder(Activity_lista_pacientes.this);
+        dialogo = new AlertDialog.Builder(Activity_lista_pacientesc1.this);
         dialogo.setIcon(R.drawable.ic_close);
         dialogo.setTitle("Warning");
         dialogo.setMessage(mensaje);
@@ -289,7 +268,7 @@ public class Activity_lista_pacientes extends AppCompatActivity {
     }
 
     private void dialogRegisterPacientes(){
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Activity_lista_pacientes.this);
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Activity_lista_pacientesc1.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
         //mBuilder.setIcon(R.drawable.ic_servidor);
         //mBuilder.setTitle("<<<UTLA>>>");
@@ -462,7 +441,6 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                                                     sp_especialista.setSelection(0);
                                                     et_dui.requestFocus();
                                                     conta=0;
-
                                                     //Cargardatos();
                                                     showPacienteFromDatabase(dui_especialista);
 
@@ -472,12 +450,12 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                                                 }
 
                                             }else{
-                                                Toast.makeText(Activity_lista_pacientes.this, "Completo los campo con obligatorios (*)", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(Activity_lista_pacientesc1.this, "Completo los campo con obligatorios (*)", Toast.LENGTH_SHORT).show();
                                             }
 
                                         }else{
                                             status_documento_especialista = false;
-                                            Toast.makeText(Activity_lista_pacientes.this, "Seleccione el Especialista Responsable", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Activity_lista_pacientesc1.this, "Seleccione el Especialista Responsable", Toast.LENGTH_SHORT).show();
                                         }
 
                                 }else{
@@ -518,29 +496,30 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
     //@RequiresApi(api = Build.VERSION_CODES.N)
     private void showPacienteFromDatabase(String duiEspecialista) {
-
-        int resultado;
-
         db_SQLite admin=new db_SQLite(this);
         SQLiteDatabase db=admin.getWritableDatabase();
 
+        //Limpio antes el adaptador y los datos mostrados en el listview para evitar sobrecarga de datos.
+        //adapter = null;
+        //listViewPacientes.setAdapter(null);
+
+        /*
+        if(cod==1) {
+            //Cursor cursorUsuarios = db.rawQuery("SELECT * FROM usuarios", null);
+            cursorUsuarios = db.rawQuery("SELECT * FROM usuarios", null);
+        }else{
+            cursorUsuarios=db.rawQuery("select * from usuarios where codigo='"+cod+"'",null);
+        }*/
+
         final ArrayList<dto_pacientes> pacienteLista = new ArrayList<dto_pacientes>();
         try {
-
-            /* Funciona INNER JOIN
-            select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = "02886235-8"
-             */
-
-            if(duiEspecialista.trim().equals("1")){
-                fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento", null);
-            }else{
-                fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '" + duiEspecialista + "'", null);
-            }
-
-
-            //Cursor fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '" + duiEspecialista + "'", null);
-            //Cursor fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento", null);
-
+            Cursor fila = db.rawQuery("select tb_pacientes.dui,\n" +
+                    "tb_pacientes.nombres,\n" +
+                    "tb_pacientes.apellidos,\n" +
+                    "tb_pacientes.direccion,\n" +
+                    "tb_pacientes.telefono,\n" +
+                    "tb_pacientes.fecha, \n" +
+                    "tb_pacientes.documento_especialista from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '" + duiEspecialista + "'", null);
             if (fila.moveToFirst()) {
                 do {
                     //cantidadRegistros++;
@@ -557,20 +536,20 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                     ));*/
 
                     dto_pacientes pacientes = new dto_pacientes();
-                    pacientes.setCodigo(fila.getInt(0));
-                    pacientes.setDui(String.valueOf(fila.getString(1)));
-                    pacientes.setNombres(fila.getString(2));
-                    pacientes.setApellidos(fila.getString(3));
-                    pacientes.setDireccion(fila.getString(4));
-                    pacientes.setTelefono(fila.getString(5));
-                    pacientes.setEstado1(fila.getString(6));
-                    pacientes.setFecha1(fila.getString(7));
-                    pacientes.setComentario(fila.getString(8));
-                    pacientes.setNombre_cont_p(fila.getString(9));
-                    pacientes.setTelefono_cont_p(fila.getString(10));
-                    pacientes.setDireccion_cont_p(fila.getString(11));
-                    pacientes.setDocumento_especialista(fila.getString(12));  //Dui especialista
-                    pacientes.setNombreEspecialistaResponsable(fila.getString(14) + " " + fila.getString(15));
+                    pacientes.setDui(String.valueOf(fila.getString(0)));
+                    pacientes.setNombres(fila.getString(1));
+                    pacientes.setApellidos(fila.getString(2));
+                    pacientes.setDireccion(fila.getString(3));
+                    pacientes.setTelefono(fila.getString(4));
+                    pacientes.setFecha1(fila.getString(5));
+                    pacientes.setDocumento_especialista(fila.getString(6));
+                    /*pacientes.setFecha1(fila.getString(6));
+                    pacientes.setComentario(fila.getString(7));
+                    pacientes.setNombre_cont_p(fila.getString(8));
+                    pacientes.setTelefono_cont_p(fila.getString(9));
+                    pacientes.setDireccion_cont_p(fila.getString(10));
+                    pacientes.setDocumento_especialista(fila.getString(11));*/
+
                     pacienteLista.add(pacientes);
                 } while (fila.moveToNext());
             }
@@ -578,13 +557,16 @@ public class Activity_lista_pacientes extends AppCompatActivity {
             fila.close();
 
             //adapter = new PacienteAdapter(this, R.layout.list_layout_paciente, pacienteList);
+
             //final ArrayAdapter<dto_pacientes> adapter = new PacienteAdapter(this, R.layout.list_layout_paciente, pacienteList);
 
+            //final ArrayAdapter<dto_pacientes> adapter = new PacienteAdapter(this, R.layout.list_layout_paciente, pacienteLista);
+            final ArrayAdapter<dto_pacientes> adapter = new PacienteAdapter1(this, R.layout.list_layout_paciente, pacienteLista);
+            listViewPacientes.setAdapter(adapter);
 
-                final ArrayAdapter<dto_pacientes> adapter = new PacienteAdapter1(this, R.layout.list_layout_paciente, pacienteLista);
-                listViewPacientes.setAdapter(adapter);
-                listViewPacientes.invalidate();
-                //adapter.notifiyDataSetChanged();
+            //adapter.notifiyDataSetChanged();
+            listViewPacientes.invalidate();
+
 
             //Toast.makeText(this, ""+pacienteLista.toString(), Toast.LENGTH_SHORT).show();
 
@@ -601,13 +583,13 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    adapter.getFilter().filter(s);
+                    //adapter.getFilter().filter(s);
                     //Toast.makeText(Activity_lista_pacientes.this, ""+s, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    //adapter.getFilter().filter(s);
+                    adapter.getFilter().filter(s);
                 }
             });
 
@@ -640,32 +622,15 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                             "Dirección Paciente:"+a.getDireccion());
                     //al.setMessage(a.tostring());
                     al.show();*/
+                    detallesPacientes(a.getDui(), a.getNombres() + " " + a.getApellidos(), a.getDireccion(), a.getTelefono(), a.getFecha1(), a.getDocumento_especialista());
 
-                    //detallesPacientes(a.getDui(), a.getNombres() + " " + a.getApellidos(), a.getDireccion(), a.getTelefono(), a.getFecha1(), a.getDocumento_especialista());
-
-                    detallesPacientes(String.valueOf(a.getCodigo()),
-                                    a.getDui(),
-                                    a.getNombres(),
-                                    a.getApellidos(),
-                                    a.getDireccion(),
-                                    a.getTelefono(),
-                                    a.getEstado1(),
-                                    a.getFecha1(),
-                                    a.getComentario(),
-                                    a.getNombre_cont_p(),
-                                    a.getTelefono_cont_p(),
-                                    a.getDireccion_cont_p(),
-                                    a.getDocumento_especialista(),
-                                    a.getNombreEspecialistaResponsable());
                 }
-
             });
 
 
 
-        }catch (SQLException e){
-            //e.printStackTrace();
-            Toast.makeText(this, "Se detectarón problemas...", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
 
@@ -674,10 +639,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
 
 
-    //private void detallesPacientes(String documento, final String nombres, final String direccion, final String telefono, String fecha, String documento_especialista){
-    private void detallesPacientes(final String codigo, final String documento, final String nombres, final String apellidos, final String direccion, final String telefono, final String estado, final String fecha, final String comentario, final String nombre_cont_p, final String telefono_cont_p, final String direccion_cont_p,final String doc_especialista,String nombre_especialista){
+    private void detallesPacientes(String documento, final String nombres, final String direccion, final String telefono, String fecha, String documento_especialista){
 
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Activity_lista_pacientes.this);
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Activity_lista_pacientesc1.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
         //mBuilder.setIcon(R.drawable.ic_servidor);
         //mBuilder.setTitle("<<<UTLA>>>");
@@ -691,13 +655,7 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         final TextView tvdui1 = (TextView) mView.findViewById(R.id.tvdui1);
 
         final TextView tvnombres1 = (TextView) mView.findViewById(R.id.tvnombres1);
-        final TextView tvapellidos1 = (TextView) mView.findViewById(R.id.tvapellidos1);
-
-        final LinearLayout ll_names = (LinearLayout)mView.findViewById(R.id.ll_names);
-        final LinearLayout ll_name = (LinearLayout)mView.findViewById(R.id.ll_name);
-
         final EditText et_nombres1 = (EditText)mView.findViewById(R.id.et_nombres1);
-        final EditText et_apellidos1 = (EditText)mView.findViewById(R.id.et_apellidos1);
 
         final TextView tvdireccion1 = (TextView) mView.findViewById(R.id.tvdireccion1);
         final EditText et_direccion1 = (EditText) mView.findViewById(R.id.et_direccion1);
@@ -735,19 +693,11 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         final Button btnCancel= (Button)mView.findViewById(R.id.btnCancelar);
         final Button btnEdit1 = (Button)mView.findViewById(R.id.btnEdit1);
 
-        tv_codigo1.setText(codigo);
         tvdui1.setText(documento);
         tvnombres1.setText(nombres);
-        tvapellidos1.setText(apellidos);
         tvdireccion1.setText(direccion);
         tvtelefono1.setText(telefono);
-        tvestado1.setText(estado);
         tvfecha.setText(fecha);
-        tvcomentario1.setText(comentario);
-        tvnombrepariente1.setText(nombre_cont_p);
-        tvtelefonopariente1.setText(telefono_cont_p);
-        tvdireccionpariente1.setText(direccion_cont_p);
-        tvespecialistaresponsable1.setText("Documento: "+doc_especialista + "\nNombre: " +nombre_especialista);
 
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -778,13 +728,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                 ll_botones1.setVisibility(View.VISIBLE);
                 ll_botones2.setVisibility(View.GONE);
 
-                ll_name.setVisibility(View.VISIBLE);
                 tvnombres1.setVisibility(View.VISIBLE);
-                tvapellidos1.setVisibility(View.VISIBLE);
-
-                ll_names.setVisibility(View.GONE);
                 et_nombres1.setVisibility(View.GONE);
-                et_apellidos1.setVisibility(View.GONE);
 
                 tvdireccion1.setVisibility(View.VISIBLE);
                 et_direccion1.setVisibility(View.GONE);
@@ -824,13 +769,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                 ll_botones1.setVisibility(View.GONE);
                 ll_botones2.setVisibility(View.VISIBLE);
 
-                ll_name.setVisibility(View.GONE);
                 tvnombres1.setVisibility(View.GONE);
-                tvapellidos1.setVisibility(View.GONE);
-
-                ll_names.setVisibility(View.VISIBLE);
                 et_nombres1.setVisibility(View.VISIBLE);
-                et_apellidos1.setVisibility(View.VISIBLE);
 
                 tvdireccion1.setVisibility(View.GONE);
                 et_direccion1.setVisibility(View.VISIBLE);
@@ -854,28 +794,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                 et_direccionpariente1.setVisibility(View.VISIBLE);
 
 
-                et_nombres1.setText(tvnombres1.getText().toString());
-                et_apellidos1.setText(tvapellidos1.getText().toString());
-                et_direccion1.setText(tvdireccion1.getText().toString());
-                et_telefono1.setText(tvtelefono1.getText().toString());
-                et_estado1.setText(tvestado1.getText().toString());
-                et_comentario1.setText(tvcomentario1.getText().toString());
-
-                et_nombrepariente1.setText(tvnombrepariente1.getText().toString());
-                et_telefonopariente1.setText(tvtelefonopariente1.getText().toString());
-                et_direccionpariente1.setText(tvdireccionpariente1.getText().toString());
-
-                /*et_nombres1.setText(nombres);
-                et_apellidos1.setText(apellidos);
+                et_nombres1.setText(nombres);
                 et_direccion1.setText(direccion);
                 et_telefono1.setText(telefono);
-                et_estado1.setText(estado);
-                et_comentario1.setText(comentario);
-
-                et_nombrepariente1.setText(nombre_cont_p);
-                et_telefonopariente1.setText(telefono_cont_p);
-                et_direccionpariente1.setText(direccion_cont_p);*/
-
                 //tvfecha.setText(fecha);
 
             }
@@ -888,13 +809,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                 ll_botones1.setVisibility(View.VISIBLE);
                 ll_botones2.setVisibility(View.GONE);
 
-                ll_name.setVisibility(View.VISIBLE);
                 tvnombres1.setVisibility(View.VISIBLE);
-                tvapellidos1.setVisibility(View.VISIBLE);
-
-                ll_names.setVisibility(View.GONE);
                 et_nombres1.setVisibility(View.GONE);
-                et_apellidos1.setVisibility(View.GONE);
 
                 tvdireccion1.setVisibility(View.VISIBLE);
                 et_direccion1.setVisibility(View.GONE);
@@ -917,40 +833,8 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                 tvdireccionpariente1.setVisibility(View.VISIBLE);
                 et_direccionpariente1.setVisibility(View.GONE);
 
-                dato.setCodigo(Integer.parseInt(codigo));
-                dato.setDui(documento);
-                dato.setNombres(et_nombres1.getText().toString());
-                dato.setApellidos(et_apellidos1.getText().toString());
-                dato.setDireccion(et_direccion1.getText().toString());
-                dato.setTelefono(et_telefono1.getText().toString());
-                dato.setEstado1(et_estado1.getText().toString());
-                dato.setComentario(et_comentario1.getText().toString());
-                dato.setNombre_cont_p(et_nombrepariente1.getText().toString());
-                dato.setTelefono_cont_p(et_telefonopariente1.getText().toString());
-                dato.setDireccion_cont_p(et_direccionpariente1.getText().toString());
 
-                if(base.actualizoPacientes(dato)){
-                    //tvnombres1.setText(et_nombres1.getText().toString() + " " + et_apellidos1.getText().toString());
-                    tvnombres1.setText(et_nombres1.getText().toString());
-                    tvapellidos1.setText (et_apellidos1.getText().toString());
-                    tvdireccion1.setText(et_direccion1.getText().toString());
-                    tvtelefono1.setText(et_telefono1.getText().toString());
-                    tvestado1.setText(et_estado1.getText().toString());
-                    tvcomentario1.setText(et_comentario1.getText().toString());
-                    tvnombrepariente1.setText(et_nombrepariente1.getText().toString());
-                    tvtelefonopariente1.setText(et_telefonopariente1.getText().toString());
-                    tvdireccionpariente1.setText(et_direccionpariente1.getText().toString());
-
-                    //showPacienteFromDatabase(doc_especialista);
-                    showPacienteFromDatabase(dui_especialista);
-
-                    Toast.makeText(Activity_lista_pacientes.this, "Cambios aplicados correctamente!!!", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(Activity_lista_pacientes.this, "No se han encontrado resultados para la busqueda especificada.", Toast.LENGTH_SHORT).show();
-                }
-
-
-
+                Toast.makeText(Activity_lista_pacientesc1.this, "Cambios aplicados correctamente!!!", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -1,6 +1,5 @@
 package com.example.btasinktask;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,44 +15,29 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
+public class PacienteAdapter2 extends ArrayAdapter<dto_pacientes> {
 
 
     Context mCtx;
     int listLayoutRes;
     List<dto_pacientes> UsersList;
 
-    private ArrayList<dto_pacientes> PacienteList;
-    private LayoutInflater inflater;
-    private Activity activity;
+    ArrayList<dto_pacientes> PacienteList;
 
 
-    public PacienteAdapter(@NonNull Activity activity, int listLayoutRes, @NonNull ArrayList<dto_pacientes> PacienteList) {
+    public PacienteAdapter2(@NonNull Context mCtx, int listLayoutRes, @NonNull ArrayList<dto_pacientes> PacienteList) {
     //public PacienteAdapter(@NonNull Context mCtx, int listLayoutRes, @NonNull List<dto_pacientes> PacienteList) {
-        super(activity, listLayoutRes, PacienteList);
+        super(mCtx, listLayoutRes, PacienteList);
 
-        this.mCtx = activity;
+        this.mCtx = mCtx;
         this.listLayoutRes = listLayoutRes;
         this.UsersList = PacienteList;
 
     }
 
 
-    @Override
-    public int getCount() {
-        return PacienteList.size();
-    }
 
 
-    @Override
-    public dto_pacientes getItem(int position) {
-        return PacienteList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
 
     @NonNull
@@ -61,17 +45,15 @@ public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //return super.getView(position, convertView, parent);
 
-        if (inflater == null) {
-            inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
+        LayoutInflater inflater = LayoutInflater.from(mCtx);
+        View view = inflater.inflate(listLayoutRes, null);
 
+        /*View view = null;
         if (convertView == null) {
-            //convertView = inflater.inflate(R.layout.activity_lista_pacientes, null);
-            convertView = inflater.inflate(listLayoutRes, null);
-        }
+            view = inflater.inflate(listLayoutRes, null);
+        }*/
 
         final dto_pacientes datos=UsersList.get(position);
-        Toast.makeText(mCtx, "datos: ", Toast.LENGTH_SHORT).show();
 
        /* ArrayList<String> listaEspecialista;               //Va a representar la información que se va a mostrar en el combo
         listaEspecialista = new ArrayList<String>();
@@ -90,12 +72,12 @@ public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
         //Toast.makeText(mCtx, ""+position, Toast.LENGTH_SHORT).show();
 
         //final TextView tvCodigo = (TextView)view.findViewById(R.id.tvCodigo);
-        final TextView tvNombres = (TextView)convertView.findViewById(R.id.tvNombres);
-        final TextView tvDui = (TextView)convertView.findViewById(R.id.tvDui);
-        final TextView tvTelefono = (TextView)convertView.findViewById(R.id.tvTelefono);
-        final TextView tvDireccion = (TextView)convertView.findViewById(R.id.tvDireccion);
-        final TextView tvFechaHora = (TextView)convertView.findViewById(R.id.tvFechaHora);
-        final TextView tvDrResponsable = (TextView)convertView.findViewById(R.id.tvDrResponsable);
+        final TextView tvNombres = (TextView)view.findViewById(R.id.tvNombres);
+        final TextView tvDui = (TextView)view.findViewById(R.id.tvDui);
+        final TextView tvTelefono = (TextView)view.findViewById(R.id.tvTelefono);
+        final TextView tvDireccion = (TextView)view.findViewById(R.id.tvDireccion);
+        final TextView tvFechaHora = (TextView)view.findViewById(R.id.tvFechaHora);
+        final TextView tvDrResponsable = (TextView)view.findViewById(R.id.tvDrResponsable);
 
         tvNombres.setText(null);
         tvDui.setText(null);
@@ -104,8 +86,8 @@ public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
         tvFechaHora.setText(null);
         tvDrResponsable.setText(null);
 
-        ImageView btnEdit = (ImageView) convertView.findViewById(R.id.btnEdit);
-        ImageView btnDelete = (ImageView) convertView.findViewById(R.id.btnDelete);
+        ImageView btnEdit = (ImageView) view.findViewById(R.id.btnEdit);
+        ImageView btnDelete = (ImageView) view.findViewById(R.id.btnDelete);
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +108,9 @@ public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
 
 
         String p = UsersList.get(position).getNombres() + " " + UsersList.get(position).getApellidos();
-        //Toast.makeText(mCtx, "Nombre: "+p, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mCtx, "Nombre: "+p, Toast.LENGTH_SHORT).show();
 
-        tvNombres.setText(p);
-        //tvNombres.setText(datos.getNombres() + " " + datos.getApellidos());
+        tvNombres.setText(datos.getNombres() + " " + datos.getApellidos());
         tvDui.setText(datos.getDui());
         tvTelefono.setText(datos.getTelefono());
         tvDireccion.setText(datos.getDireccion());
@@ -145,7 +126,7 @@ public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
 
 
 
-        return convertView;
+        return view;
 
     }
 
