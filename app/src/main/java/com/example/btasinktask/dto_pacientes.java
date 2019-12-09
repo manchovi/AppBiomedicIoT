@@ -22,7 +22,7 @@ public class dto_pacientes {
     public dto_pacientes() {
     }
 
-    public dto_pacientes(int codigo,String dui, String nombres, String apellidos, String direccion, String telefono, String estado1, String fecha1, String comentario, String nombre_cont_p, String telefono_cont_p, String direccion_cont_p, String documento_especialista) {
+    public dto_pacientes(int codigo,String dui, String nombres, String apellidos, String direccion, String telefono, String estado1, String fecha1, String comentario, String nombre_cont_p, String telefono_cont_p, String direccion_cont_p, String documento_especialista, String nombreEspecialistaResponsable) {
         this.codigo = codigo;
         this.dui = dui;
         this.nombres = nombres;
@@ -36,6 +36,7 @@ public class dto_pacientes {
         this.telefono_cont_p = telefono_cont_p;
         this.direccion_cont_p = direccion_cont_p;
         this.documento_especialista = documento_especialista;
+        this.nombreEspecialistaResponsable = nombreEspecialistaResponsable;
     }
 
 
@@ -48,6 +49,25 @@ public class dto_pacientes {
         this.telefono = telefono;
         this.fecha1 = fecha1;
         this.documento_especialista = documento_especialista;
+    }
+
+    public dto_pacientes(int codigo, String dui, String nombres, String apellidos, String direccion, String telefono, String estado1, String fecha1, String comentario, String nombre_cont_p, String telefono_cont_p, String direccion_cont_p, String documento_especialista, String string12, String nombreEspecialistaResponsable) {
+
+        this.codigo = codigo;
+        this.dui = dui;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.estado1 = estado1;
+        this.fecha1 = fecha1;
+        this.comentario = comentario;
+        this.nombre_cont_p = nombre_cont_p;
+        this.telefono_cont_p = telefono_cont_p;
+        this.direccion_cont_p = direccion_cont_p;
+        this.documento_especialista = documento_especialista;
+        this.nombreEspecialistaResponsable = nombreEspecialistaResponsable;
+
     }
 
     public int getCodigo() {
@@ -163,9 +183,12 @@ public class dto_pacientes {
         this.nombreEspecialistaResponsable = nombreEspecialistaResponsable;
     }
 
+
+    //Otro
     @Override
     public String toString() {
-        return dui + " " + nombres + " " + apellidos + " " + direccion + " " + telefono + " " + fecha1 + " " + documento_especialista;
+        return nombres;
+        //return dui + " " + nombres + " " + apellidos + " " + direccion + " " + telefono + " " + fecha1 + " " + documento_especialista;
         //return dui +  " ~ " + nombres + " ~ " + apellidos;
 
 
@@ -178,5 +201,7 @@ public class dto_pacientes {
         this.documento_especialista = documento_especialista;*/
 
     }
+
+
 
 }

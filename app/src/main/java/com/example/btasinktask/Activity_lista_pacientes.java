@@ -57,6 +57,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
     ListView listViewPacientes;
     ArrayAdapter adaptador;
+    PacienteAdapter1 adapter;
+
+
 
     SearchView searchView;
     private EditText et_search;
@@ -79,11 +82,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
     dto datos = new dto();
     dto_pacientes dato = new dto_pacientes();
+    int cantidadRegistros=0;
 
     List<dto_pacientes> pacienteList;
-
-    //ArrayAdapter adapter;
-    //ArrayAdapter<dto_pacientes> adapter;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -158,8 +159,6 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        pacienteList = new ArrayList<>();
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,17 +167,64 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         });
 
         listViewPacientes = (ListView) findViewById(R.id.listViewPacientes);
+        pacienteList = new ArrayList<>();
+
         //searchView = (SearchView) findViewById(R.id.searchView);
         et_search = (EditText)findViewById(R.id.et_search);
 
 
+        //Aca el evento OnItemClick
+        listViewPacientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //Leo las variables seteadas en el login del fichero XML
-        Toast.makeText(this, "Documento Especialista: "+dui_especialista, Toast.LENGTH_SHORT).show();
-        //Cargardatos();
+                dto_pacientes a = (dto_pacientes) parent.getItemAtPosition(position);
+                //dto_pacientes a = pacienteLista.get(position);
+
+                    /*android.app.AlertDialog.Builder al = new android.app.AlertDialog.Builder(Activity_lista_pacientes.this);
+                    al.setCancelable(true);
+                    al.setTitle("Detalle Paciente");
+                    al.setMessage("Posición Item: " + position + "\n" +
+                            "Documento: "+a.getDui()+ " \n" +
+                            "Nombre Paciente:"+a.getNombres() + " \n" +
+                            "Apellidos Paciente:"+a.getApellidos() + " \n" +
+                            "Dirección Paciente:"+a.getDireccion());
+                    //al.setMessage(a.tostring());
+                    al.show();*/
+
+                //detallesPacientes(a.getDui(), a.getNombres() + " " + a.getApellidos(), a.getDireccion(), a.getTelefono(), a.getFecha1(), a.getDocumento_especialista());
+
+
+                    /*detallesPacientes(String.valueOf(a.getCodigo()),
+                                    a.getDui(),
+                                    a.getNombres(),
+                                    a.getApellidos(),
+                                    a.getDireccion(),
+                                    a.getTelefono(),
+                                    a.getEstado1(),
+                                    a.getFecha1(),
+                                    a.getComentario(),
+                                    a.getNombre_cont_p(),
+                                    a.getTelefono_cont_p(),
+                                    a.getDireccion_cont_p(),
+                                    a.getDocumento_especialista(),
+                                    a.getNombreEspecialistaResponsable());*/
+
+                //Toast.makeText(Activity_lista_pacientes.this, "Paciente: "+a.getNombres() + " " + a.getApellidos(), Toast.LENGTH_SHORT).show();
+
+                Intent menuPrincipal = new Intent(Activity_lista_pacientes.this, MenuPrincipal.class);
+                menuPrincipal.putExtra("senal", "1");
+                menuPrincipal.putExtra("documento", dui_especialista);
+                menuPrincipal.putExtra("nombreEspecialista", a.getNombreEspecialistaResponsable());
+                menuPrincipal.putExtra("nombrePaciente", a.getNombres() + " " + a.getApellidos());
+                startActivity(menuPrincipal);
+
+            }
+
+        });
+
+
         showPacienteFromDatabase(dui_especialista);
-
-
 
 
        /*et_search.addTextChangedListener(new TextWatcher() {
@@ -267,16 +313,15 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id==R.id.menu_pacientes){
-            //Acciones a realizar
-            //Toast.makeText(this, "Clic en opción pacientes", Toast.LENGTH_SHORT).show();
             dialogRegisterPacientes();
             return true;
-        }else if(id==R.id.menu_salir) {
-            /*Intent intent = new Intent(this, SignalsMonitor.class);
-            startActivity(intent);*/
-            Toast.makeText(this, "Clic en opción salir", Toast.LENGTH_SHORT).show();
 
+        }else if(id==R.id.menu_salir) {
+            Intent intent = new Intent(Activity_lista_pacientes.this, Login.class);
+            startActivity(intent);
+            finish();
             return true;
+
         /*}else if(id==R.id.menu_monitor1){
 
             return true;
@@ -285,8 +330,112 @@ public class Activity_lista_pacientes extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    //@RequiresApi(api = Build.VERSION_CODES.N)
+    private void showPacienteFromDatabase(String duiEspecialista) {
+        db_SQLite admin=new db_SQLite(this);
+        SQLiteDatabase db=admin.getWritableDatabase();
+
+        //final ArrayList<dto_pacientes> pacienteLista = new ArrayList<dto_pacientes>();
+
+        try {
+            if(duiEspecialista.trim().equals("1")){
+                fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento", null);
+            }else{
+                fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '" + duiEspecialista + "'", null);
+            }
+
+            //Cursor fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '" + duiEspecialista + "'", null);
+            //Cursor fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento", null);
+
+            if (fila.moveToFirst()) {
+                pacienteList.clear();
+                do {
+                    cantidadRegistros++;
+                    pacienteList.add(new dto_pacientes(
+                                     fila.getInt(0),
+                                     fila.getString(1),
+                                     fila.getString(2),
+                                     fila.getString(3),
+                                     fila.getString(4),
+                                     fila.getString(5),
+                                     fila.getString(6),
+                                     fila.getString(7),
+                                     fila.getString(8),
+                                     fila.getString(9),
+                                     fila.getString(10),
+                                     fila.getString(11),
+                                     fila.getString(12),
+           fila.getString(14) + " " + fila.getString(15)
+                                     //fila.getString(15)
+                        ));
+
+                    /*dto_pacientes pacientes = new dto_pacientes();
+                    pacientes.setCodigo(fila.getInt(0));
+                    pacientes.setDui(String.valueOf(fila.getString(1)));
+                    pacientes.setNombres(fila.getString(2));
+                    pacientes.setApellidos(fila.getString(3));
+                    pacientes.setDireccion(fila.getString(4));
+                    pacientes.setTelefono(fila.getString(5));
+                    pacientes.setEstado1(fila.getString(6));
+                    pacientes.setFecha1(fila.getString(7));
+                    pacientes.setComentario(fila.getString(8));
+                    pacientes.setNombre_cont_p(fila.getString(9));
+                    pacientes.setTelefono_cont_p(fila.getString(10));
+                    pacientes.setDireccion_cont_p(fila.getString(11));
+                    pacientes.setDocumento_especialista(fila.getString(12));  //Dui especialista
+                    pacientes.setNombreEspecialistaResponsable(fila.getString(14) + " " + fila.getString(15));
+                    pacienteLista.add(pacientes);*/
+                } while (fila.moveToNext());
+            }
+
+            fila.close();
+            //notifyDataSetChanged();
+
+            /*final ArrayAdapter<dto_pacientes> adapter = new PacienteAdapter1(this, R.layout.activity_lista_pacientes, pacienteLista, cantidadRegistros, duiEspecialista);
+            listViewPacientes.setAdapter(adapter);*/
+
+            adapter = new PacienteAdapter1(this, R.layout.list_layout_paciente, pacienteList, cantidadRegistros, duiEspecialista);
+            listViewPacientes.setAdapter(adapter);
+
+
+            et_search.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    //adapter.getFilter().filter(s);
+                    //Toast.makeText(Activity_lista_pacientes.this, ""+s, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    //adapter.getFilter().filter(s);
+                }
+            });
+
+
+
+        }catch (SQLException e){
+            //e.printStackTrace();
+            Toast.makeText(this, "Se detectarón problemas...", Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
+
+
+
+
+
 
     private void dialogRegisterPacientes(){
         final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Activity_lista_pacientes.this);
@@ -337,7 +486,7 @@ public class Activity_lista_pacientes extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if(conta>=1 && sp_especialista.getSelectedItemPosition()>0){
-                //if(conta>=1){
+                    //if(conta>=1){
                     //Toast.makeText(login.this, combo.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
 
                     /*Toast toast = Toast.makeText(getApplicationContext(), sp_especialista.getSelectedItem().toString(), Toast.LENGTH_SHORT);
@@ -414,71 +563,71 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                                     status_estado = true;
                                     ti_estado.setError(null);
 
-                                        //Campo fecha, comentario, nombre_cont_p, telefono_cont_p, direccion_cont_p no lo valido porque lo he dejado como campo no obligatorio
-                                        if(status_estado && sp_especialista.getSelectedItemPosition() > 0) {
-                                            status_documento_especialista = true;
+                                    //Campo fecha, comentario, nombre_cont_p, telefono_cont_p, direccion_cont_p no lo valido porque lo he dejado como campo no obligatorio
+                                    if(status_estado && sp_especialista.getSelectedItemPosition() > 0) {
+                                        status_documento_especialista = true;
 
-                                            if(status_documento && status_nombres && status_apellidos && status_telefono && status_estado && status_documento_especialista){
+                                        if(status_documento && status_nombres && status_apellidos && status_telefono && status_estado && status_documento_especialista){
 
-                                                dto_pacientes datos = new dto_pacientes();
+                                            dto_pacientes datos = new dto_pacientes();
 
-                                                //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
-                                                DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
-                                                String date = formatodate.format(new Date());
+                                            //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
+                                            DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
+                                            String date = formatodate.format(new Date());
 
-                                                DateFormat formatotime = new SimpleDateFormat("HH:mm:ss a");
-                                                String time = formatotime.format(new Date());
+                                            DateFormat formatotime = new SimpleDateFormat("HH:mm:ss a");
+                                            String time = formatotime.format(new Date());
 
-                                                SimpleDateFormat dateFormat = new SimpleDateFormat(
-                                                        "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                                                Date date1 = new Date();
-                                                String fecha = dateFormat.format(date1);
+                                            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                                                    "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                            Date date1 = new Date();
+                                            String fecha = dateFormat.format(date1);
 
-                                                datos.setDui(et_dui.getText().toString());
-                                                datos.setNombres(et_nombres.getText().toString());
-                                                datos.setApellidos(et_apellidos.getText().toString());
-                                                datos.setDireccion(et_direccion.getText().toString());
-                                                datos.setTelefono(et_telefono.getText().toString());
-                                                datos.setEstado1(et_estado.getText().toString());
-                                                datos.setFecha1(fecha.toString());
-                                                datos.setComentario(et_comentario.getText().toString());
-                                                datos.setNombre_cont_p(et_nombre_contacto_paciente.getText().toString());
-                                                datos.setTelefono_cont_p(et_telefono_contacto_paciente.getText().toString());
-                                                datos.setDireccion_cont_p(et_direccion_contacto_paciente.getText().toString());
-                                                datos.setDocumento_especialista(documento);
+                                            datos.setDui(et_dui.getText().toString());
+                                            datos.setNombres(et_nombres.getText().toString());
+                                            datos.setApellidos(et_apellidos.getText().toString());
+                                            datos.setDireccion(et_direccion.getText().toString());
+                                            datos.setTelefono(et_telefono.getText().toString());
+                                            datos.setEstado1(et_estado.getText().toString());
+                                            datos.setFecha1(fecha.toString());
+                                            datos.setComentario(et_comentario.getText().toString());
+                                            datos.setNombre_cont_p(et_nombre_contacto_paciente.getText().toString());
+                                            datos.setTelefono_cont_p(et_telefono_contacto_paciente.getText().toString());
+                                            datos.setDireccion_cont_p(et_direccion_contacto_paciente.getText().toString());
+                                            datos.setDocumento_especialista(documento);
 
-                                                if(base.addRegisterPaciente(datos)){
-                                                    Toast.makeText(getApplicationContext(), "Registro paciente guardado correctamente",Toast.LENGTH_LONG).show();
-                                                    et_dui.setText(null);
-                                                    et_nombres.setText(null);
-                                                    et_apellidos.setText(null);
-                                                    et_direccion.setText(null);
-                                                    et_telefono.setText(null);
-                                                    et_estado.setText(null);
-                                                    et_comentario.setText(null);
-                                                    et_nombre_contacto_paciente.setText(null);
-                                                    et_telefono_contacto_paciente.setText(null);
-                                                    et_direccion_contacto_paciente.setText(null);
-                                                    sp_especialista.setSelection(0);
-                                                    et_dui.requestFocus();
-                                                    conta=0;
+                                            if(base.addRegisterPaciente(datos)){
+                                                Toast.makeText(getApplicationContext(), "Registro paciente guardado correctamente",Toast.LENGTH_LONG).show();
+                                                et_dui.setText(null);
+                                                et_nombres.setText(null);
+                                                et_apellidos.setText(null);
+                                                et_direccion.setText(null);
+                                                et_telefono.setText(null);
+                                                et_estado.setText(null);
+                                                et_comentario.setText(null);
+                                                et_nombre_contacto_paciente.setText(null);
+                                                et_telefono_contacto_paciente.setText(null);
+                                                et_direccion_contacto_paciente.setText(null);
+                                                sp_especialista.setSelection(0);
+                                                et_dui.requestFocus();
+                                                conta=0;
 
-                                                    //Cargardatos();
-                                                    showPacienteFromDatabase(dui_especialista);
-
-                                                }else{
-                                                    Toast.makeText(getApplicationContext(), "Error. Ya existe un registro con este" +
-                                                            " número de DUI: "+et_dui.getText().toString(),Toast.LENGTH_LONG).show();
-                                                }
+                                                //Cargardatos();
+                                                showPacienteFromDatabase(dui_especialista);
 
                                             }else{
-                                                Toast.makeText(Activity_lista_pacientes.this, "Completo los campo con obligatorios (*)", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Error. Ya existe un registro con este" +
+                                                        " número de DUI: "+et_dui.getText().toString(),Toast.LENGTH_LONG).show();
                                             }
 
                                         }else{
-                                            status_documento_especialista = false;
-                                            Toast.makeText(Activity_lista_pacientes.this, "Seleccione el Especialista Responsable", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Activity_lista_pacientes.this, "Completo los campo con obligatorios (*)", Toast.LENGTH_SHORT).show();
                                         }
+
+                                    }else{
+                                        status_documento_especialista = false;
+                                        Toast.makeText(Activity_lista_pacientes.this, "Seleccione el Especialista Responsable", Toast.LENGTH_SHORT).show();
+                                    }
 
                                 }else{
                                     status_estado = false;
@@ -516,445 +665,6 @@ public class Activity_lista_pacientes extends AppCompatActivity {
 
 
 
-    //@RequiresApi(api = Build.VERSION_CODES.N)
-    private void showPacienteFromDatabase(String duiEspecialista) {
-
-        int resultado;
-
-        db_SQLite admin=new db_SQLite(this);
-        SQLiteDatabase db=admin.getWritableDatabase();
-
-        final ArrayList<dto_pacientes> pacienteLista = new ArrayList<dto_pacientes>();
-        try {
-
-            /* Funciona INNER JOIN
-            select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = "02886235-8"
-             */
-
-            if(duiEspecialista.trim().equals("1")){
-                fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento", null);
-            }else{
-                fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '" + duiEspecialista + "'", null);
-            }
-
-
-            //Cursor fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento where tb_pacientes.documento_especialista = '" + duiEspecialista + "'", null);
-            //Cursor fila = db.rawQuery("select * from tb_pacientes INNER JOIN tb_especialista ON tb_pacientes.documento_especialista=tb_especialista.documento", null);
-
-            if (fila.moveToFirst()) {
-                do {
-                    //cantidadRegistros++;
-                    //pacienteList.add(new dto_pacientes(
-
-                 /*   pacienteLista.add(new dto_pacientes(
-                            fila.getString(0),
-                            fila.getString(1),
-                            fila.getString(2),
-                            fila.getString(3),
-                            fila.getString(4),
-                            fila.getString(5),
-                            fila.getString(6)
-                    ));*/
-
-                    dto_pacientes pacientes = new dto_pacientes();
-                    pacientes.setCodigo(fila.getInt(0));
-                    pacientes.setDui(String.valueOf(fila.getString(1)));
-                    pacientes.setNombres(fila.getString(2));
-                    pacientes.setApellidos(fila.getString(3));
-                    pacientes.setDireccion(fila.getString(4));
-                    pacientes.setTelefono(fila.getString(5));
-                    pacientes.setEstado1(fila.getString(6));
-                    pacientes.setFecha1(fila.getString(7));
-                    pacientes.setComentario(fila.getString(8));
-                    pacientes.setNombre_cont_p(fila.getString(9));
-                    pacientes.setTelefono_cont_p(fila.getString(10));
-                    pacientes.setDireccion_cont_p(fila.getString(11));
-                    pacientes.setDocumento_especialista(fila.getString(12));  //Dui especialista
-                    pacientes.setNombreEspecialistaResponsable(fila.getString(14) + " " + fila.getString(15));
-                    pacienteLista.add(pacientes);
-                } while (fila.moveToNext());
-            }
-
-            fila.close();
-
-            //adapter = new PacienteAdapter(this, R.layout.list_layout_paciente, pacienteList);
-            //final ArrayAdapter<dto_pacientes> adapter = new PacienteAdapter(this, R.layout.list_layout_paciente, pacienteList);
-
-
-                final ArrayAdapter<dto_pacientes> adapter = new PacienteAdapter1(this, R.layout.list_layout_paciente, pacienteLista);
-                listViewPacientes.setAdapter(adapter);
-                listViewPacientes.invalidate();
-                //adapter.notifiyDataSetChanged();
-
-            //Toast.makeText(this, ""+pacienteLista.toString(), Toast.LENGTH_SHORT).show();
-
-            /*
-            final ArrayAdapter<Alabanzas> a = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, lista);
-            lvdatos.setAdapter(a);
-             */
-
-            et_search.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    adapter.getFilter().filter(s);
-                    //Toast.makeText(Activity_lista_pacientes.this, ""+s, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    //adapter.getFilter().filter(s);
-                }
-            });
-
-
-            //Aca el evento OnItemClick
-            listViewPacientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //Alabanzas a = (Alabanzas) parent.getItemAtPosition(position);
-                    //listar.get(position);
-
-               /* String dato = (String) parent.getItemAtPosition(position);
-                AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_lista_pacientes.this);
-                dialog.setCancelable(true);
-                dialog.setTitle("Contenido Registro");
-                dialog.setMessage(dato);
-                dialog.show();*/
-
-
-                    dto_pacientes a = (dto_pacientes) parent.getItemAtPosition(position);
-                    //dto_pacientes a = pacienteLista.get(position);
-
-                    /*android.app.AlertDialog.Builder al = new android.app.AlertDialog.Builder(Activity_lista_pacientes.this);
-                    al.setCancelable(true);
-                    al.setTitle("Detalle Paciente");
-                    al.setMessage("Posición Item: " + position + "\n" +
-                            "Documento: "+a.getDui()+ " \n" +
-                            "Nombre Paciente:"+a.getNombres() + " \n" +
-                            "Apellidos Paciente:"+a.getApellidos() + " \n" +
-                            "Dirección Paciente:"+a.getDireccion());
-                    //al.setMessage(a.tostring());
-                    al.show();*/
-
-                    //detallesPacientes(a.getDui(), a.getNombres() + " " + a.getApellidos(), a.getDireccion(), a.getTelefono(), a.getFecha1(), a.getDocumento_especialista());
-
-                    detallesPacientes(String.valueOf(a.getCodigo()),
-                                    a.getDui(),
-                                    a.getNombres(),
-                                    a.getApellidos(),
-                                    a.getDireccion(),
-                                    a.getTelefono(),
-                                    a.getEstado1(),
-                                    a.getFecha1(),
-                                    a.getComentario(),
-                                    a.getNombre_cont_p(),
-                                    a.getTelefono_cont_p(),
-                                    a.getDireccion_cont_p(),
-                                    a.getDocumento_especialista(),
-                                    a.getNombreEspecialistaResponsable());
-                }
-
-            });
-
-
-
-        }catch (SQLException e){
-            //e.printStackTrace();
-            Toast.makeText(this, "Se detectarón problemas...", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }
-
-
-
-    //private void detallesPacientes(String documento, final String nombres, final String direccion, final String telefono, String fecha, String documento_especialista){
-    private void detallesPacientes(final String codigo, final String documento, final String nombres, final String apellidos, final String direccion, final String telefono, final String estado, final String fecha, final String comentario, final String nombre_cont_p, final String telefono_cont_p, final String direccion_cont_p,final String doc_especialista,String nombre_especialista){
-
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(Activity_lista_pacientes.this);
-        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
-        //mBuilder.setIcon(R.drawable.ic_servidor);
-        //mBuilder.setTitle("<<<UTLA>>>");
-        mBuilder.setCancelable(true);
-
-        mBuilder.setCancelable(false);
-        final View mView = getLayoutInflater().inflate(R.layout.detalles_paciente, null);
-
-
-        final TextView tv_codigo1 = (TextView) mView.findViewById(R.id.tv_codigo1);
-        final TextView tvdui1 = (TextView) mView.findViewById(R.id.tvdui1);
-
-        final TextView tvnombres1 = (TextView) mView.findViewById(R.id.tvnombres1);
-        final TextView tvapellidos1 = (TextView) mView.findViewById(R.id.tvapellidos1);
-
-        final LinearLayout ll_names = (LinearLayout)mView.findViewById(R.id.ll_names);
-        final LinearLayout ll_name = (LinearLayout)mView.findViewById(R.id.ll_name);
-
-        final EditText et_nombres1 = (EditText)mView.findViewById(R.id.et_nombres1);
-        final EditText et_apellidos1 = (EditText)mView.findViewById(R.id.et_apellidos1);
-
-        final TextView tvdireccion1 = (TextView) mView.findViewById(R.id.tvdireccion1);
-        final EditText et_direccion1 = (EditText) mView.findViewById(R.id.et_direccion1);
-
-        final TextView tvtelefono1 = (TextView) mView.findViewById(R.id.tvtelefono1);
-        final EditText et_telefono1 = (EditText) mView.findViewById(R.id.et_telefono1);
-
-        final TextView tvfecha = (TextView) mView.findViewById(R.id.tvfecha);
-
-        final TextView tvestado1 = (TextView) mView.findViewById(R.id.tvestado1);
-        final EditText et_estado1 = (EditText) mView.findViewById(R.id.et_estado1);
-
-        final TextView  tvcomentario1 = (TextView) mView.findViewById(R.id.tvcomentario1);
-        final EditText  et_comentario1 = (EditText) mView.findViewById(R.id.et_comentario1);
-
-        final TextView  tvnombrepariente1 = (TextView) mView.findViewById(R.id.tvnombrepariente1);
-        final EditText  et_nombrepariente1 = (EditText) mView.findViewById(R.id.et_nombrepariente1);
-
-        final TextView  tvtelefonopariente1 = (TextView) mView.findViewById(R.id.tvtelefonopariente1);
-        final EditText  et_telefonopariente1 = (EditText) mView.findViewById(R.id.et_telefonopariente1);
-
-        final TextView  tvdireccionpariente1 = (TextView) mView.findViewById(R.id.tvdireccionpariente1);
-        final EditText  et_direccionpariente1 = (EditText) mView.findViewById(R.id.et_direccionpariente1);
-
-        final TextView  tvespecialistaresponsable1 = (TextView) mView.findViewById(R.id.tvespecialistaresponsable1);
-
-        final ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
-
-        final LinearLayout ll_botones1 = (LinearLayout) mView.findViewById(R.id.ll_botones1);
-        final Button btnClose = (Button)mView.findViewById(R.id.btnClose);
-        final Button btnClose1 = (Button)mView.findViewById(R.id.btnClose1);
-        final Button btnEdit = (Button)mView.findViewById(R.id.btnEdit);
-
-        final LinearLayout ll_botones2 = (LinearLayout) mView.findViewById(R.id.ll_botones2);
-        final Button btnCancel= (Button)mView.findViewById(R.id.btnCancelar);
-        final Button btnEdit1 = (Button)mView.findViewById(R.id.btnEdit1);
-
-        tv_codigo1.setText(codigo);
-        tvdui1.setText(documento);
-        tvnombres1.setText(nombres);
-        tvapellidos1.setText(apellidos);
-        tvdireccion1.setText(direccion);
-        tvtelefono1.setText(telefono);
-        tvestado1.setText(estado);
-        tvfecha.setText(fecha);
-        tvcomentario1.setText(comentario);
-        tvnombrepariente1.setText(nombre_cont_p);
-        tvtelefonopariente1.setText(telefono_cont_p);
-        tvdireccionpariente1.setText(direccion_cont_p);
-        tvespecialistaresponsable1.setText("Documento: "+doc_especialista + "\nNombre: " +nombre_especialista);
-
-        //y esto para pantalla completa (oculta incluso la barra de estado)
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        mBuilder.setView(mView);
-        final android.app.AlertDialog dialog = mBuilder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        btnClose1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ll_botones1.setVisibility(View.VISIBLE);
-                ll_botones2.setVisibility(View.GONE);
-
-                ll_name.setVisibility(View.VISIBLE);
-                tvnombres1.setVisibility(View.VISIBLE);
-                tvapellidos1.setVisibility(View.VISIBLE);
-
-                ll_names.setVisibility(View.GONE);
-                et_nombres1.setVisibility(View.GONE);
-                et_apellidos1.setVisibility(View.GONE);
-
-                tvdireccion1.setVisibility(View.VISIBLE);
-                et_direccion1.setVisibility(View.GONE);
-
-                tvtelefono1.setVisibility(View.VISIBLE);
-                et_telefono1.setVisibility(View.GONE);
-
-                tvestado1.setVisibility(View.VISIBLE);
-                et_estado1.setVisibility(View.GONE);
-
-                tvcomentario1.setVisibility(View.VISIBLE);
-                et_comentario1.setVisibility(View.GONE);
-
-                tvnombrepariente1.setVisibility(View.VISIBLE);
-                et_nombrepariente1.setVisibility(View.GONE);
-
-                tvtelefonopariente1.setVisibility(View.VISIBLE);
-                et_telefonopariente1.setVisibility(View.GONE);
-
-                tvdireccionpariente1.setVisibility(View.VISIBLE);
-                et_direccionpariente1.setVisibility(View.GONE);
-
-            }
-        });
-
-        BtnCerrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(Activity_lista_pacientes.this, "Clic en editar.", Toast.LENGTH_SHORT).show();
-                ll_botones1.setVisibility(View.GONE);
-                ll_botones2.setVisibility(View.VISIBLE);
-
-                ll_name.setVisibility(View.GONE);
-                tvnombres1.setVisibility(View.GONE);
-                tvapellidos1.setVisibility(View.GONE);
-
-                ll_names.setVisibility(View.VISIBLE);
-                et_nombres1.setVisibility(View.VISIBLE);
-                et_apellidos1.setVisibility(View.VISIBLE);
-
-                tvdireccion1.setVisibility(View.GONE);
-                et_direccion1.setVisibility(View.VISIBLE);
-
-                tvtelefono1.setVisibility(View.GONE);
-                et_telefono1.setVisibility(View.VISIBLE);
-
-                tvestado1.setVisibility(View.GONE);
-                et_estado1.setVisibility(View.VISIBLE);
-
-                tvcomentario1.setVisibility(View.GONE);
-                et_comentario1.setVisibility(View.VISIBLE);
-
-                tvnombrepariente1.setVisibility(View.GONE);
-                et_nombrepariente1.setVisibility(View.VISIBLE);
-
-                tvtelefonopariente1.setVisibility(View.GONE);
-                et_telefonopariente1.setVisibility(View.VISIBLE);
-
-                tvdireccionpariente1.setVisibility(View.GONE);
-                et_direccionpariente1.setVisibility(View.VISIBLE);
-
-
-                et_nombres1.setText(tvnombres1.getText().toString());
-                et_apellidos1.setText(tvapellidos1.getText().toString());
-                et_direccion1.setText(tvdireccion1.getText().toString());
-                et_telefono1.setText(tvtelefono1.getText().toString());
-                et_estado1.setText(tvestado1.getText().toString());
-                et_comentario1.setText(tvcomentario1.getText().toString());
-
-                et_nombrepariente1.setText(tvnombrepariente1.getText().toString());
-                et_telefonopariente1.setText(tvtelefonopariente1.getText().toString());
-                et_direccionpariente1.setText(tvdireccionpariente1.getText().toString());
-
-                /*et_nombres1.setText(nombres);
-                et_apellidos1.setText(apellidos);
-                et_direccion1.setText(direccion);
-                et_telefono1.setText(telefono);
-                et_estado1.setText(estado);
-                et_comentario1.setText(comentario);
-
-                et_nombrepariente1.setText(nombre_cont_p);
-                et_telefonopariente1.setText(telefono_cont_p);
-                et_direccionpariente1.setText(direccion_cont_p);*/
-
-                //tvfecha.setText(fecha);
-
-            }
-        });
-
-        btnEdit1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                ll_botones1.setVisibility(View.VISIBLE);
-                ll_botones2.setVisibility(View.GONE);
-
-                ll_name.setVisibility(View.VISIBLE);
-                tvnombres1.setVisibility(View.VISIBLE);
-                tvapellidos1.setVisibility(View.VISIBLE);
-
-                ll_names.setVisibility(View.GONE);
-                et_nombres1.setVisibility(View.GONE);
-                et_apellidos1.setVisibility(View.GONE);
-
-                tvdireccion1.setVisibility(View.VISIBLE);
-                et_direccion1.setVisibility(View.GONE);
-
-                tvtelefono1.setVisibility(View.VISIBLE);
-                et_telefono1.setVisibility(View.GONE);
-
-                tvestado1.setVisibility(View.VISIBLE);
-                et_estado1.setVisibility(View.GONE);
-
-                tvcomentario1.setVisibility(View.VISIBLE);
-                et_comentario1.setVisibility(View.GONE);
-
-                tvnombrepariente1.setVisibility(View.VISIBLE);
-                et_nombrepariente1.setVisibility(View.GONE);
-
-                tvtelefonopariente1.setVisibility(View.VISIBLE);
-                et_telefonopariente1.setVisibility(View.GONE);
-
-                tvdireccionpariente1.setVisibility(View.VISIBLE);
-                et_direccionpariente1.setVisibility(View.GONE);
-
-                dato.setCodigo(Integer.parseInt(codigo));
-                dato.setDui(documento);
-                dato.setNombres(et_nombres1.getText().toString());
-                dato.setApellidos(et_apellidos1.getText().toString());
-                dato.setDireccion(et_direccion1.getText().toString());
-                dato.setTelefono(et_telefono1.getText().toString());
-                dato.setEstado1(et_estado1.getText().toString());
-                dato.setComentario(et_comentario1.getText().toString());
-                dato.setNombre_cont_p(et_nombrepariente1.getText().toString());
-                dato.setTelefono_cont_p(et_telefonopariente1.getText().toString());
-                dato.setDireccion_cont_p(et_direccionpariente1.getText().toString());
-
-                if(base.actualizoPacientes(dato)){
-                    //tvnombres1.setText(et_nombres1.getText().toString() + " " + et_apellidos1.getText().toString());
-                    tvnombres1.setText(et_nombres1.getText().toString());
-                    tvapellidos1.setText (et_apellidos1.getText().toString());
-                    tvdireccion1.setText(et_direccion1.getText().toString());
-                    tvtelefono1.setText(et_telefono1.getText().toString());
-                    tvestado1.setText(et_estado1.getText().toString());
-                    tvcomentario1.setText(et_comentario1.getText().toString());
-                    tvnombrepariente1.setText(et_nombrepariente1.getText().toString());
-                    tvtelefonopariente1.setText(et_telefonopariente1.getText().toString());
-                    tvdireccionpariente1.setText(et_direccionpariente1.getText().toString());
-
-                    //showPacienteFromDatabase(doc_especialista);
-                    showPacienteFromDatabase(dui_especialista);
-
-                    Toast.makeText(Activity_lista_pacientes.this, "Cambios aplicados correctamente!!!", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(Activity_lista_pacientes.this, "No se han encontrado resultados para la busqueda especificada.", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-            }
-        });
-
-    }
 
 
 

@@ -14,6 +14,12 @@
         android:icon="@drawable/ic_video"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/menu_detallesPacienteEspecialista"
+        android:title="Detalles Implicados"
+        android:icon="@drawable/ic_person"
+        app:showAsAction="never"/>
+
 
     <!--<item
         android:id="@+id/menu_monitor1"

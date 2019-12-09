@@ -74,6 +74,12 @@ public class MenuPrincipal extends AppCompatActivity {
 
     int[] sampleImages1 = {R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4, R.drawable.image_5};
 
+    String senal;
+    String documentoEspecialista;
+    String nombreEspecialista;
+    String nombrePaciente;
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -157,6 +163,33 @@ public class MenuPrincipal extends AppCompatActivity {
         });
 
 
+        try {
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+
+                senal = bundle.getString("senal");;
+                documentoEspecialista = bundle.getString("documento");
+                nombreEspecialista = bundle.getString("nombreEspecialista");
+                nombrePaciente = bundle.getString("nombrePaciente");
+
+                /*Toast.makeText(this, "Documento Especialista: "+documentoEspecialista + "\n"+
+                        "Nombre Especialista: "+nombreEspecialista + "\n" +
+                        "Nombre Paciente: "+nombrePaciente, Toast.LENGTH_SHORT).show();*/
+
+
+                if (senal.equals("1")) {
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+
+
+        detallePacienteEspecialista();
+
+
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages1.length);
         carouselView.setImageListener(imageListener);
@@ -211,7 +244,14 @@ public class MenuPrincipal extends AppCompatActivity {
         iv_config_tc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*documentoEspecialista
+                nombreEspecialista
+                nombrePaciente*/
                 Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTC.class);
+                intent.putExtra("senalTC", "1");
+                intent.putExtra("documento", documentoEspecialista);
+                intent.putExtra("nombreEspecialista", nombreEspecialista);
+                intent.putExtra("nombrePaciente", nombrePaciente);
                 startActivity(intent);
             }
         });
@@ -220,6 +260,10 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuPrincipal.this, SignalMonitorFR.class);
+                intent.putExtra("senalFR", "1");
+                intent.putExtra("documento", documentoEspecialista);
+                intent.putExtra("nombreEspecialista", nombreEspecialista);
+                intent.putExtra("nombrePaciente", nombrePaciente);
                 startActivity(intent);
             }
         });
@@ -228,6 +272,10 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTA.class);
+                intent.putExtra("senalPA", "1");
+                intent.putExtra("documento", documentoEspecialista);
+                intent.putExtra("nombreEspecialista", nombreEspecialista);
+                intent.putExtra("nombrePaciente", nombrePaciente);
                 startActivity(intent);
             }
         });
@@ -236,6 +284,10 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuPrincipal.this, SignalMonitorSpo2Pulso.class);
+                intent.putExtra("senalSPO2_PULSO", "1");
+                intent.putExtra("documento", documentoEspecialista);
+                intent.putExtra("nombreEspecialista", nombreEspecialista);
+                intent.putExtra("nombrePaciente", nombrePaciente);
                 startActivity(intent);
             }
         });
@@ -244,6 +296,10 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuPrincipal.this, SignalsMonitor.class);
+                intent.putExtra("senalMONITOR", "1");
+                intent.putExtra("documento", documentoEspecialista);
+                intent.putExtra("nombreEspecialista", nombreEspecialista);
+                intent.putExtra("nombrePaciente", nombrePaciente);
                 startActivity(intent);
             }
         });
@@ -463,6 +519,18 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
 
+    }
+
+
+    public void detallePacienteEspecialista(){
+        AlertDialog.Builder al = new AlertDialog.Builder(MenuPrincipal.this);
+        al.setCancelable(true);
+        al.setIcon(R.drawable.ic_info);
+        al.setTitle("Información Recibida");
+        al.setMessage("Documento Especialista: "+documentoEspecialista + "\n"+
+                "\nNombre Especialista: "+nombreEspecialista + "\n\n" +
+                "Nombre Paciente: "+nombrePaciente);
+        al.show();
     }
 
 
@@ -935,11 +1003,9 @@ public class MenuPrincipal extends AppCompatActivity {
             startActivity(intent);
             
             return true;
-        /*}else if(id==R.id.menu_monitor1){
-
+        }else if(id==R.id.menu_detallesPacienteEspecialista){
+            detallePacienteEspecialista();
             return true;
-        }*/
-
         }
 
         return super.onOptionsItemSelected(item);

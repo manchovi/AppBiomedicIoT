@@ -140,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_mode_edit"
-            android:background="#728858"
+            android:background="#021BA8"
             />
 
         <!--<Button
@@ -154,17 +154,20 @@
             />-->
 
         <View
+            android:id="@+id/viewHidden"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#728858"
+            android:layout_height="5dp"
+            android:background="#FFFFFF"
             android:layout_margin="1dp"/>
+
+
 
         <ImageView
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_delete"
-            android:background="#728858"
+            android:background="#F51C0C"
             />
 
     </LinearLayout>
