@@ -13,7 +13,7 @@
 
 
     <TextView
-        android:id="@+id/tv_destino"
+        android:id="@+id/tv_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -27,7 +27,7 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:elevation="15dp"
-        android:background="@color/color_toolbar"
+        android:background="@color/colorToolBar"
         android:textAlignment="center"
         android:layout_marginTop="0dp"
         />

@@ -40,6 +40,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,6 +60,7 @@ public class MenuPrincipal extends AppCompatActivity {
     private CardView config_server,config_especialista,alertaTemprana,config_tc,config_fr,config_pa,config_fc_spo2,config_monitorAll;
     private CardViewActivity config_server1;
 
+    private TextView tv_footer;
 
     private static final int DURATION = 250;
 
@@ -132,13 +135,15 @@ public class MenuPrincipal extends AppCompatActivity {
         config_fc_spo2 = (CardView)findViewById(R.id.config_pa);
         config_monitorAll = (CardView)findViewById(R.id.config_monitorAll);
 
+        tv_footer = findViewById(R.id.tv_footer);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setTitleMargin(0, 0, 0, 0);
         toolbar.setSubtitle("HOSPITAL SANTA TERESA");
-        toolbar.setSubtitleTextColor(getResources().getColor(R.color.mycolor));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
         toolbar.setTitle("APP-BIOMEDIC IoT");
         setSupportActionBar(toolbar);
 
@@ -189,6 +194,10 @@ public class MenuPrincipal extends AppCompatActivity {
 
         detallePacienteEspecialista();
 
+        tv_footer.setText("Documento Especialista: "+documentoEspecialista + "\n"+
+                "Nombre Especialista: "+nombreEspecialista + "\n" +
+                "Nombre Paciente: "+nombrePaciente);
+
 
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages1.length);
@@ -230,7 +239,7 @@ public class MenuPrincipal extends AppCompatActivity {
         iv_config_especialista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dialog_config_espelialista();
             }
         });
 
@@ -766,6 +775,124 @@ public class MenuPrincipal extends AppCompatActivity {
         finishAffinity();
     }
 
+
+    private void dialog_config_espelialista() {
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        //mBuilder.setIcon(R.drawable.ic_servidor);
+        //mBuilder.setTitle("<<<UTLA>>>");
+
+        mBuilder.setCancelable(false);
+        //final View mView = getLayoutInflater().inflate(R.layout.dialog_server, null);
+        final View mView = getLayoutInflater().inflate(R.layout.dialog_config_especialista, null);
+
+        //Aca colocar el mapeo o referencia de cada control en el Layout.
+        //Button btnSave = (Button)mView.findViewById(R.id.btnSave);      //BOTONES DEL DIALOG CONFIGURACION.
+
+        //TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
+        ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
+
+
+        final LinearLayout ll_gr1 = (LinearLayout)mView.findViewById(R.id.ll_gr1);
+        Button btnEdit = (Button)mView.findViewById(R.id.btnEdit);
+        Button btnClose = (Button)mView.findViewById(R.id.btnClose);
+
+
+        final LinearLayout ll_gr2 = (LinearLayout)mView.findViewById(R.id.ll_gr2);
+        Button btnEdit1 = (Button)mView.findViewById(R.id.btnEdit1);
+        Button btnCancelar = (Button)mView.findViewById(R.id.btnCancelar);
+        Button btnClose1 = (Button)mView.findViewById(R.id.btnClose1);
+
+        TextView tv_doc_dr1 = (TextView)mView.findViewById(R.id.tv_doc_dr1);
+        TextView tv_nombre_dr1 = (TextView)mView.findViewById(R.id.tv_nombre_dr1);
+
+        final TextView tv_tel1 = (TextView)mView.findViewById(R.id.tv_tel1);
+        final EditText et_tel1 = (EditText)mView.findViewById(R.id.et_tel1);
+        final TextView tv_email1 = (TextView)mView.findViewById(R.id.tv_email1);
+        final EditText et_email1 = (EditText)mView.findViewById(R.id.et_email1);
+
+
+
+        mBuilder.setView(mView);
+        //final AlertDialog dialog = mBuilder.create();
+        final android.app.AlertDialog dialog = mBuilder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //myDialog.show();
+        dialog.show();
+
+        BtnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+        btnClose1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ll_gr1.setVisibility(View.GONE);
+                ll_gr2.setVisibility(View.VISIBLE);
+
+                //tv_tel1, et_tel1, tv_email1, et_email1
+                tv_tel1.setVisibility(View.GONE);
+                tv_email1.setVisibility(View.GONE);
+                et_tel1.setVisibility(View.VISIBLE);
+                et_email1.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ll_gr1.setVisibility(View.VISIBLE);
+                ll_gr2.setVisibility(View.GONE);
+
+                //tv_tel1, et_tel1, tv_email1, et_email1
+                tv_tel1.setVisibility(View.VISIBLE);
+                tv_email1.setVisibility(View.VISIBLE);
+                et_tel1.setVisibility(View.GONE);
+                et_email1.setVisibility(View.GONE);
+
+            }
+        });
+
+        btnEdit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ll_gr1.setVisibility(View.VISIBLE);
+                ll_gr2.setVisibility(View.GONE);
+
+                //tv_tel1, et_tel1, tv_email1, et_email1
+                tv_tel1.setVisibility(View.VISIBLE);
+                tv_email1.setVisibility(View.VISIBLE);
+                et_tel1.setVisibility(View.GONE);
+                et_email1.setVisibility(View.GONE);
+
+                Toast.makeText(MenuPrincipal.this, "Datos actualizados correctamente.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
 
 
 
