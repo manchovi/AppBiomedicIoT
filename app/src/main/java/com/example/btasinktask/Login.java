@@ -247,6 +247,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 editor.putString("tipo", documento);
                                 editor.putString("nombrecompleto", nombres +" "+apellidos);
                                 editor.putString("usuario", usuario);
+                                editor.putString("telefono", telefono);
                                 editor.putString("fechahora", date +" "+ time);
 
                                 if(documento.equals("1")){
@@ -264,6 +265,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 menuPrincipal.putExtra("senal", "1");
                                 menuPrincipal.putExtra("documento", documento);
                                 menuPrincipal.putExtra("username", nombres + " " + apellidos);
+                                menuPrincipal.putExtra("usuario", usuario);
+                                menuPrincipal.putExtra("telefono", telefono);
+
                                 startActivity(menuPrincipal);
                                 finish();
                                 //limpiamos las las cajas de texto

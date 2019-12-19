@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
@@ -81,7 +82,14 @@ public class MenuPrincipal extends AppCompatActivity {
     String documentoEspecialista;
     String nombreEspecialista;
     String nombrePaciente;
+    String tel_especialista;
+    String correo_especialista;
 
+    boolean estado_tel = false;
+    boolean estado_ema = false;
+
+    dto datos = new dto();
+    db_SQLite instancia = new db_SQLite(this);
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -137,7 +145,6 @@ public class MenuPrincipal extends AppCompatActivity {
 
         tv_footer = findViewById(R.id.tv_footer);
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -171,26 +178,27 @@ public class MenuPrincipal extends AppCompatActivity {
         try {
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
-            if (bundle != null) {
 
+            if (bundle != null) {
                 senal = bundle.getString("senal");;
                 documentoEspecialista = bundle.getString("documento");
                 nombreEspecialista = bundle.getString("nombreEspecialista");
                 nombrePaciente = bundle.getString("nombrePaciente");
+                tel_especialista = bundle.getString("telefono_especialista");
+                correo_especialista = bundle.getString("correo_especialista");
 
                 /*Toast.makeText(this, "Documento Especialista: "+documentoEspecialista + "\n"+
                         "Nombre Especialista: "+nombreEspecialista + "\n" +
                         "Nombre Paciente: "+nombrePaciente, Toast.LENGTH_SHORT).show();*/
 
-
                 if (senal.equals("1")) {
 
                 }
             }
+
         }catch (Exception e){
 
         }
-
 
         detallePacienteEspecialista();
 
@@ -776,6 +784,7 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
 
+    //De momento acá estoy...
     private void dialog_config_espelialista() {
         final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
@@ -792,18 +801,16 @@ public class MenuPrincipal extends AppCompatActivity {
         //TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
         ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
 
-
         final LinearLayout ll_gr1 = (LinearLayout)mView.findViewById(R.id.ll_gr1);
         Button btnEdit = (Button)mView.findViewById(R.id.btnEdit);
         Button btnClose = (Button)mView.findViewById(R.id.btnClose);
-
 
         final LinearLayout ll_gr2 = (LinearLayout)mView.findViewById(R.id.ll_gr2);
         Button btnEdit1 = (Button)mView.findViewById(R.id.btnEdit1);
         Button btnCancelar = (Button)mView.findViewById(R.id.btnCancelar);
         Button btnClose1 = (Button)mView.findViewById(R.id.btnClose1);
 
-        TextView tv_doc_dr1 = (TextView)mView.findViewById(R.id.tv_doc_dr1);
+        final TextView tv_doc_dr1 = (TextView)mView.findViewById(R.id.tv_doc_dr1);
         TextView tv_nombre_dr1 = (TextView)mView.findViewById(R.id.tv_nombre_dr1);
 
         final TextView tv_tel1 = (TextView)mView.findViewById(R.id.tv_tel1);
@@ -811,12 +818,18 @@ public class MenuPrincipal extends AppCompatActivity {
         final TextView tv_email1 = (TextView)mView.findViewById(R.id.tv_email1);
         final EditText et_email1 = (EditText)mView.findViewById(R.id.et_email1);
 
+        final TextInputLayout tiTelefono = (TextInputLayout) mView.findViewById(R.id.tiTelefono) ;
+        final TextInputLayout tiEmail = (TextInputLayout)mView.findViewById(R.id.tiEmail);
 
+        //senal, documentoEspecialista, nombreEspecialista, nombrePaciente, tel_especialista, correo_especialista
+        tv_doc_dr1.setText(documentoEspecialista);
+        tv_nombre_dr1.setText(nombreEspecialista);
+        tv_tel1.setText(tel_especialista);
+        tv_email1.setText(correo_especialista);
 
         mBuilder.setView(mView);
         //final AlertDialog dialog = mBuilder.create();
         final android.app.AlertDialog dialog = mBuilder.create();
-
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //myDialog.show();
         dialog.show();
@@ -835,14 +848,12 @@ public class MenuPrincipal extends AppCompatActivity {
             }
         });
 
-
         btnClose1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
-
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -853,8 +864,15 @@ public class MenuPrincipal extends AppCompatActivity {
                 //tv_tel1, et_tel1, tv_email1, et_email1
                 tv_tel1.setVisibility(View.GONE);
                 tv_email1.setVisibility(View.GONE);
+
                 et_tel1.setVisibility(View.VISIBLE);
                 et_email1.setVisibility(View.VISIBLE);
+                tiEmail.setVisibility(View.VISIBLE);
+                tiTelefono.setVisibility(View.VISIBLE);
+
+                //Aca me hace falta analisis para que funcione bien la lógica que deseo.
+                et_tel1.setText(tv_tel1.getText().toString());
+                et_email1.setText(tv_email1.getText().toString());
 
             }
         });
@@ -870,6 +888,8 @@ public class MenuPrincipal extends AppCompatActivity {
                 tv_email1.setVisibility(View.VISIBLE);
                 et_tel1.setVisibility(View.GONE);
                 et_email1.setVisibility(View.GONE);
+                tiEmail.setVisibility(View.GONE);
+                tiTelefono.setVisibility(View.GONE);
 
             }
         });
@@ -878,22 +898,72 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ll_gr1.setVisibility(View.VISIBLE);
-                ll_gr2.setVisibility(View.GONE);
-
                 //tv_tel1, et_tel1, tv_email1, et_email1
-                tv_tel1.setVisibility(View.VISIBLE);
-                tv_email1.setVisibility(View.VISIBLE);
-                et_tel1.setVisibility(View.GONE);
-                et_email1.setVisibility(View.GONE);
 
-                Toast.makeText(MenuPrincipal.this, "Datos actualizados correctamente.", Toast.LENGTH_SHORT).show();
+                if (Patterns.PHONE.matcher(et_tel1.getText().toString()).matches()==false){
+                    et_tel1.setText(null);
+                    et_tel1.requestFocus();
+                    tiTelefono.setError("Teléfono invalido.");
+                    estado_tel = false;
 
+                }else{
+                    tiTelefono.setError(null);
+                    estado_tel = true;
+
+                }
+
+                if(estado_tel) {
+                    if (Patterns.EMAIL_ADDRESS.matcher(et_email1.getText().toString()).matches() == false) {
+                        //mEmail.setBackgroundColor(Color.GREEN);
+                        et_email1.setText(null);
+                        et_email1.requestFocus();
+                        tiEmail.setError("Correo invalido.");
+                        estado_ema = false;
+
+                    } else {
+                        tiEmail.setError(null);
+                        estado_ema = true;
+                    }
+
+                }else{
+
+                }
+
+                if(estado_tel && estado_ema){
+                    ll_gr1.setVisibility(View.VISIBLE);
+                    ll_gr2.setVisibility(View.GONE);
+
+                    tv_tel1.setVisibility(View.VISIBLE);
+                    tv_email1.setVisibility(View.VISIBLE);
+                    et_tel1.setVisibility(View.GONE);
+                    et_email1.setVisibility(View.GONE);
+                    tiEmail.setVisibility(View.GONE);
+                    tiTelefono.setVisibility(View.GONE);
+
+                    String tele = et_tel1.getText().toString();
+                    String correo = et_email1.getText().toString();
+
+                    if(!tele.isEmpty() && !correo.isEmpty()){
+                        //Toast.makeText(getApplicationContext(), "Vamos caminando con el señor...", Toast.LENGTH_SHORT).show();
+                        //datos.setDocumento(documentoEspecialista);                 //tv_tel1
+                        datos.setDocumento(tv_doc_dr1.getText().toString());         //
+                        datos.setTelefono(et_tel1.getText().toString());
+                        datos.setEmail(et_email1.getText().toString());
+
+                        if (instancia.actualizoEspecialista(datos)){
+                            tv_tel1.setText(et_tel1.getText().toString());
+                            tv_email1.setText(et_email1.getText().toString());
+
+                            Toast.makeText(MenuPrincipal.this, "Datos Actualizados Correctamente!!!", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(MenuPrincipal.this, "Se encontrarón problemas. No se pudo actualizar su información.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
             }
         });
-
     }
-
+    //Fin de procedimiento aca estoy de momento.
 
 
     private void config_server() {

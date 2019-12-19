@@ -113,6 +113,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
     String senal = "";
     String dui_especialista = "";
     String nombreUser = "";
+    String usuario = "";
+    String tel_especialista = "";
+    //String correo_especialista = "";
 
     Cursor fila;
 
@@ -129,6 +132,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                 dui_especialista = bundle.getString("documento");
                 senal = bundle.getString("senal");
                 nombreUser = bundle.getString("username");
+                usuario = bundle.getString("usuario");
+                tel_especialista = bundle.getString("telefono");
+
 
                 //Toast.makeText(this, "Documento Especialista: "+dui_especialista, Toast.LENGTH_SHORT).show();
                 if (senal.equals("1")) {
@@ -217,6 +223,9 @@ public class Activity_lista_pacientes extends AppCompatActivity {
                 menuPrincipal.putExtra("documento", dui_especialista);
                 menuPrincipal.putExtra("nombreEspecialista", a.getNombreEspecialistaResponsable());
                 menuPrincipal.putExtra("nombrePaciente", a.getNombres() + " " + a.getApellidos());
+                menuPrincipal.putExtra("telefono_especialista", tel_especialista);
+                menuPrincipal.putExtra("correo_especialista", usuario);
+                //menuPrincipal.putExtra("email", a.get)
                 startActivity(menuPrincipal);
 
             }

@@ -507,6 +507,44 @@ public class db_SQLite extends SQLiteOpenHelper {
     }
 
 
+    //Función para actualizar especialista y es llamado desde la ventana modal de "Configuración de Especialísta"
+    public boolean actualizoEspecialista(dto datos){
+        boolean estado = true;
+        int resultado;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        try{
+
+            String documento=datos.getDocumento();
+            //String nombres=datos.getNombres();
+            //String apellidos=datos.getApellidos();
+            //String direccion=datos.getDireccion();
+            String telefono=datos.getTelefono();
+            //String especialidad=datos.getEspecialidad();
+            //String sexo=datos.getSexo();
+            //String comentario=datos.getComentario();
+            String email=datos.getEmail();
+            //String clave=datos.getClave();
+            //String pregunta=datos.getPregunta();
+            //String respuesta=datos.getRespuesta();
+            //String fecha =datos.getFecha();
+            ContentValues registro = new ContentValues();
+            //registro.put("documento", documento);
+            registro.put("telefono", telefono);
+            registro.put("usuario", email);
+
+            //int cant = (int) this.getWritableDatabase().update("articulos", registro, "codigo=" + codigo, null);
+            int cant = (int) bd.update("tb_especialista", registro, "documento='" + documento + "'", null);
+            //bd.update("articulos",registro,"codigo=?",parametros);
+
+            bd.close();
+            if(cant>0) estado = true;
+            else estado = false;
+        }catch (Exception e){
+            estado = false;
+            Log.e("error.",e.toString());
+        }
+        return estado;
+    }
 
 
 }

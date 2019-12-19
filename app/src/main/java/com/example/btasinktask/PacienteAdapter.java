@@ -123,8 +123,6 @@ public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
         });
 
 
-
-
         String p = UsersList.get(position).getNombres() + " " + UsersList.get(position).getApellidos();
         //Toast.makeText(mCtx, "Nombre: "+p, Toast.LENGTH_SHORT).show();
 
@@ -142,8 +140,6 @@ public class PacienteAdapter extends ArrayAdapter<dto_pacientes> {
         tvDireccion.setText(datos.getDireccion());
         tvFechaHora.setText(datos.getFecha1());
         tvDrResponsable.setText(datos.getDocumento_especialista());*/
-
-
 
         return convertView;
 

@@ -141,8 +141,7 @@
                                 android:orientation="vertical"
                                 android:padding="6dp"
                                 android:gravity="center"
-                                android:background="#E7EAEB"
-                                >
+                                android:background="#E7EAEB" >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -151,8 +150,7 @@
                                     android:layout_marginTop="0dp"
                                     android:layout_marginLeft="0dp"
                                     android:background="#7E2205"
-                                    android:gravity="center"
-                                    >
+                                    android:gravity="center" >
 
                                     <ImageView
                                         android:layout_width="wrap_content"
@@ -228,7 +226,8 @@
                                     android:text="Teléfono : [SMS]"
                                     android:layout_marginTop="5dp"
                                     android:textColor="@color/black"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
+                                    android:textStyle="bold"
                                     />
 
 
@@ -241,14 +240,28 @@
                                     android:text="xxxxx"
                                     android:textSize="12dp"
                                     />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/tiTelefono"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="0dp"
+                                    android:paddingRight="10dp"
+                                    android:textColorHint="@color/colorAccent">
+
                                 <EditText
                                     android:id="@+id/et_tel1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
                                     android:visibility="gone"
-                                    android:hint="Introduzca Teléfono Móvil del Doctor"
+                                    android:hint="Introduzca Teléfono Móvil del Responsable"
                                     android:textSize="12dp"
+                                    android:inputType="phone"
                                     />
+
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <TextView
                                     android:id="@+id/tv_email"
@@ -258,7 +271,8 @@
                                     android:text="Email - Correo Electrónico"
                                     android:layout_marginTop="5dp"
                                     android:textColor="@color/black"
-                                    android:textSize="12dp"
+                                    android:textSize="14dp"
+                                    android:textStyle="bold"
                                     />
 
 
@@ -271,14 +285,28 @@
                                     android:text="xxxxx"
                                     android:textSize="12dp"
                                     />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/tiEmail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="0dp"
+                                    android:paddingRight="10dp"
+                                    android:textColorHint="@color/colorAccent">
+
                                 <EditText
                                     android:id="@+id/et_email1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
                                     android:visibility="gone"
-                                    android:hint="Introduzca e-mail del Doctor"
+                                    android:hint="Introduzca E-mail del Responsable"
                                     android:textSize="12dp"
+                                    android:inputType="textEmailAddress"
                                     />
+
+                                </com.google.android.material.textfield.TextInputLayout>
 
 
 
