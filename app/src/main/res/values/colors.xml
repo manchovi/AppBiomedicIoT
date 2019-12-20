@@ -19,7 +19,7 @@
     <color name="color_fr">#FFFFFF</color>
     <color name="color_tc">#FC1C23</color>
 
-    <color name="red">#FC1C23</color>
+    <color name="red">#C7070D</color>
     <color name="lightgray">#ededed</color>
 
 
@@ -61,5 +61,7 @@
     <color name="color_toolbar">#03A9F4</color>
 
     <color name="colorToolBar">#266496</color>
+
+    <color name="blue">#0119A0</color>
 
 </resources>

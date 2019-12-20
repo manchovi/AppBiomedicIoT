@@ -254,7 +254,7 @@ public class MenuPrincipal extends AppCompatActivity {
         iv_config_alerta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dialog_config_notificaciones();
             }
         });
 
@@ -784,7 +784,30 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
 
-    //De momento acá estoy...
+    private void dialog_config_notificaciones() {
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        //mBuilder.setIcon(R.drawable.ic_servidor);
+        //mBuilder.setTitle("<<<UTLA>>>");
+
+        mBuilder.setCancelable(false);
+        //final View mView = getLayoutInflater().inflate(R.layout.dialog_server, null);
+        final View mView = getLayoutInflater().inflate(R.layout.dialog_config_notificaciones, null);
+
+        //Aca colocar el mapeo o referencia de cada control en el Layout.
+        //Button btnSave = (Button)mView.findViewById(R.id.btnSave);                                //BOTONES DEL DIALOG CONFIGURACION.
+        //TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
+        ImageView BtnCerrar = (ImageView) mView.findViewById(R.id.BtnCerrar);
+
+        mBuilder.setView(mView);
+        //final AlertDialog dialog = mBuilder.create();
+        final android.app.AlertDialog dialog = mBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //myDialog.show();
+        dialog.show();
+
+    }
+
     private void dialog_config_espelialista() {
         final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
