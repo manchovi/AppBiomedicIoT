@@ -245,16 +245,14 @@
                                     android:id="@+id/tiTelefono"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="0dp"
-                                    android:paddingRight="10dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
                                     android:textColorHint="@color/colorAccent">
 
                                 <EditText
                                     android:id="@+id/et_tel1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
                                     android:visibility="gone"
                                     android:hint="Introduzca Teléfono Móvil del Responsable"
                                     android:textSize="12dp"
@@ -290,16 +288,14 @@
                                     android:id="@+id/tiEmail"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="0dp"
-                                    android:paddingRight="10dp"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
                                     android:textColorHint="@color/colorAccent">
 
                                 <EditText
                                     android:id="@+id/et_email1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
                                     android:visibility="gone"
                                     android:hint="Introduzca E-mail del Responsable"
                                     android:textSize="12dp"

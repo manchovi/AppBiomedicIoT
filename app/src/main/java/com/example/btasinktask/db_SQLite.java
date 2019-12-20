@@ -547,4 +547,37 @@ public class db_SQLite extends SQLiteOpenHelper {
     }
 
 
+    public boolean consultaDatosActualizadoEspecialista(dto datos){
+        boolean estado = true;
+        int resultado;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        try {
+            String documento = datos.getDocumento();
+            String nombres = datos.getNombres();
+            String apellidos = datos.getApellidos();
+            String telefono = datos.getTelefono();
+            String usuario_email = datos.getEmail();
+
+            Cursor fila = bd.rawQuery("select documento, nombres, apellidos, telefono, usuario from tb_especialista where documento ='" + documento + "'", null);
+            if (fila.moveToFirst()) {
+                datos.setDocumento(fila.getString(0));
+                datos.setNombres(fila.getString(1));
+                datos.setApellidos(fila.getString(2));
+                datos.setTelefono(fila.getString(3));
+                datos.setEmail(fila.getString(4));
+
+                estado = true;
+            }else {
+                estado = false;
+            }
+            bd.close();
+
+        }catch (Exception e){
+            estado = false;
+            Log.e("error.",e.toString());
+        }
+        return estado;
+    }
+
+
 }

@@ -822,10 +822,24 @@ public class MenuPrincipal extends AppCompatActivity {
         final TextInputLayout tiEmail = (TextInputLayout)mView.findViewById(R.id.tiEmail);
 
         //senal, documentoEspecialista, nombreEspecialista, nombrePaciente, tel_especialista, correo_especialista
-        tv_doc_dr1.setText(documentoEspecialista);
+        /*tv_doc_dr1.setText(documentoEspecialista);
         tv_nombre_dr1.setText(nombreEspecialista);
         tv_tel1.setText(tel_especialista);
-        tv_email1.setText(correo_especialista);
+        tv_email1.setText(correo_especialista);*/
+
+        datos.setDocumento(documentoEspecialista);
+        //Lo que se me ocurre es hacer una consulta a la base de datos para mostrar esos datos traidos desde la bd.
+        if(instancia.consultaDatosActualizadoEspecialista(datos)){
+            tv_doc_dr1.setText(datos.getDocumento());
+            tv_nombre_dr1.setText(datos.getNombres() + " " + datos.getApellidos());
+            tv_tel1.setText(datos.getTelefono());
+            tv_email1.setText(datos.getEmail());
+        }else{
+            Toast.makeText(this, "No se encontrarón resultados para la busqueda especificada", Toast.LENGTH_SHORT).show();
+        }
+
+        //tv_tel1.setText(et_tel1.getText().toString());
+        //tv_email1.setText(et_email1.getText().toString());
 
         mBuilder.setView(mView);
         //final AlertDialog dialog = mBuilder.create();
