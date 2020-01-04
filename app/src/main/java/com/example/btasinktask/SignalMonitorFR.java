@@ -55,7 +55,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
 
     private double prev;
     private double plotCount = 1;
-    private double plotlen = 121;
+    private double plotlen = 201;//private double plotlen = 121;
     private double plotRes = 1;
 
     private boolean aviso = false;
@@ -70,7 +70,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
     //LineGraphSeries<DataPoint> dataSeries1 = new LineGraphSeries<>(points);
     private LineGraphSeries<DataPoint> dataSeries1;
 
-    private double plotSize = 121;
+    private double plotSize = 201;//private double plotSize = 121;
     private GraphView graphPlot;
     private TextView txtXval, txtYval, tvTrama;
 
@@ -546,14 +546,17 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         //Color amarillo claro: #e2ea00. Define el color que tendrá la línea que se traza con los datos en el gráfico.
         //dataSeries.setColor(Color.parseColor("#e2ea00"));
 
-        //SetGraphParam(150, -0.5, 1023.0, -10.1);
-        //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(125, 0.0, 6.0, 0.0);
+        //SetGraphParam(125, 0.0, 6.0, 0.0);
+        //SetGraphParam(120, 0.0, 200.0, 0.0);    //Funciona y muestra bien los datos. Seria para una prueba de capcidad de respiración.
+        //SetGraphParam(120, 0.0, 100.0, 0.0);
+        SetGraphParam(200, 0.0, 200.0, 0.0);
+
         setPlotParamBound();
-        plotSize = 151;
-        for (int i = 0; i < 150; i++) {
+        //plotSize = 201;//plotSize = 151;
+        for (int i = 0; i < 200; i++) {
             //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
-            dataSeries.appendData(new DataPoint(i, 3.0), false, (int) plotSize);
+            //dataSeries.appendData(new DataPoint(i, 3.0), false, (int) plotSize);
+            dataSeries.appendData(new DataPoint(i, (plotSize/2)), false, (int) plotSize);
         }
 
         //Activando leyendas:
@@ -562,7 +565,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         dataSeries.setColor(color1);
         //dataSeries.setColor(Color.parseColor("#1a8cff"));
         dataSeries.setDrawDataPoints(true);
-        dataSeries.setDataPointsRadius(3);
+        dataSeries.setDataPointsRadius(2);   //dataSeries.setDataPointsRadius(3);
         dataSeries.setThickness(2);
         graphPlot.addSeries(dataSeries);
 
@@ -649,9 +652,16 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
                     }
 
                     if (arduino != null) {
-                        tareaAsincrona = new MiAsyncTask(this);
+                        tareaAsincrona = new MiAsyncTask(this, arduino);
                         //tareaAsincrona = new MiAsyncTask(SignalsMonitor.this);
                         tareaAsincrona.execute(arduino);
+                        //Toast.makeText(this, "Listo!!!!!!!!", Toast.LENGTH_SHORT).show();
+                        /*try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }*/
+                        tareaAsincrona.SendData("R");
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
                         //No hay ningun dispositivo emparejado. Salimos de la app.
@@ -682,6 +692,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         super.onStop();
         if (tareaAsincrona != null) {
             tareaAsincrona.cancel(true);
+            tareaAsincrona.SendData("F");
         }
     }
 
@@ -706,7 +717,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         vd_fr.setText(Frec_respiratoria);
         //GRAFICA IV: Frecuencia Respiratoria
         try {
-            prev = scaler(Double.parseDouble(vd_fr.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            //prev = scaler(Double.parseDouble(vd_fr.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            prev = Double.parseDouble(vd_fr.getText().toString());  // change this value depending on your application
             if (estado_sw) {
                 if (e) {  //Verifico el estado del checkbox.
                     if (plotCount <= plotlen) {

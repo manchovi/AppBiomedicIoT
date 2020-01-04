@@ -6,27 +6,28 @@
     android:layout_height="match_parent"
     android:background="@color/actbgcolor">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:orientation="vertical" >
+    <!--
+    android:background="@color/actbgcolor"
+    android:background="#960505"
+    -->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight=".05"
-            android:orientation="vertical" >
-
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/actbgcolor" >
+                android:orientation="horizontal" >
 
-                <!--android:background="#960505"-->
+                <!--
+                android:background="@color/actbgcolor"
+                android:background="#960505"
+                -->
 
                 <CheckBox
                     android:id="@+id/cb_ta"
@@ -38,33 +39,79 @@
                     android:button="@drawable/cbcustom_ta"
                     />
 
+                <TextView
+                    android:id="@+id/tvY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Y-Axis: "
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <TextView
+                    android:id="@+id/vd_ta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0000"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/color_ta" />
+
+                <TextView
+                    android:id="@+id/tvAlarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Alarm:"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <TextView
+                    android:id="@+id/vd_alarma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#95F723"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    />
+
             </LinearLayout>
 
 
 
 
-        </LinearLayout>
+     <!--   </LinearLayout>-->
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".8"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
-                android:orientation="horizontal">
+                android:layout_weight=".35"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight=".08"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:background="#000"
                     android:orientation="vertical">
 
@@ -74,73 +121,144 @@
                         android:id="@+id/plotview" />
 
                 </LinearLayout>
+            </LinearLayout>
 
+
+
+
+            <!--Inicio Sección II-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight=".92"
-                    android:background="@color/actbgcolor"
+                    android:layout_weight=".65"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/tvY"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Y-Axis"
-                        android:textSize="14dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:visibility="visible"
-                        />
+                    android:orientation="vertical">
 
 
-                    <TextView
-                        android:id="@+id/vd_ta"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="0000"
-                        android:textAlignment="center"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/color_ta" />
+                    <!--Contenedor de todos los cuadritos de información-->
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
 
-                    <TextView
-                        android:id="@+id/tvAlarm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Alarm"
-                        android:textSize="14dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:visibility="visible"
-                        android:layout_marginTop="15dp"
-                        />
+                        <LinearLayout
+                            android:background="@color/orange"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp">
 
-                    <TextView
-                        android:id="@+id/vd_alarma"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#95F723"
-                        android:textSize="40dp"
-                        android:textAlignment="center"
-                        android:layout_marginTop="5dp"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Diastolic Pressure"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#0e1bd2"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:textColor="#212121"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="mmHg"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#252323"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:background="@color/green"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Systolic Pressure"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#0e1bd2"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:textColor="#212121"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="mmHg"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#252323"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:background="@color/lightgray"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Heart Rate"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#0e1bd2"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:textColor="#212121"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="bpm"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#252323"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
 
                 </LinearLayout>
+            <!--Fin Sección II-->
 
             </LinearLayout>
 
 
-        </LinearLayout>
 
 
 
-
+        <!--Inicio Sección III-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -285,10 +403,6 @@
                 android:textStyle="bold"
                 android:button="@drawable/estilopersonalizadocb"
                 />
-            <!--
-            app:buttonTint="@color/color_spo2"
-            android:theme="@style/CheckBox"        //No me funcionó.
-            -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -297,6 +411,12 @@
                 />
 
         </LinearLayout>
+        <!--Fin Sección III-->
+
+
+
+
+
 
     </LinearLayout>
 

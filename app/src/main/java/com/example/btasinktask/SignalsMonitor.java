@@ -1173,7 +1173,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
                     }
 
                     if (arduino != null) {
-                        tareaAsincrona = new MiAsyncTask(this);
+                        //tareaAsincrona = new MiAsyncTask(this);
+                        tareaAsincrona = new MiAsyncTask(this, arduino);
                         //tareaAsincrona = new MiAsyncTask(SignalsMonitor.this);
                         tareaAsincrona.execute(arduino);
                     } else {

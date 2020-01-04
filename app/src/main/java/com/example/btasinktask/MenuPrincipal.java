@@ -806,6 +806,13 @@ public class MenuPrincipal extends AppCompatActivity {
         //myDialog.show();
         dialog.show();
 
+        BtnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
     private void dialog_config_espelialista() {

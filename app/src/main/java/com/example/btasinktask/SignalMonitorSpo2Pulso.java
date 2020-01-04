@@ -59,8 +59,8 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
     private double plotCount = 1;
     private double plotCount1 = 1;
 
-    private double plotlen = 121;
-    private double plotlen1 = 121;
+    private double plotlen = 201;//private double plotlen = 121;
+    private double plotlen1 = 201;//private double plotlen1 = 121;
 
     private double plotRes = 1;
     private double plotRes1 = 1;
@@ -81,14 +81,14 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
     //private PlotInterface plotter;
 
-    private double plotSize = 121;
+    private double plotSize = 201;//private double plotSize = 121;
+
     private GraphView graphPlot;
     private TextView txtXval, txtYval, tvTrama;
     private TextView vd_spo2, vd_fc, vd_alarma;
     private CheckBox cb_spo2, cb_fc, cb_legends, cb_send, cb_time;
     Switch swDataStream;
     boolean a = false;boolean b=false;boolean c=false;boolean d=false;boolean e=false;
-
     boolean tutoCheckBox=false;
 
     String v0="0";
@@ -103,7 +103,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
     int contador = 0;
     String senal = "";
-
 
     AlertDialog.Builder dialogo, dialogo1;
     private ProgressDialog pd;
@@ -252,11 +251,13 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                     setCheckBoxAll(true,true);
                     //cb_legends.setChecked(true);
                     cb_legends.setEnabled(true);
+                    //tareaAsincrona.SendData("O");
                 }else{
                     estado_sw = false;
                     setCheckBoxAll(false,false);
                     //cb_legends.setChecked(false);
                     cb_legends.setEnabled(false);
+                    //tareaAsincrona.SendData("S");         //PROBARE SI FUNCIONA ESTAS LÍNEAS LUEGO JOJOJ JAJAJA JEJEJE JIJIJI JOJOJO JUJUJUJU
                 }
             }
         });
@@ -627,26 +628,30 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         for (int i = 0; i < 121; i++) {*/
 
         //SetGraphParam(150, -0.5, 1023.0, -10.1);
-        SetGraphParam(125, 0.0, 6.0, 0.0);
+        //SetGraphParam(125, 0.0, 6.0, 0.0);
+        SetGraphParam(200, 0.0, 120.0, 40.0);
         setPlotParamBound();
-        plotSize = 151;
-        for (int i = 0; i < 150; i++) {
+        //plotSize = 151;
+        for (int i = 0; i < 200; i++) {
             //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
-            dataSeries.appendData(new DataPoint(i, 2.0), false, (int) plotSize);
+            //dataSeries.appendData(new DataPoint(i, 2.0), false, (int) plotSize);
+            dataSeries.appendData(new DataPoint(i, 90), false, (int) plotSize);
         }
         graphPlot.addSeries(dataSeries);
-
         /***************************************************************/
 
 
         //ADICIONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNES DEMÁS GRÁFICAS
         //Variable Frecuencia Cardiaca
-        SetGraphParam(125, 2.5, 6.0, 0.0);
+        //SetGraphParam(125, 2.5, 6.0, 0.0);
+        SetGraphParam(200, 0.0, 120.0, 40.0);
         setPlotParamBound();
-        DataPoint[] points = new DataPoint[140];
-        for (int i = 0; i < 140; i++) {
+        //DataPoint[] points = new DataPoint[140];
+        DataPoint[] points = new DataPoint[200];
+        for (int i = 0; i < 200; i++) {
             //points[i] = new DataPoint(i, 5.0 * Math.sin(i/4.5));
-            points[i] = new DataPoint(i, 4.0);
+            //points[i] = new DataPoint(i, 4.0);
+            points[i] = new DataPoint(i, 70);
         }
 
         dataSeries1 = new LineGraphSeries<>(points);
@@ -725,9 +730,17 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                     }
 
                     if (arduino != null) {
-                        tareaAsincrona = new MiAsyncTask(this);
+                        //tareaAsincrona = new MiAsyncTask(this);
+                        tareaAsincrona = new MiAsyncTask(this, arduino);
                         //tareaAsincrona = new MiAsyncTask(SignalsMonitor.this);
                         tareaAsincrona.execute(arduino);
+                        /* try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }*/
+                        tareaAsincrona.SendData("O");
+
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
                         //No hay ningun dispositivo emparejado. Salimos de la app.
@@ -760,6 +773,16 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         super.onStop();
         if (tareaAsincrona != null) {
             tareaAsincrona.cancel(true);
+            tareaAsincrona.SendData("S");
+
+            /*Toast.makeText(this, "Cerrando enlace BT. Espere un momento por favor.", Toast.LENGTH_SHORT).show();
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this, "Listo. Ahora puede monitorear otra variable de su preferencia.", Toast.LENGTH_SHORT).show();*/
+
         }
     }
 
@@ -789,9 +812,27 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         Spo2 = p.getSaturacion_parcial_oxigeno_SPO2();
         //vd_spo2.setText(p.getSaturacion_parcial_oxigeno_SPO2());
         vd_spo2.setText(Spo2);
+
+
+        int color2 = this.getResources().getColor(R.color.color_fc);
+        vd_fc.setTextColor(color2);
+        Frec_cardiaca = p.getFrecuencia_cardiaca_o_pulso();
+        vd_fc.setText(Frec_cardiaca);
+
+        //if (Spo2.equals("0") || Frec_cardiaca.equals("0")) {
+        if (vd_spo2.getText().equals("0") || vd_fc.getText().equals("0")) {
+            //Toast.makeText(this, "Se ha detectado que el sensor ha sido desconectado o ha retirado su dedo indice de el.", Toast.LENGTH_SHORT).show();
+            if(conta1 == 0){
+                dialogoError();
+                conta1++;
+            }
+
+        } else {//}
         //GRAFICA I: Saturación Parcial del Oxígeno (SPO2)
         try {
-            prev = scaler(Double.parseDouble(vd_spo2.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            conta1 = 0;
+            //prev = scaler(Double.parseDouble(vd_spo2.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            prev = Double.parseDouble(vd_spo2.getText().toString());                               // change this value depending on your application
             if (estado_sw) {
                 if (a) {  //Verifico el estado del checkbox.
                     if (plotCount <= plotlen) {
@@ -805,19 +846,19 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                     //aqui estaba
                 }
             }
-        }catch (NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             prev = 0;
         }   //FIN GRÁFICA I
 
 
-        int color2 = this.getResources().getColor(R.color.color_fc);
+        /*int color2 = this.getResources().getColor(R.color.color_fc);
         vd_fc.setTextColor(color2);
         Frec_cardiaca = p.getFrecuencia_cardiaca_o_pulso();
-        vd_fc.setText(Frec_cardiaca);
+        vd_fc.setText(Frec_cardiaca);*/
         //GRAFICA II: Frecuencia Cardiaca
         try {
-            prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            //prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            prev1 = Double.parseDouble(vd_fc.getText().toString());  // change this value depending on your application
             if (estado_sw) {
                 if (b) {  //Verifico el estado del checkbox.
                     if (plotCount1 <= plotlen1) {
@@ -830,13 +871,14 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                     //aqui estaba
                 }
             }
-        }catch (NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             prev1 = 0;
         }   //FIN GRÁFICA II
 
 
         vd_alarma.setText(p.getAlarma());
+
+    }
 
         //tvTrama.setText("Trama: 0");
     }
@@ -967,6 +1009,28 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             mHandler.postDelayed(this, totalSegundos);
         }
     };
+
+
+    private void dialogoError(){
+
+        new android.app.AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_error)
+                .setTitle("Error!")
+                .setMessage("Posibles razones:\n\n" +
+                        "1. No se ha conectado o se ha desconectado el sensor de la tarjeta MySignals." + "\n" +
+                        "2. Se ha retirado el dedo indice del sensor de medición. O Ambos casos, literal 1 y 2." + "\n" +
+                        "3. Se ha dañado el sensor." + "\n\n" +
+                        "Verifique y vuelva a intentarlo.")
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                          dialog.dismiss();
+                    }
+                })
+                .show();
+
+    }
 
 
 }

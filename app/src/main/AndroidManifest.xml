@@ -19,6 +19,7 @@
 
         <activity android:name=".Activity_Register_Dr"></activity>
         <activity android:name=".PruebasDemos" />
+        <activity android:name=".Custom_toast" />
         <activity
             android:name=".SignalMonitorFR"
             android:screenOrientation="landscape" />

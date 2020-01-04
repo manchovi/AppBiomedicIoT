@@ -1,8 +1,5 @@
 package com.example.btasinktask;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -27,6 +24,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -40,42 +40,34 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
-public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.MiCallback{
+public class SignalMonitorSpo2Pulso1 extends AppCompatActivity implements MiAsyncTask.MiCallback{
 
     //Instancia de la clase MiAsyncTask.
     private MiAsyncTask tareaAsincrona;
     SuperClase instanciaSuper = new SuperClase();
     Conexion_volley volleyBD = new Conexion_volley();
 
+    //hiloAsyncTask thread = new hiloAsyncTask();
     private SignalsMonitor.hiloAsyncTask thread;
     private Handler mHandler = new Handler();
 
     boolean estado_leyendaGraph = false;
-    boolean estado_sw = false;
 
-    private double prev, prev1, prev2;
+    boolean estado_sw = false;
+    private double prev, prev1;
+
     private double plotCount = 1;
     private double plotCount1 = 1;
-    private double plotCount2 = 1;
-    private double plotlen = 51;
-    private double plotlen1 = 51;
-    private double plotlen2 = 51;
+
+    private double plotlen = 201;//private double plotlen = 121;
+    private double plotlen1 = 201;//private double plotlen1 = 121;
+
     private double plotRes = 1;
     private double plotRes1 = 1;
-    private double plotRes2 = 1;
 
-    private double plotSize = 61;
-
-    String v0="0";
-    String Tension_arterial="";
-
-    String Diastolic_pressure="";
-    String Systolic_pressure="";
-    String Heart_rate="";
-
-    int Alarma=0;
 
     private boolean aviso = false;
+
     public static Handler btHandler;
     final int handlerState = 0;        				 //used to identify handler message
 
@@ -87,15 +79,23 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     private LineGraphSeries<DataPoint> dataSeries1;
     private LineGraphSeries<DataPoint> dataSeries2;
 
+    //private PlotInterface plotter;
+
+    private double plotSize = 201;//private double plotSize = 121;
+
     private GraphView graphPlot;
     private TextView txtXval, txtYval, tvTrama;
-
-    private TextView vd_ta, vd_alarma;
-    private CheckBox cb_ta, cb_legends, cb_send, cb_time;
-
+    private TextView vd_spo2, vd_fc, vd_alarma;
+    private CheckBox cb_spo2, cb_fc, cb_legends, cb_send, cb_time;
     Switch swDataStream;
     boolean a = false;boolean b=false;boolean c=false;boolean d=false;boolean e=false;
+
     boolean tutoCheckBox=false;
+
+    String v0="0";
+    String Spo2="";
+    String Frec_cardiaca="";
+    int Alarma=0;
 
     private boolean getStatusCheckBoxTop = false;
     private boolean getStatusCheckBoxBottom = false;
@@ -104,6 +104,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
     int contador = 0;
     String senal = "";
+
 
     AlertDialog.Builder dialogo, dialogo1;
     private ProgressDialog pd;
@@ -116,9 +117,11 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     boolean estadoMiddle = false;
     boolean estadoVisibleoculto = false;
 
+
     boolean estadoSendDataServer = false;
     boolean ultimoEstado = false;
     int totalSegundos = 0;
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -143,14 +146,10 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         return super.onKeyDown(keyCode, event);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signal_monitor_ta);
-
-        //y esto para pantalla completa (oculta incluso la barra de estado)
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_signal_monitor_spo2_pulso);
 
         graphPlot = (GraphView) findViewById(R.id.plotview);
         tvTrama = (TextView)findViewById(R.id.tvTrama);
@@ -158,13 +157,21 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         txtXval = (TextView) findViewById(R.id.txtXval);
         txtYval = (TextView) findViewById(R.id.txtYval);
 
-        vd_ta = (TextView) findViewById(R.id.vd_ta);
+        vd_spo2 = (TextView) findViewById(R.id.vd_spo2);
+        vd_fc = (TextView) findViewById(R.id.vd_fc);
+
         vd_alarma = (TextView) findViewById(R.id.vd_alarma);
 
-        cb_ta = (CheckBox) findViewById(R.id.cb_ta);
+        cb_spo2 = (CheckBox) findViewById(R.id.cb_spo2);
+        cb_fc = (CheckBox) findViewById(R.id.cb_fc);
+
         cb_legends = (CheckBox)findViewById(R.id.cb_legends);
         cb_send = (CheckBox)findViewById(R.id.cb_send);
         cb_time = (CheckBox)findViewById(R.id.cb_time);
+
+        //y esto para pantalla completa (oculta incluso la barra de estado)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         ultimoEstado = obtenerEstadoCbox();
         if(ultimoEstado){
@@ -181,11 +188,14 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         //cb_legends.setChecked(false);
         cb_legends.setEnabled(false);
 
+        //Detengo el hilo que envia los datos de los sensores a la base de datos en el servidor
+        //Base de datos MyQSL.
+
         cb_time.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    VentanaDialog2(SignalMonitorTA.this);
+                    VentanaDialog2(SignalMonitorSpo2Pulso1.this);
                 }else{
                     cb_time.setChecked(false);
                 }
@@ -193,24 +203,36 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         });
 
 
-        cb_ta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb_spo2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b1) {
-                if(b1){
-                    e=true;
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    a=true;
                 }else{
-                    e=false;
+                    a=false;
                 }
             }
         });
 
-        setCheckBoxAll(true);
+
+        cb_fc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b1) {
+                if(b1){
+                    b=true;
+                }else{
+                    b=false;
+                }
+            }
+        });
+
+        setCheckBoxAll(true, true);
 
         cb_legends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(cb_legends.isChecked()){
-                    VentanaDialog1(SignalMonitorTA.this);
+                    VentanaDialog1(SignalMonitorSpo2Pulso1.this);
                 }else{
                     legendsHidden();
                 }
@@ -226,18 +248,18 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                     estado_sw = true;
                     ResetGraph();
                     ResetGraph1();
-                    ResetGraph2();
-                    plotCount = 0;
-                    plotCount1 = 0;
-                    plotCount2 = 0;
-                    setCheckBoxAll(true);
+                    plotCount = 0;     //Estas variables son las que hacen posible reiniciar la onda desde cero.
+                    plotCount1 = 0;    //Esquina izquierda de la cuadricula donde se pinta el valor leido por el sensor.
+                    setCheckBoxAll(true,true);
                     //cb_legends.setChecked(true);
                     cb_legends.setEnabled(true);
+                    //tareaAsincrona.SendData("O");
                 }else{
                     estado_sw = false;
-                    setCheckBoxAll(false);
+                    setCheckBoxAll(false,false);
                     //cb_legends.setChecked(false);
                     cb_legends.setEnabled(false);
+                    //tareaAsincrona.SendData("S");         //PROBARE SI FUNCIONA ESTAS LÍNEAS LUEGO JOJOJ JAJAJA JEJEJE JIJIJI JOJOJO JUJUJUJU
                 }
             }
         });
@@ -263,41 +285,27 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                     @SuppressLint("DefaultLocale")   String fxVal = String.format("%3.3f", xVal);
                     //txtXval.setText(fxVal);
                     //txtYval.setText(fyVal);
-                    Toast.makeText(SignalMonitorTA.this, "Eje x:"+ xVal + "\n" +
-                            "Eje y:"+ yVal, Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
-        dataSeries1.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-
-                //dataPointInterface has square backet
-                // by default and should be removed when parsing the data of X and Y axis
-                String strDataPoint = String.valueOf(dataPoint).replaceAll("\\[","").replaceAll("\\]","");
-
-                String strSplit[];
-                Double yVal, xVal;
-
-                if (strDataPoint.contains("/")) {
-                    strSplit = strDataPoint.split("/");
-                    yVal =  Double.parseDouble(strSplit[1]);
-                    xVal =  Double.parseDouble(strSplit[0]);
-
-                    @SuppressLint("DefaultLocale")   String fyVal = String.format("%3.3f", yVal);
-                    @SuppressLint("DefaultLocale")   String fxVal = String.format("%3.3f", xVal);
-                    //txtXval.setText(fxVal);
-                    //txtYval.setText(fyVal);
-                    Toast.makeText(SignalMonitorTA.this, "Eje x:"+ xVal + "\n" +
-                            "Eje y:"+ yVal, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
 
     }  //FIn onCreate
+
+
+    public void legendsHidden(){
+        graphPlot.getLegendRenderer().setVisible(false);
+        graphPlot.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        //graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#ffffcc"));
+        //graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#000099"));
+        graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#5a5a5a"));
+        graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#ffffff"));
+        //Toast.makeText(SignalsMonitor.this, "Desactivado", Toast.LENGTH_SHORT).show();
+        estadoTop = false;
+        estadoMiddle = false;
+        estadoBottom = false;
+        estadoVisibleoculto = false;
+        cb_legends.setChecked(false);
+    }
 
 
     public void VentanaDialog1(final Context context){
@@ -339,11 +347,17 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         btnAplicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //AQui va...
+                /*
+                Toast.makeText(context, "Chovi = EstadoTop:"+estadoTop+"\n"+
+                        "EstadoMiddle:"+estadoMiddle+"\n"+
+                        "EstadoBottom:"+estadoBottom+"\n"+
+                        "EstadoVisibleoculto:"+estadoVisibleoculto, Toast.LENGTH_SHORT).show();
+                 */
                 verificarLegendsActive(estadoTop, estadoMiddle, estadoBottom, estadoVisibleoculto);
                 myDialog.dismiss();
             }
         });
-
 
 
         cb_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -388,7 +402,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             }
         });
 
-
         cb_middle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b3) {
@@ -421,8 +434,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                 }
             }
         });
-    }  //Fin Método VentanaDialog1
 
+    }
 
 
     public void VentanaDialog2(final Context context){
@@ -499,8 +512,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
 
-    }  //Fin del Método VentanaDialog2
-
+    }
 
 
     public void createfiletime(boolean estadocbox, String tiempo){
@@ -573,13 +585,22 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         estadoTop = false;
         estadoVisibleoculto = false;
 
-    } //Fin del Método
+    }
 
 
     void setValueDefaultGraph(){
+        //Envio el etado de todos los checkbox
+        //plotter.AllStatusCheckBox(a, b, c, d, e);
         graphPlot.setPadding(15, 15, 15, 15);
+        /********************************************************************************************/
+        /*        URL para colores: www.w3schools.com/colors/colors_picker.asp
+         *                           www.color-hex.com
+         */
+        /********************************************************************************************/
+
         graphPlot.getGridLabelRenderer().setHighlightZeroLines(true);
         //Me da error: graphPlot.getGridLabelRenderer().getGridStyle(GridLabelRenderer.GridStyle.BOTH);
+
         //Color verde oscuro: #005904. Define el color de la grilla/cuadricula donde se muestra el gráfico.
         graphPlot.getGridLabelRenderer().setGridColor(Color.parseColor("#005904"));
         //Color verde más claro: #008c07. Define el color del texto o etiquetas del gráfico en vertical.
@@ -587,54 +608,59 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         //Color verde más claro: #008c07. Define el color del texto o etiquetas del gráfico en horizontal.
         //graphPlot.getGridLabelRenderer().setHorizontalLabelsColor(Color.parseColor("#008c07"));
         graphPlot.getGridLabelRenderer().setHorizontalLabelsColor(Color.parseColor("#ffffff"));
-        dataSeries = new LineGraphSeries<>();
 
+        dataSeries = new LineGraphSeries<>();
         //Color amarillo claro: #e2ea00. Define el color que tendrá la línea que se traza con los datos en el gráfico.
         //dataSeries.setColor(Color.parseColor("#e2ea00"));
 
-        //SetGraphParam(150, -0.5, 1023.0, -10.1);
-        //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(60.0, 0.0, 160.0, 20.0);
-        setPlotParamBound();
-        //plotSize = 151;
-        for (int i = 0; i < 60; i++) {
-            //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
-            dataSeries.appendData(new DataPoint(i, 60.0), false, (int) plotSize);
-        }
-
-        //Activando leyendas:
-        //dataSeries.setTitle("Tensión Arterial");
-        dataSeries.setTitle("Diastolic pressure");
-        int color1 = this.getResources().getColor(R.color.color_ta);
+        int color1 = this.getResources().getColor(R.color.color_spo2);
         dataSeries.setColor(color1);
         //dataSeries.setColor(Color.parseColor("#1a8cff"));
+
+        //Activando leyendas:
+        dataSeries.setTitle("SPO2");
         dataSeries.setDrawDataPoints(true);
         dataSeries.setDataPointsRadius(3);
         dataSeries.setThickness(2);
+
+        /*
+        SetGraphParam(121, -0.5, 4.1, -4.1);
+        setPlotParamBound();
+        plotSize = 122;
+        for (int i = 0; i < 121; i++) {*/
+
+        //SetGraphParam(150, -0.5, 1023.0, -10.1);
+        //SetGraphParam(125, 0.0, 6.0, 0.0);
+        SetGraphParam(200, 0.0, 110.0, 0.0);
+        setPlotParamBound();
+        //plotSize = 151;
+        for (int i = 0; i < 200; i++) {
+            //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
+            //dataSeries.appendData(new DataPoint(i, 2.0), false, (int) plotSize);
+            dataSeries.appendData(new DataPoint(i, 80), false, (int) plotSize);
+        }
         graphPlot.addSeries(dataSeries);
-
         /***************************************************************/
-
 
 
         //ADICIONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNES DEMÁS GRÁFICAS
         //Variable Frecuencia Cardiaca
         //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(60.0, 0.0, 160.0, 20.0);
+        SetGraphParam(200, 0.0, 110.0, 0.0);
         setPlotParamBound();
         //DataPoint[] points = new DataPoint[140];
-        DataPoint[] points = new DataPoint[60];
-        for (int i = 0; i < 60; i++) {
+        DataPoint[] points = new DataPoint[200];
+        for (int i = 0; i < 200; i++) {
             //points[i] = new DataPoint(i, 5.0 * Math.sin(i/4.5));
             //points[i] = new DataPoint(i, 4.0);
-            points[i] = new DataPoint(i, 100);
+            points[i] = new DataPoint(i, 40);
         }
 
         dataSeries1 = new LineGraphSeries<>(points);
         //LineGraphSeries<DataPoint> dataSeries1 = new LineGraphSeries<>(points);
 
         // styling series
-        dataSeries1.setTitle("Systolic Pressure");
+        dataSeries1.setTitle("Frecuencia Cardiaca");
         //dataSeries1.setColor(Color.GRAY);
         int color2 = this.getResources().getColor(R.color.color_fc);
         dataSeries1.setColor(color2);
@@ -643,76 +669,21 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         dataSeries1.setThickness(2);
         graphPlot.addSeries(dataSeries1);
         /**************************************************************/
-
-
-
-        /*************************************************************/
-        //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(60.0, 0.0, 160.0, 20.0);
-        setPlotParamBound();
-        //DataPoint[] points = new DataPoint[140];
-        DataPoint[] points1 = new DataPoint[60];
-        for (int i = 0; i < 60; i++) {
-            //points[i] = new DataPoint(i, 5.0 * Math.sin(i/4.5));
-            //points[i] = new DataPoint(i, 4.0);
-            points1[i] = new DataPoint(i, 80);                    //REFERENCIA DONDE SE MOSTRARÁ LA LINEA QUE PARTE DESDE EL EJE Y HACIA LA HORIZONTAL EN EL EJE X.
-        }
-
-        dataSeries2 = new LineGraphSeries<>(points1);
-        //LineGraphSeries<DataPoint> dataSeries1 = new LineGraphSeries<>(points);
-
-        // styling series
-        dataSeries2.setTitle("Heart Rate");
-        //dataSeries1.setColor(Color.GRAY);
-        int color3 = this.getResources().getColor(R.color.color_ta1);
-        dataSeries2.setColor(color3);
-        dataSeries2.setDrawDataPoints(true);
-        dataSeries2.setDataPointsRadius(3);
-        dataSeries2.setThickness(2);
-        graphPlot.addSeries(dataSeries2);
-        /**************************************************************/
-
-
-        graphPlot.getLegendRenderer().setVisible(true);
-        graphPlot.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-        //graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#ffffcc"));
-        //graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#000099"));
-        graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#5a5a5a"));
-        graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#ffffff"));
-
-
     }
 
 
-    public void legendsHidden(){
-        graphPlot.getLegendRenderer().setVisible(false);
-        graphPlot.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-        //graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#ffffcc"));
-        //graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#000099"));
-        graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#5a5a5a"));
-        graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#ffffff"));
-        //Toast.makeText(SignalsMonitor.this, "Desactivado", Toast.LENGTH_SHORT).show();
-        estadoTop = false;
-        estadoMiddle = false;
-        estadoBottom = false;
-        estadoVisibleoculto = false;
-        cb_legends.setChecked(false);
-    }
-
-
-    void setCheckBoxAll(boolean chb){
+    void setCheckBoxAll(boolean chb1, boolean chb2){
         try {
-            cb_ta.setEnabled(chb);
+            cb_spo2.setEnabled(chb1);
+            cb_fc.setEnabled(chb2);
         }catch (Exception e){
 
         }
     }
 
-
     public void SetSwitch(boolean estatus){
         swDataStream.setChecked(estatus);
     }
-
 
     @Override
     protected void onResume() {
@@ -770,7 +741,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }*/
-                        tareaAsincrona.SendData("T");
+                        tareaAsincrona.SendData("O");
 
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
@@ -790,7 +761,9 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             // El dispositivo no soporta bluetooth. Mensaje al usuario y salimos de la app
             Toast.makeText(this, "El dispositivo no soporta comunicación por Bluetooth", Toast.LENGTH_LONG).show();
         }
-    }  //Fin del Método...
+    }
+
+
 
 
     @Override
@@ -802,10 +775,26 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         super.onStop();
         if (tareaAsincrona != null) {
             tareaAsincrona.cancel(true);
-            tareaAsincrona.SendData("A");
+            tareaAsincrona.SendData("S");
+
+            /*Toast.makeText(this, "Cerrando enlace BT. Espere un momento por favor.", Toast.LENGTH_SHORT).show();
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this, "Listo. Ahora puede monitorear otra variable de su preferencia.", Toast.LENGTH_SHORT).show();*/
+
         }
     }
 
+    /*Los métodos onTaskCompleted, onCancelled, onTemperaturaUpdate, son nuestros "callback".
+    Java es un lenguaje en el que no se puede pasar una función como argumento. De tal manera, que no podemos
+    pasarle a la tarea asincrona la función que tendria que ejecutar para actualizar la interfaz de usuario.
+    Esto se soluciona usando el interfaz "MiCallback". Ese interfaz obliga a declarar estos tres métodos en la clase que lo implemeta, en este caso, esta
+    actividad. De tal manera que podemos pasar como parametro esta clase a la tarea asincrona, y la tarea asincrona podrá invocar a estos métodos cuando
+    considere necesario.
+    */
 
     @Override
     public void onTaskCompleted() {
@@ -817,23 +806,25 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
     }
 
-
     @Override
     public void onDatosBiomedicos(Dto_variables p) {
-
-        int color5 = this.getResources().getColor(R.color.color_ta);
-        vd_ta.setTextColor(color5);
-        Tension_arterial = p.getPresion_arterial();
-        vd_ta.setText(Tension_arterial);
-        //GRAFICA IV: Frecuencia Respiratoria
+        //int color1 = getContext().getResources().getColor(R.color.color_spo2);
+        int color1 = this.getResources().getColor(R.color.color_spo2);
+        vd_spo2.setTextColor(color1);
+        Spo2 = p.getSaturacion_parcial_oxigeno_SPO2();
+        //vd_spo2.setText(p.getSaturacion_parcial_oxigeno_SPO2());
+        vd_spo2.setText(Spo2);
+        //GRAFICA I: Saturación Parcial del Oxígeno (SPO2)
         try {
-            prev = scaler(Double.parseDouble(vd_ta.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            //prev = scaler(Double.parseDouble(vd_spo2.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            prev = Double.parseDouble(vd_spo2.getText().toString());                               // change this value depending on your application
             if (estado_sw) {
-                if (e) {  //Verifico el estado del checkbox.
+                if (a) {  //Verifico el estado del checkbox.
                     if (plotCount <= plotlen) {
-                        plotValue(plotCount, prev, p.getPresion_arterial());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
+                        plotValue(plotCount, prev, p.getSaturacion_parcial_oxigeno_SPO2());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
                         plotCount = plotCount + plotRes;
                     } else {
+                        //clearGraph();
                         ResetGraph();
                         plotCount = 0;
                     }
@@ -843,9 +834,37 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         }catch (NumberFormatException nfe)
         {
             prev = 0;
-        }//FIN GRÁFICA TEMPERATURA CORPORAL
+        }   //FIN GRÁFICA I
+
+
+        int color2 = this.getResources().getColor(R.color.color_fc);
+        vd_fc.setTextColor(color2);
+        Frec_cardiaca = p.getFrecuencia_cardiaca_o_pulso();
+        vd_fc.setText(Frec_cardiaca);
+        //GRAFICA II: Frecuencia Cardiaca
+        try {
+            //prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            prev1 = Double.parseDouble(vd_fc.getText().toString());  // change this value depending on your application
+            if (estado_sw) {
+                if (b) {  //Verifico el estado del checkbox.
+                    if (plotCount1 <= plotlen1) {
+                        plotValue1(plotCount1, prev1, p.getFrecuencia_cardiaca_o_pulso());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
+                        plotCount1 = plotCount1 + plotRes1;
+                    } else {
+                        ResetGraph1();
+                        plotCount1 = 0;
+                    }
+                    //aqui estaba
+                }
+            }
+        }catch (NumberFormatException nfe)
+        {
+            prev1 = 0;
+        }   //FIN GRÁFICA II
+
 
         vd_alarma.setText(p.getAlarma());
+
         //tvTrama.setText("Trama: 0");
     }
 
@@ -893,12 +912,12 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     private void setPlotParamBound() {
         graphPlot.getViewport().setXAxisBoundsManual(true);
         graphPlot.getViewport().setYAxisBoundsManual(true);
-        graphPlot.getViewport().setScalable(false);           //Enables horizontal zooming and scrolling
-        graphPlot.getViewport().setScrollable(false);         //Enables horizontal scrolling
+        graphPlot.getViewport().setScalable(true);           //Enables horizontal zooming and scrolling
+        graphPlot.getViewport().setScrollable(true);         //Enables horizontal scrolling
 
         //Adicione estos otros dos métodos.
-        graphPlot.getViewport().setScrollableY(false);        //Enables vertical scrolling
-        graphPlot.getViewport().setScalableY(false);          //Enables vertical zooming and scrolling
+        graphPlot.getViewport().setScrollableY(true);        //Enables vertical scrolling
+        graphPlot.getViewport().setScalableY(true);          //Enables vertical zooming and scrolling
     }
 
 
@@ -906,23 +925,19 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         tvTrama.setText("Muestras:"+contador+ " Trama="+trama);
     }
 
-    void plotValue(double xVal, double yVal, String diastolic_pressure){
+    void plotValue(double xVal, double yVal, String spo2){
         @SuppressLint("DefaultLocale") String fyVal = String.format("%3.2f", yVal);
         @SuppressLint("DefaultLocale") String fxVal = String.format("%3.2f", xVal);
         dataSeries.appendData(new DataPoint(xVal, yVal), false, (int) plotSize);
         tvTrama.setText("X-Axis: "+xVal+" ");
     }
 
-    void plotValue1(double xVal1, double yVal1, String systolic_pressure){
+
+    void plotValue1(double xVal1, double yVal1, String fc){
+        //if(b) {
         @SuppressLint("DefaultLocale") String fyVal = String.format("%3.2f", yVal1);
         @SuppressLint("DefaultLocale") String fxVal = String.format("%3.2f", xVal1);
         dataSeries1.appendData(new DataPoint(xVal1, yVal1), false, (int) plotSize);
-    }
-
-    void plotValue2(double xVal1, double yVal1, String heart_rate){
-        @SuppressLint("DefaultLocale") String fyVal = String.format("%3.2f", yVal1);
-        @SuppressLint("DefaultLocale") String fxVal = String.format("%3.2f", xVal1);
-        dataSeries2.appendData(new DataPoint(xVal1, yVal1), false, (int) plotSize);
     }
 
     //Reset Grafica Saturación Parcial del Oxígeno (SPO2)
@@ -930,12 +945,9 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         dataSeries.resetData(new DataPoint[]{});
     }
 
+    //Reset Grafica Frecuencia Cardiaca
     void ResetGraph1() {
         dataSeries1.resetData(new DataPoint[]{});
-    }
-
-    void ResetGraph2() {
-        dataSeries2.resetData(new DataPoint[]{});
     }
 
 
@@ -964,13 +976,13 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             contador++;
 
             if(contador>=2) {
-                volleyBD.sendInfoServer(SignalMonitorTA.this,
-                        "Internet of Things",
+                volleyBD.sendInfoServer(SignalMonitorSpo2Pulso1.this,
+                    "Internet of Things",
+                        vd_fc.getText().toString(),
+                        vd_spo2.getText().toString(),
                         "0",
                         "0",
                         "0",
-                        "0",
-                        vd_ta.getText().toString(),
                         vd_alarma.getText().toString(),
                         volleyBD.getDate(),
                         volleyBD.getTime(),
@@ -982,8 +994,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             mHandler.postDelayed(this, totalSegundos);
         }
     };
-
-
 
 
 }

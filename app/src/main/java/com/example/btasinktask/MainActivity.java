@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements MiAsyncTask.MiCal
                     }
 
                     if (arduino != null) {
-                        tareaAsincrona = new MiAsyncTask(this);
+                        //tareaAsincrona = new MiAsyncTask(this);
+                        tareaAsincrona = new MiAsyncTask(this, arduino);
                         tareaAsincrona.execute(arduino);
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.

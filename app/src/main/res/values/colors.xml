@@ -18,6 +18,7 @@
     <color name="color_ta">#05E426</color>
     <color name="color_fr">#FFFFFF</color>
     <color name="color_tc">#FC1C23</color>
+    <color name="color_ta1">#03A9F4</color>
 
     <color name="red">#C7070D</color>
     <color name="lightgray">#ededed</color>
@@ -44,6 +45,7 @@
     <color name="colorPinkRoseDark">#D770AD</color>
     <color name="grey">#838282</color>
     <color name="grey1">#777070</color>
+    <color name="grey2">#464343</color>
 
     <color name="mycolor">#000000</color>
     <color name="black">#000000</color>
@@ -63,5 +65,7 @@
     <color name="colorToolBar">#266496</color>
 
     <color name="blue">#0119A0</color>
+    <color name="orange">#eaad43</color>
+    <color name="green">#45bc62</color>
 
 </resources>

@@ -221,11 +221,13 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                     setCheckBoxAll(true);
                     //cb_legends.setChecked(true);
                     cb_legends.setEnabled(true);
+                    //tareaAsincrona.SendData("O");
                 }else{
                     estado_sw = false;
                     setCheckBoxAll(false);
                     //cb_legends.setChecked(false);
                     cb_legends.setEnabled(false);
+                    //tareaAsincrona.SendData("S");
                 }
             }
         });
@@ -569,8 +571,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         plotSize = 122;
         for (int i = 0; i < 121; i++) {*/
 
-        //SetGraphParam(150, -0.5, 1023.0, -10.1);
-        SetGraphParam(125, 0.0, 6.0, 0.0);
+        SetGraphParam(120, 0.0, 60.0, 0.0);
         setPlotParamBound();
         plotSize = 151;
         for (int i = 0; i < 150; i++) {
@@ -651,6 +652,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         Por lo tanto invocamos aqui al método que activa el BT y crea la tarea asincrona que recupera los datos*/
         super.onResume();
         descubrirDispositivosBT();
+        //Toast.makeText(SignalMonitorTC.this, "Entre...", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -662,6 +664,8 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         */
         //Comprobamos que el dispositivo tiene adaptador bluetooth
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        //Toast.makeText(this, "Que raro...", Toast.LENGTH_SHORT).show();
 
         tvTrama.setText("Comprobando bluetooth");
 
@@ -679,7 +683,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                 if (pairedDevices.size() > 0) {
                 /*
                 Recorremos los dispositivos emparejados hasta encontrar el
-                adaptador BT del arduino, en este caso se llama HC-06
+                adaptador BT del arduino, en este caso se llama HC-05
                 */
                     BluetoothDevice arduino = null;
 
@@ -691,9 +695,16 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                     }
 
                     if (arduino != null) {
-                        tareaAsincrona = new MiAsyncTask(this);
+                        //tareaAsincrona = new MiAsyncTask(this);
+                        tareaAsincrona = new MiAsyncTask(this, arduino);
                         //tareaAsincrona = new MiAsyncTask(SignalsMonitor.this);
                         tareaAsincrona.execute(arduino);
+                       /* try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }*/
+                        tareaAsincrona.SendData("T");
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
                         //No hay ningun dispositivo emparejado. Salimos de la app.
@@ -724,6 +735,16 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         super.onStop();
         if (tareaAsincrona != null) {
             tareaAsincrona.cancel(true);
+            tareaAsincrona.SendData("C");
+
+           /* Toast.makeText(this, "Cerrando enlace BT. Espere un momento por favor.\n...", Toast.LENGTH_SHORT).show();
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this, "Listo. Ahora puede monitorear otra variable de su preferencia.", Toast.LENGTH_SHORT).show();*/
+
         }
     }
 
@@ -747,7 +768,8 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         vd_tc.setText(Temp_corporal);
         //GRAFICA IV: Frecuencia Respiratoria
         try {
-            prev = scaler(Double.parseDouble(vd_tc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            //prev = scaler(Double.parseDouble(vd_tc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            prev = Double.parseDouble(vd_tc.getText().toString());
             if (estado_sw) {
                 if (e) {  //Verifico el estado del checkbox.
                     if (plotCount <= plotlen) {
