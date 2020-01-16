@@ -3,9 +3,9 @@
     <string name="title_activity_menu_principal">MenuPrincipal</string>
 
     <string name="msj1">SERVIDOR ONLINE O LOCAL</string>
-    <string name="dominio">Dominio o IP</string>
-    <string name="directorio">Directorio API o Web service</string>
-    <string name="portal">Directorio Portal Web</string>
+    <string name="dominio">Dominio o IP del Servidor</string>
+    <string name="directorio">API o Web service</string>
+    <string name="portal">Portal Web</string>
 
     <string name="usuario"><u>Registrarme ahora</u></string>
     <string name="clave"><u>¿Se te olvidó tu contraseña?</u></string>
@@ -111,5 +111,22 @@
         <item>Tcl</item>
         <item>Ruby</item>
     </string-array>
+
+
+    <string name="noconnection">Hospital Santa Teresa, Lamentamos informar que, actualmente su dispotivo inteligente no
+        cuenta con una conexión segura a INTERNET.\n\n
+
+        SUGERENCIAS.\n
+        ***Habilite sus datos móviles o,\n
+        ***Conecte su dispositivo móvil a una red WiFi. \n
+        \n
+
+        Sin embargo, le informamos que esta App,
+        la puede seguir utilizando en caso que,
+        su servidor de datos este dentro de la red corporativa.
+        \n
+    </string>
+    <string name="ok">Aceptar</string>
+    <string name="error">Información.</string>
 
 </resources>

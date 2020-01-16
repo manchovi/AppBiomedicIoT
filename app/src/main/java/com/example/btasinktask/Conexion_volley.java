@@ -30,11 +30,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Conexion_volley {
-
     /*
     public Conexion_volley() {
     }*/
-
 
     AlertDialog.Builder dialogo, dialogo1;
     private ProgressDialog pd;
@@ -69,6 +67,13 @@ public class Conexion_volley {
         return server + folder;
     }*/
 
+    public static String getServer(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        String server = preferences.getString("servidor", "Sin configurar.");
+        String folder = preferences.getString("folder", "Sin configurar.");
+        return server + folder;
+    }
+
     public String getDate(){
         //Función para obtener la fecha.
         //DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
@@ -87,18 +92,17 @@ public class Conexion_volley {
     }
 
 
-    public void sendInfoServer(final Context context, final String descripcion, final String frec_cardiaca, final String spo2, final String tension_arterial, final String frec_respiratoria, final String temp_corporal, final String alarma, final String fecha, final String hora, final String responsable_especialista) {
-        //String pc = obtenerServer(context);
-
+    public void sendInfoServer(final Context context, final String descripcion, final String spo2, final String frec_cardiaca, final String diastolic, final String systolic, final String pulse_min, final String frec_respiratoria, final String temp_corporal, final String alarma, final String fecha, final String hora, final String responsable_especialista) {
         //Toast.makeText(context, "entreeeee....", Toast.LENGTH_SHORT).show();
-
         //String url_guardar_destinatarios = pc + "/service/registrophone.php";
         //String url_guardar_destinatarios = "http://" + pc + "/service/registrophone.php";
         //String url_guardar_destinatarios = "http://mjgl.com.sv/UTLA/service/registrophone.php";
         //String url_guardar_destinatarios = pc + "/registrophone.php";
         //String url_guardar_destinatarios = pc + "/registrarInfo.php";  //registrar_sensores.php
 
-        String url_guardar_destinatarios = "http://mjgl.com.sv/HOSPITAL/service/registrar_sensores.php";
+        String pc = getServer(context).trim();
+        //String url_guardar_destinatarios = "http://mjgl.com.sv/HOSPITAL/service/registrar_sensores.php";
+        String url_guardar_destinatarios = pc + "/registrar_sensores.php";
 
         //inicio
         //ACTUALIZO DATOS INGRESADOS EN LA ACTIVITY EN LA BD.
@@ -149,9 +153,12 @@ public class Conexion_volley {
                 map.put("Content-Type", "application/json; charset=utf-8");
                 map.put("Accept", "application/json");
                 map.put("descripcion", descripcion.toString().trim());
-                map.put("frec_cardiaca", frec_cardiaca.toString().trim());
                 map.put("spo2", spo2.toString().trim());
-                map.put("tension_arterial", tension_arterial.toString().trim());
+                map.put("frec_cardiaca", frec_cardiaca.toString().trim());
+                //map.put("tension_arterial", tension_arterial.toString().trim());
+                map.put("diastolic", diastolic.toString().trim());
+                map.put("systolic", systolic.toString().trim());
+                map.put("pulsemin", pulse_min.toString().trim());
                 map.put("frec_respiratoria", frec_respiratoria.toString().trim());
                 map.put("temp_corporal", temp_corporal.toString().trim());
                 map.put("alarma",alarma.toString().trim());
@@ -165,11 +172,6 @@ public class Conexion_volley {
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-
-    //Método de consulta. Obtengo todos los datos o registros de una tabla.
-    public void consultaArticulos(final Context context, String codigo){
-
-    }
 
 
 }

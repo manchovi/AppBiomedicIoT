@@ -56,20 +56,21 @@ public class Pruebas extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //volleyBD.sendInfoServer(Pruebas.this, "PRUEBAS SEND DATA TREAM", "50", "51", "52", "53", "54", "0", "2019-10-01", "12:26:02", "28227838");  //02822783-8
-               volleyBD.sendInfoServer(Pruebas.this,
-                        et_d.getText().toString(),
-                        etfc.getText().toString(),
-                        etsp.getText().toString(),
-                        etpa.getText().toString(),
-                        etfr.getText().toString(),
-                        ettc.getText().toString(),
-                        eta.getText().toString(),
+                volleyBD.sendInfoServer(Pruebas.this,
+                        "Pruebas Finales Del Prototipo Biomédico # 1",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
                         volleyBD.getDate(),
                         volleyBD.getTime(),
-                        eti.getText().toString());
+                        "28227838");
             }
         });
-
     }
 
 

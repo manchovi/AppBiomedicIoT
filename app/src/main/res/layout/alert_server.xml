@@ -155,10 +155,9 @@
                                 android:layout_marginTop="0dp"
                                 android:ems="10"
                                 android:hint="@string/dominio"
-                                android:textSize="14dp"
-                                android:textColor="#03168B"
                                 android:inputType="text"
-                                />
+                                android:textColor="#03168B"
+                                android:textSize="14dp" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 

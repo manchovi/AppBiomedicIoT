@@ -836,14 +836,16 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         public void run() {
             contador++;
 
-            if(contador>=2) {
+            if (contador >= 2) {
                 volleyBD.sendInfoServer(SignalMonitorFR.this,
-                        "Internet of Things",
+                        "Pruebas Finales Del Prototipo Biomédico # 1",
+                        "0",
                         "0",
                         "0",
                         "0",
                         "0",
                         vd_fr.getText().toString(),
+                        "0",
                         vd_alarma.getText().toString(),
                         volleyBD.getDate(),
                         volleyBD.getTime(),
@@ -855,7 +857,5 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
             mHandler.postDelayed(this, totalSegundos);
         }
     };
-
-
 
 }

@@ -1,17 +1,12 @@
 package com.example.btasinktask;
 
-public class Dto_variables {
+public class Dto_variables1 {
 
     private String informacion = "";
 
     String temperatura_corporal;
     String frecuencia_respiratoria;
-
-    //String presion_arterial;
-    String diastolic;
-    String systolic;
-    String pulse_min;
-
+    String presion_arterial;
     //SPO2: Saturación Parcial del Oxígeno
     //      Pulso o Frecuencia Cardiaca y Saturación Parcial del Oxígeno.
     String frecuencia_cardiaca_o_pulso;
@@ -25,7 +20,7 @@ public class Dto_variables {
     //String hora;
 
 
-    public Dto_variables() {
+    public Dto_variables1() {
     }
 
 
@@ -45,29 +40,12 @@ public class Dto_variables {
         this.frecuencia_respiratoria = frecuencia_respiratoria;
     }
 
-
-    public String getDiastolic() {
-        return diastolic;
+    public String getPresion_arterial() {
+        return presion_arterial;
     }
 
-    public void setDiastolic(String diastolic) {
-        this.diastolic = diastolic;
-    }
-
-    public String getSystolic() {
-        return systolic;
-    }
-
-    public void setSystolic(String systolic) {
-        this.systolic = systolic;
-    }
-
-    public String getPulse_min() {
-        return pulse_min;
-    }
-
-    public void setPulse_min(String pulse_min) {
-        this.pulse_min = pulse_min;
+    public void setPresion_arterial(String presion_arterial) {
+        this.presion_arterial = presion_arterial;
     }
 
     public String getFrecuencia_cardiaca_o_pulso() {

@@ -9,8 +9,8 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/menu_monitor"
-        android:title="Monitor"
+        android:id="@+id/menu_portal"
+        android:title="Portal Web"
         android:icon="@drawable/ic_video"
         app:showAsAction="never"/>
 

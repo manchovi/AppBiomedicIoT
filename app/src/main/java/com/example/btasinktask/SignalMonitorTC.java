@@ -889,7 +889,9 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
 
             if(contador>=2) {
                 volleyBD.sendInfoServer(SignalMonitorTC.this,
-                        "Internet of Things",
+                        "Pruebas Finales Del Prototipo Biomédico # 1",
+                        "0",
+                       "0",
                         "0",
                         "0",
                         "0",
@@ -899,7 +901,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                         volleyBD.getDate(),
                         volleyBD.getTime(),
                         "28227838");
-            }
+                }
 
             totalSegundos = Integer.parseInt(obtenerTiempo());
             totalSegundos = totalSegundos * 1000;

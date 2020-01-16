@@ -35,6 +35,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,6 +91,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
     private GraphView graphPlot;
     private TextView txtXval, txtYval, tvTrama;
+
+    private TextView tv_diastolic, tv_systolic, tv_pulse_min;
 
     private TextView vd_ta, vd_alarma;
     private CheckBox cb_ta, cb_legends, cb_send, cb_time;
@@ -159,6 +163,10 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         txtYval = (TextView) findViewById(R.id.txtYval);
 
         vd_ta = (TextView) findViewById(R.id.vd_ta);
+        tv_diastolic = (TextView)findViewById(R.id.tv_diastolic);
+        tv_systolic = (TextView)findViewById(R.id.tv_systolic);
+        tv_pulse_min = (TextView)findViewById(R.id.tv_pulse_min);
+
         vd_alarma = (TextView) findViewById(R.id.vd_alarma);
 
         cb_ta = (CheckBox) findViewById(R.id.cb_ta);
@@ -672,15 +680,12 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         graphPlot.addSeries(dataSeries2);
         /**************************************************************/
 
-
         graphPlot.getLegendRenderer().setVisible(true);
         graphPlot.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
         //graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#ffffcc"));
         //graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#000099"));
         graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#5a5a5a"));
         graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#ffffff"));
-
-
     }
 
 
@@ -732,7 +737,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         */
         //Comprobamos que el dispositivo tiene adaptador bluetooth
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
         tvTrama.setText("Comprobando bluetooth");
 
         if (mBluetoothAdapter != null) {
@@ -823,30 +827,87 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
         int color5 = this.getResources().getColor(R.color.color_ta);
         vd_ta.setTextColor(color5);
-        Tension_arterial = p.getPresion_arterial();
-        vd_ta.setText(Tension_arterial);
-        //GRAFICA IV: Frecuencia Respiratoria
-        try {
-            prev = scaler(Double.parseDouble(vd_ta.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
-            if (estado_sw) {
-                if (e) {  //Verifico el estado del checkbox.
-                    if (plotCount <= plotlen) {
-                        plotValue(plotCount, prev, p.getPresion_arterial());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
-                        plotCount = plotCount + plotRes;
-                    } else {
-                        ResetGraph();
-                        plotCount = 0;
-                    }
-                    //aqui estaba
-                }
-            }
-        }catch (NumberFormatException nfe)
-        {
-            prev = 0;
-        }//FIN GRÁFICA TEMPERATURA CORPORAL
+        //Tension_arterial = p.getPresion_arterial();
+        Diastolic_pressure = p.getDiastolic();
+        Systolic_pressure = p.getSystolic();
+        Heart_rate = p.getPulse_min();
 
-        vd_alarma.setText(p.getAlarma());
-        //tvTrama.setText("Trama: 0");
+        //vd_ta.setText(Tension_arterial);
+        tv_diastolic.setText(Diastolic_pressure);
+        tv_systolic.setText(Systolic_pressure);
+        tv_pulse_min.setText(Heart_rate);
+
+        //if (Spo2.equals("0") || Frec_cardiaca.equals("0")) {
+        if (tv_diastolic.getText().equals("0") || tv_systolic.getText().equals("0") || tv_pulse_min.getText().equals("0")) {
+            //Toast.makeText(this, "Se ha detectado que el sensor ha sido desconectado o ha retirado su dedo indice de el.", Toast.LENGTH_SHORT).show();
+            if(conta1 == 0){
+                //dialogoError();
+                conta1++;
+            }
+
+        } else {//}
+
+            //Gráfica de Tensión Arterial. Dato 1. Diastolic.
+            try {
+                //prev = scaler(Double.parseDouble(tv_diastolic.toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+                prev = Double.parseDouble(tv_diastolic.getText().toString());
+                if (estado_sw) {
+                    if (e) {  //Verifico el estado del checkbox.
+                        if (plotCount <= plotlen) {
+                            plotValue(plotCount, prev, p.getDiastolic());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
+                            plotCount = plotCount + plotRes;
+                        } else {
+                            ResetGraph();
+                            plotCount = 0;
+                        }
+                    }
+                }
+            } catch (NumberFormatException nfe) {
+                prev = 0;
+            }         //Fin Gráfica 1.
+
+            //Gráfica de Tensión Arterial. Dato 2. Systolic.
+            try {
+                //prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+                prev1 = Double.parseDouble(tv_systolic.getText().toString());  // change this value depending on your application
+                if (estado_sw) {
+                    if (e) {  //Verifico el estado del checkbox.
+                        if (plotCount1 <= plotlen1) {
+                            plotValue1(plotCount1, prev1, p.getSystolic());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
+                            plotCount1 = plotCount1 + plotRes1;
+                        } else {
+                            ResetGraph1();
+                            plotCount1 = 0;
+                        }
+                    }
+                }
+            } catch (NumberFormatException nfe) {
+                prev1 = 0;
+            }  //Fin Gráfica 2.
+
+            //Gráfica de Tensión Arterial. Dato 3. Pulse Min.
+            try {
+                //prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+                prev2 = Double.parseDouble(tv_pulse_min.getText().toString());  // change this value depending on your application
+                if (estado_sw) {
+                    if (e) {  //Verifico el estado del checkbox.
+                        if (plotCount2 <= plotlen2) {
+                            plotValue2(plotCount2, prev2, p.getPulse_min());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
+                            plotCount2 = plotCount2 + plotRes2;
+                        } else {
+                            ResetGraph2();
+                            plotCount2 = 0;
+                        }
+                    }
+                }
+            } catch (NumberFormatException nfe) {
+                prev2 = 0;
+            }  //Fin Gráfica 2.
+
+            vd_alarma.setText(p.getAlarma());
+            //tvTrama.setText("Trama: 0");
+
+        }
     }
 
 
@@ -963,14 +1024,30 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         public void run() {
             contador++;
 
+            //sendInfoServer(final Context context,
+            // final String descripcion,
+            // final String spo2,
+            // final String frec_cardiaca,
+            // final String diastolic,
+            // final String systolic ,
+            // final String pulse_min,
+            // final String frec_respiratoria,
+            // final String temp_corporal,
+            // final String alarma,
+            // final String fecha,
+            // final String hora,
+            // final String responsable_especialista)
+
             if(contador>=2) {
                 volleyBD.sendInfoServer(SignalMonitorTA.this,
-                        "Internet of Things",
+                        "Pruebas Finales Del Prototipo Biomédico # 1",
                         "0",
                         "0",
+                        tv_diastolic.getText().toString(),
+                        tv_systolic.getText().toString(),
+                        tv_pulse_min.getText().toString(),
                         "0",
                         "0",
-                        vd_ta.getText().toString(),
                         vd_alarma.getText().toString(),
                         volleyBD.getDate(),
                         volleyBD.getTime(),

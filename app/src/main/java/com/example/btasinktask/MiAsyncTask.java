@@ -173,14 +173,19 @@ public class MiAsyncTask extends AsyncTask<BluetoothDevice, Dto_variables, Void>
                             //donde XX es la temperatura.
                         try {
                             String s[] = aString.split(",");
-                            if(s[6].equals("~")) {
+                            if(s[8].equals("~")) {
+                                //if(s[6].equals("~")) {
                                 datos.setSaturacion_parcial_oxigeno_SPO2(s[0]);
                                 datos.setFrecuencia_cardiaca_o_pulso(s[1]);
-                                datos.setPresion_arterial(s[2]);
-                                datos.setFrecuencia_respiratoria(s[3]);
-                                datos.setTemperatura_corporal(s[4]);
-                                datos.setAlarma(s[5]);
-                                datos.setDataStream(s[0]+","+s[1]+","+s[2]+","+s[3]+","+s[4]+","+s[5]);
+                                //datos.setPresion_arterial(s[2]);
+                                datos.setDiastolic(s[2]);
+                                datos.setSystolic(s[3]);
+                                datos.setPulse_min(s[4]);
+                                datos.setFrecuencia_respiratoria(s[5]);
+                                datos.setTemperatura_corporal(s[6]);
+                                datos.setAlarma(s[7]);
+                                //datos.setDataStream(s[0]+","+s[1]+","+s[2]+","+s[3]+","+s[4]+","+s[5]);
+                                datos.setDataStream(s[0]+","+s[1]+","+s[2]+","+s[3]+","+s[4]+","+s[5]+","+s[6]+","+s[7]);
                                 publishProgress(datos);
                             }else{
                                 datos.setInformacion("Error. Problemas de recepción de datos");
@@ -195,9 +200,7 @@ public class MiAsyncTask extends AsyncTask<BluetoothDevice, Dto_variables, Void>
                     e.printStackTrace();
                     //aStream = null;     //Tengo que probar esta línea de código haber que función cumple.........................................................
                 }
-
             }
-
             //Una vez la tarea se ha cancelado, cerramos la conexión con el dispositivo bluetooth.
             datos.setInformacion("Cerrando conexion BT");
 

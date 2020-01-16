@@ -1286,7 +1286,8 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
 
         int color3 = this.getResources().getColor(R.color.color_ta);
         vd_ta.setTextColor(color3);
-        Tension_arterial = p.getPresion_arterial();
+        //Tension_arterial = p.getPresion_arterial();
+        Tension_arterial = p.getDiastolic();
         vd_ta.setText(Tension_arterial);
         //GRAFICA III: Tensión Arterial
         try {
@@ -1294,7 +1295,7 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
             if (estado_sw) {
                 if (c) {  //Verifico el estado del checkbox.
                     if (plotCount2 <= plotlen2) {
-                        plotValue2(plotCount2, prev2, p.getPresion_arterial());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
+                        plotValue2(plotCount2, prev2, p.getDiastolic());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
                         plotCount2 = plotCount2 + plotRes2;
                     } else {
                         ResetGraph2();
@@ -1677,12 +1678,14 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
 
             if(contador>=2) {
                 volleyBD.sendInfoServer(SignalsMonitor.this,
-                        "Internet of Things",
-                        vd_fc.getText().toString(),
-                        vd_spo2.getText().toString(),
-                        vd_ta.getText().toString(),
-                        vd_fr.getText().toString(),
-                        vd_tc.getText().toString(),
+                        "Pruebas Finales Del Prototipo Biomédico # 1",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
                         vd_alarma.getText().toString(),
                         volleyBD.getDate(),
                         volleyBD.getTime(),
@@ -1701,9 +1704,4 @@ public class SignalsMonitor extends AppCompatActivity implements MiAsyncTask.MiC
             mHandler.postDelayed(this, totalSegundos);
         }
     };
-
-
-
-
-
 }

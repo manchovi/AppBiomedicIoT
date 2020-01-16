@@ -264,12 +264,17 @@ public class MenuPrincipal extends AppCompatActivity {
                 /*documentoEspecialista
                 nombreEspecialista
                 nombrePaciente*/
-                Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTC.class);
-                intent.putExtra("senalTC", "1");
-                intent.putExtra("documento", documentoEspecialista);
-                intent.putExtra("nombreEspecialista", nombreEspecialista);
-                intent.putExtra("nombrePaciente", nombrePaciente);
-                startActivity(intent);
+                String comprobacion = conf_Server().trim();
+                if (comprobacion.equals("Sin configurar.")) {
+                    mensaje1();                                //Estos mensajes los pondré con Toast Personalizado.
+                }else {
+                    Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTC.class);
+                    intent.putExtra("senalTC", "1");
+                    intent.putExtra("documento", documentoEspecialista);
+                    intent.putExtra("nombreEspecialista", nombreEspecialista);
+                    intent.putExtra("nombrePaciente", nombrePaciente);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -537,7 +542,6 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
     }
-
 
     public void detallePacienteEspecialista(){
         AlertDialog.Builder al = new AlertDialog.Builder(MenuPrincipal.this);
@@ -1024,7 +1028,7 @@ public class MenuPrincipal extends AppCompatActivity {
         //SharedPreferences.
         final Spinner sprotocolo = (Spinner)mView.findViewById(R.id.sprotocolo);
         final TextView tv_encabezado = (TextView)mView.findViewById(R.id.tv_encabezado);
-        final TextView tv_encabezado1 = (TextView)mView.findViewById(R.id.tv_encabezado1);
+        final TextView tv_encabezado1 = (TextView)mView.findViewById(R.id.tv_encabezado1);  //et_portal
         final TextView tv_servidor = (TextView)mView.findViewById(R.id.tv_servidor);
         final TextView tv_directorio = (TextView)mView.findViewById(R.id.tv_directorio);
         final TextView tv_directorioPortal = (TextView)mView.findViewById(R.id.tv_directorioPortal);
@@ -1033,7 +1037,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         final EditText dominio = (EditText) mView.findViewById(R.id.et_dominio);
         final EditText directorio = (EditText) mView.findViewById(R.id.et_directorio);
-        final EditText portal = (EditText) mView.findViewById(R.id.et_portal);
+        final EditText portal = (EditText) mView.findViewById(R.id.et_portal); //et_portal
         final TextInputLayout ti_dominio=(TextInputLayout)mView.findViewById(R.id.ti_dominio);
 
         Button btnSave = (Button)mView.findViewById(R.id.btnSave);      //BOTONES DEL DIALOG CONFIGURACION.
@@ -1126,55 +1130,83 @@ public class MenuPrincipal extends AppCompatActivity {
                     //ti_dominio.setVisibility(View.GONE);
                 }
 
-                if(directorio.getText().toString().length()==0){
-                    directorio.setError("Campo Obligadorio");
+                //if(directorio.getText().toString().length()==0 || !directorio.getText().equals("Sin configurar.")){
+                /*if(directorio.getText().equals("Sin configurar.")){
+                    directorio.setError("Campo opcional. Dejar en Blanco");
+                    directorio.setText(null);
                     directorio.requestFocus();
                     estado_dir_api = false;
                 }else{
                     estado_dir_api = true;
                 }
-
-                if(portal.getText().toString().length()==0){
+                //portal.getText().toString().length()==0 &&
+                //if(portal.getText().equals("Sin configurar.") && portal.getText().toString().length()==0){
+                if(portal.getText().equals("Sin configurar.")){
                     portal.setError("Campo Obligadorio");
+                    portal.setText(null);
                     portal.requestFocus();
                     estado_dir_portal = false;
                 }else{
                     estado_dir_portal = true;
-                }
+                }*/
 
 
-                if(estado_nombre && estado_dir_api && estado_dir_portal){
+                if(estado_nombre){
+                //if(estado_nombre && estado_dir_api && estado_dir_portal){
                     SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
                     //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
                     DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
                     String date= formatodate.format(new Date());
                     DateFormat formatotime= new SimpleDateFormat("HH:mm:ss a");
                     String time= formatotime.format(new Date());
+
                     String servidor = dominio.getText().toString();
-                    String folder = directorio.getText().toString();
-                    String folder1 = portal.getText().toString();
+
+                    String folderSevice="";
+                    if(directorio.getText().toString().equals("Sin configurar.")){   //Esta es la forma correcta de comparar el string
+                        //Toast.makeText(MenuPrincipal.this, "o.k", Toast.LENGTH_SHORT).show();
+                        folderSevice = "";
+                    }else{
+                        //Toast.makeText(MenuPrincipal.this, "not", Toast.LENGTH_SHORT).show();
+                        folderSevice = directorio.getText().toString();
+                    }
+                    //String folder = directorio.getText().toString();
+
+
+                    String folderPortal = "";
+                    if(portal.getText().toString().equals("Sin configurar.")){   //Esta es la forma correcta de comparar el string
+                        folderPortal = "";
+                    }else{
+                        folderPortal = portal.getText().toString();
+                    }
+                    //String folder1 = portal.getText().toString();
 
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("servidor", sprotocolo.getSelectedItem().toString() + servidor + "/");
-                    editor.putString("folder", folder);
-                    editor.putString("portal", folder1);
+                    //editor.putString("servidor", sprotocolo.getSelectedItem().toString() + servidor + "/");
+                    editor.putString("servidor", sprotocolo.getSelectedItem().toString() + servidor);
+                    //editor.putString("folder", folder);
+                    editor.putString("folder", folderSevice);
+                    editor.putString("portal", folderPortal);
                     editor.putString("fecha", date);
                     editor.putString("hora", time);
                     editor.commit();
 
                     tv_encabezado.setVisibility(mView.VISIBLE);
-                    tv_encabezado.setText("Server API-Web Service: "+ servidor +"/" + folder);
+                    //tv_encabezado.setText("Server API-Web Service: "+ servidor +"/" + folderSevice);
+                    tv_encabezado.setText("Server API-Web Service: "+ servidor + folderSevice);
 
                     tv_encabezado1.setVisibility(mView.VISIBLE);
-                    tv_encabezado1.setText("Server Portal Web: "+ servidor +"/" + folder1);
+                    tv_encabezado1.setText("Server Portal Web: "+ servidor + folderPortal);
+                    //tv_encabezado1.setText("Server Portal Web: "+ servidor +"/" + folder1);
 
                     tv_servidor.setVisibility(mView.VISIBLE);
                     tv_directorio.setVisibility(mView.VISIBLE);
                     tv_fecha.setVisibility(mView.VISIBLE);
                     tv_hora.setVisibility(mView.VISIBLE);
 
-                    tv_servidor.setText("Server: " +servidor);
-                    tv_directorio.setText("Directorios: " +folder+", "+folder1);
+                    tv_servidor.setText("Server: " + servidor);
+                    tv_directorio.setText("Directorios: " + folderSevice + ", " + folderPortal);
+                    //tv_directorio.setText("Directorios: " +folder+", "+folder1);
                     tv_fecha.setText("Fecha de Registro: "+date);
                     tv_hora.setText("Hora de Registro: "+time);
 
@@ -1238,10 +1270,12 @@ public class MenuPrincipal extends AppCompatActivity {
             Toast.makeText(this, "Clic en opción llamada al menú lateral", Toast.LENGTH_SHORT).show();
 
             return true;
-        }else if(id==R.id.menu_monitor) {
+        }else if(id==R.id.menu_portal) {
             //Intent intent = new Intent(this, MainActivity.class);
-            Intent intent = new Intent(this, SignalsMonitor.class);
-            startActivity(intent);
+
+            /*Intent intent = new Intent(this, SignalsMonitor.class);
+            startActivity(intent);*/
+            GoPortal();
             
             return true;
         }else if(id==R.id.menu_detallesPacienteEspecialista){
@@ -1252,6 +1286,38 @@ public class MenuPrincipal extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
+    private String conf_Server() {
+        //Buscando datos en archivo credenciales.xml
+        SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        String server = preferences.getString("servidor", "Sin configurar.");
+        return server;
+    }
+
+    private String conf_Server1() {
+        //Buscando datos en archivo credenciales.xml
+        SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        String server = preferences.getString("servidor", "Sin configurar aun.");
+        String folder = preferences.getString("folder", "Sin configurar aun.");
+        return server + folder;
+    }
+
+    private void mensaje1() {
+        Toast.makeText(this, "Opción deshabilitada. \nServidor Destino no Configurado Aún.\nConfigurar para habilitar opción.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void GoPortal() {
+        String comprobacion = conf_Server();
+        if (comprobacion.equals("Sin configurar.")) {
+            mensaje1();
+        } else {
+            Intent i = new Intent(getApplicationContext(), VisorWeb.class);
+            //i.putExtra("usu", mEmail.getText().toString());
+            startActivity(i);
+            finish();
+        }
+    }
+
 
 }
 

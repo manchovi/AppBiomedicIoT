@@ -974,21 +974,21 @@ public class SignalMonitorSpo2Pulso1 extends AppCompatActivity implements MiAsyn
         @Override
         public void run() {
             contador++;
-
-            if(contador>=2) {
-                volleyBD.sendInfoServer(SignalMonitorSpo2Pulso1.this,
-                    "Internet of Things",
-                        vd_fc.getText().toString(),
-                        vd_spo2.getText().toString(),
-                        "0",
-                        "0",
-                        "0",
-                        vd_alarma.getText().toString(),
-                        volleyBD.getDate(),
-                        volleyBD.getTime(),
-                        "28227838");
-            }
-
+        if(contador>=2) {
+            volleyBD.sendInfoServer(SignalMonitorSpo2Pulso1.this,
+                    "Pruebas Finales Del Prototipo Biomédico # 1",
+                    vd_spo2.getText().toString(),
+                    vd_fc.getText().toString(),
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    vd_alarma.getText().toString(),
+                    volleyBD.getDate(),
+                    volleyBD.getTime(),
+                    "28227838");
+        }
             totalSegundos = Integer.parseInt(obtenerTiempo());
             totalSegundos = totalSegundos * 1000;
             mHandler.postDelayed(this, totalSegundos);

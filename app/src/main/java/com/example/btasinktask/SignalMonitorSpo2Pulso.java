@@ -875,11 +875,8 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             prev1 = 0;
         }   //FIN GRÁFICA II
 
-
         vd_alarma.setText(p.getAlarma());
-
     }
-
         //tvTrama.setText("Trama: 0");
     }
 
@@ -991,18 +988,20 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             contador++;
 
             if(contador>=2) {
-                volleyBD.sendInfoServer(SignalMonitorSpo2Pulso.this,
-                    "Internet of Things",
-                        vd_fc.getText().toString(),
-                        vd_spo2.getText().toString(),
-                        "0",
-                        "0",
-                        "0",
-                        vd_alarma.getText().toString(),
-                        volleyBD.getDate(),
-                        volleyBD.getTime(),
-                        "28227838");
-            }
+                    volleyBD.sendInfoServer(SignalMonitorSpo2Pulso.this,
+                    "Pruebas Finales Del Prototipo Biomédico # 1",
+                    vd_spo2.getText().toString(),
+                    vd_fc.getText().toString(),
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    vd_alarma.getText().toString(),
+                    volleyBD.getDate(),
+                    volleyBD.getTime(),
+                    "28227838");
+        }
 
             totalSegundos = Integer.parseInt(obtenerTiempo());
             totalSegundos = totalSegundos * 1000;
