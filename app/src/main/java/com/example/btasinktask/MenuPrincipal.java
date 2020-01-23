@@ -1272,7 +1272,6 @@ public class MenuPrincipal extends AppCompatActivity {
             return true;
         }else if(id==R.id.menu_portal) {
             //Intent intent = new Intent(this, MainActivity.class);
-
             /*Intent intent = new Intent(this, SignalsMonitor.class);
             startActivity(intent);*/
             GoPortal();
@@ -1314,7 +1313,7 @@ public class MenuPrincipal extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), VisorWeb.class);
             //i.putExtra("usu", mEmail.getText().toString());
             startActivity(i);
-            finish();
+            //finish();
         }
     }
 

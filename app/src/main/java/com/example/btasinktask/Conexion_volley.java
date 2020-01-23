@@ -101,6 +101,8 @@ public class Conexion_volley {
         //String url_guardar_destinatarios = pc + "/registrarInfo.php";  //registrar_sensores.php
 
         String pc = getServer(context).trim();
+        //Toast.makeText(context, "path: "+pc, Toast.LENGTH_SHORT).show();
+
         //String url_guardar_destinatarios = "http://mjgl.com.sv/HOSPITAL/service/registrar_sensores.php";
         String url_guardar_destinatarios = pc + "/registrar_sensores.php";
 
@@ -127,7 +129,7 @@ public class Conexion_volley {
                     String result_msj = respuestaJSON.getString("mensaje");   // estado es el nombre del campo en el JSON
                     //if (resultJSON == "1") {
                     if (resultJSON.equals("1")) {
-                        Toast.makeText(context, "Datos Guardados Satisfactoriamente", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "Datos Guardados Satisfactoriamente", Toast.LENGTH_SHORT).show();
                     } else if (resultJSON.equals("2")) {
                         /*
                         Toast toast = Toast.makeText(context, "--> UTLA." +

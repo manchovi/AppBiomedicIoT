@@ -740,6 +740,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                             e.printStackTrace();
                         }*/
                         tareaAsincrona.SendData("O");
+                        //tareaAsincrona.cerrar_conect_bt();
 
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
@@ -824,6 +825,10 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             //Toast.makeText(this, "Se ha detectado que el sensor ha sido desconectado o ha retirado su dedo indice de el.", Toast.LENGTH_SHORT).show();
             if(conta1 == 0){
                 dialogoError();
+                //En este momento detendré el envio de datos a la base de datos.
+                stopRepeating();
+                cb_send.setChecked(false);
+                cb_send.setEnabled(false);
                 conta1++;
             }
 
@@ -988,19 +993,26 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             contador++;
 
             if(contador>=2) {
+                //ACA ESTOY PENSANDO PONER UNAS CONDICIONES PARA
+                //1. Si hay valores de 0 que no guarde en la base de datos.
+                //2. SI los edittext no leen nada, es decir estan en blanco sin dato (Ni cero) tampoco debe enviarse información a la base de datos.
+                if(vd_spo2.getText().equals("0") || vd_spo2.getText().equals("")  || vd_fc.getText().equals("0") || vd_fc.getText().equals("")){
+                    //Toast.makeText(SignalMonitorSpo2Pulso.this, "nada", Toast.LENGTH_SHORT).show();
+                }else {
                     volleyBD.sendInfoServer(SignalMonitorSpo2Pulso.this,
-                    "Pruebas Finales Del Prototipo Biomédico # 1",
-                    vd_spo2.getText().toString(),
-                    vd_fc.getText().toString(),
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    vd_alarma.getText().toString(),
-                    volleyBD.getDate(),
-                    volleyBD.getTime(),
-                    "28227838");
+                            "Pruebas Finales Del Prototipo Biomédico # 1",
+                            vd_spo2.getText().toString(),
+                            vd_fc.getText().toString(),
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            "0",
+                            vd_alarma.getText().toString(),
+                            volleyBD.getDate(),
+                            volleyBD.getTime(),
+                            "28227838");
+                }
         }
 
             totalSegundos = Integer.parseInt(obtenerTiempo());
@@ -1014,7 +1026,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
         new android.app.AlertDialog.Builder(this)
                 .setIcon(R.drawable.ic_error)
-                .setTitle("Error!")
+                .setTitle("Problemas encontrados!")
                 .setMessage("Posibles razones:\n\n" +
                         "1. No se ha conectado o se ha desconectado el sensor de la tarjeta MySignals." + "\n" +
                         "2. Se ha retirado el dedo indice del sensor de medición. O Ambos casos, literal 1 y 2." + "\n" +

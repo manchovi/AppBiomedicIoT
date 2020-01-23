@@ -59,8 +59,8 @@
     <string name="configurations1">Configuración</string>
     <string name="subtitle1">Servidor Destino</string>
 
-    <string name="configurations2">Configuración</string>
-    <string name="subtitle2">Dr. Especialista</string>
+    <string name="configurations2">Notificaciones</string>
+    <string name="subtitle2">Destinatario</string>
 
     <string name="configurations3">Configuración</string>
     <string name="subtitle3">Alerta Temprana</string>

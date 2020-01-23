@@ -774,7 +774,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }*/
-                        tareaAsincrona.SendData("T");
+                        tareaAsincrona.SendData("P");
 
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
@@ -925,7 +925,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                         startActivityForResult(enableBtIntent, Config.REQUEST_ENABLE_BT);
                         //startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
                     }
-
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override

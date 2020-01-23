@@ -97,6 +97,15 @@ public class MiAsyncTask extends AsyncTask<BluetoothDevice, Dto_variables, Void>
 
     }
 
+    //Apagar bluetooth -- NO utilice este método al final.
+    public void cerrar_conect_bt() {
+        if (mSocket != null) {
+            try {
+                mSocket.close();
+            } catch (IOException e) { //msg("Error");}
+            }
+        }
+    }
 
 
     private void demora(){

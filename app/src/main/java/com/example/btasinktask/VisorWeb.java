@@ -49,7 +49,7 @@ public class VisorWeb extends AppCompatActivity {
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            GoMain();
+                            //GoMain();
                             VisorWeb.this.finish();
                         }
                     })
@@ -77,7 +77,7 @@ public class VisorWeb extends AppCompatActivity {
         //setSupportActionBar(toolbar);
         toolbar.setTitle("Portal");
         toolbar.setTitleMargin(0, 0, 0, 0);
-        toolbar.setSubtitle("UTLA");
+        toolbar.setSubtitle("Web");
         setSupportActionBar(toolbar);
 
         if (checkConnectivity()) {
