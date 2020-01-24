@@ -59,9 +59,9 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     private double plotCount = 1;
     private double plotCount1 = 1;
     private double plotCount2 = 1;
-    private double plotlen = 51;
-    private double plotlen1 = 51;
-    private double plotlen2 = 51;
+    private double plotlen = 6;  //51
+    private double plotlen1 = 6;
+    private double plotlen2 = 6;
     private double plotRes = 1;
     private double plotRes1 = 1;
     private double plotRes2 = 1;
@@ -75,7 +75,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     String Systolic_pressure="";
     String Heart_rate="";
 
-    int Alarma=0;
+    int Alarma=0; int contax=0;
 
     private boolean aviso = false;
     public static Handler btHandler;
@@ -93,6 +93,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     private TextView txtXval, txtYval, tvTrama;
 
     private TextView tv_diastolic, tv_systolic, tv_pulse_min;
+    private TextView tv_diastolic1, tv_systolic1, tv_pulse_min1;
 
     private TextView vd_ta, vd_alarma;
     private CheckBox cb_ta, cb_legends, cb_send, cb_time;
@@ -163,9 +164,14 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         txtYval = (TextView) findViewById(R.id.txtYval);
 
         vd_ta = (TextView) findViewById(R.id.vd_ta);
+
         tv_diastolic = (TextView)findViewById(R.id.tv_diastolic);
         tv_systolic = (TextView)findViewById(R.id.tv_systolic);
         tv_pulse_min = (TextView)findViewById(R.id.tv_pulse_min);
+
+        tv_diastolic1 = (TextView)findViewById(R.id.tv_diastolic1);
+        tv_systolic1 = (TextView)findViewById(R.id.tv_systolic1);
+        tv_pulse_min1 = (TextView)findViewById(R.id.tv_pulse_min1);
 
         vd_alarma = (TextView) findViewById(R.id.vd_alarma);
 
@@ -271,8 +277,9 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                     @SuppressLint("DefaultLocale")   String fxVal = String.format("%3.3f", xVal);
                     //txtXval.setText(fxVal);
                     //txtYval.setText(fyVal);
-                    Toast.makeText(SignalMonitorTA.this, "Eje x:"+ xVal + "\n" +
-                            "Eje y:"+ yVal, Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(SignalMonitorTA.this, "Eje x:"+ xVal + "\n" +
+                            "Eje y:"+ yVal, Toast.LENGTH_SHORT).show();*/
+                    mensaje_valores_ejey(yVal,0,0);
                 }
             }
         });
@@ -298,14 +305,48 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                     @SuppressLint("DefaultLocale")   String fxVal = String.format("%3.3f", xVal);
                     //txtXval.setText(fxVal);
                     //txtYval.setText(fyVal);
-                    Toast.makeText(SignalMonitorTA.this, "Eje x:"+ xVal + "\n" +
-                            "Eje y:"+ yVal, Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(SignalMonitorTA.this, "Eje x:"+ xVal + "\n" +
+                            "Eje y:"+ yVal, Toast.LENGTH_SHORT).show();*/
+                    mensaje_valores_ejey(0,yVal,0);
+                }
+            }
+        });
+
+        dataSeries2.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+
+                //dataPointInterface has square backet
+                // by default and should be removed when parsing the data of X and Y axis
+                String strDataPoint = String.valueOf(dataPoint).replaceAll("\\[","").replaceAll("\\]","");
+
+                String strSplit[];
+                Double yVal, xVal;
+
+                if (strDataPoint.contains("/")) {
+                    strSplit = strDataPoint.split("/");
+                    yVal =  Double.parseDouble(strSplit[1]);
+                    xVal =  Double.parseDouble(strSplit[0]);
+
+                    @SuppressLint("DefaultLocale")   String fyVal = String.format("%3.3f", yVal);
+                    @SuppressLint("DefaultLocale")   String fxVal = String.format("%3.3f", xVal);
+                    //txtXval.setText(fxVal);
+                    //txtYval.setText(fyVal);
+                    /*Toast.makeText(SignalMonitorTA.this, "Eje x:"+ xVal + "\n" +
+                            "Eje y:"+ yVal, Toast.LENGTH_SHORT).show();*/
+                    mensaje_valores_ejey(0, 0,yVal);
                 }
             }
         });
 
 
     }  //FIn onCreate
+
+    public void mensaje_valores_ejey(double diastolic, double systolic, double pulsemin){
+        Toast.makeText(this, "Diastolic: "+diastolic+".\n"+
+                "Systolic: "+systolic+".\n"+
+                "Pulse min: "+pulsemin, Toast.LENGTH_SHORT).show();
+    }
 
 
     public void VentanaDialog1(final Context context){
@@ -602,12 +643,12 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
         //SetGraphParam(150, -0.5, 1023.0, -10.1);
         //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(60.0, 0.0, 160.0, 20.0);
+        SetGraphParam(10.0, 0.0, 160.0, 20.0);
         setPlotParamBound();
         //plotSize = 151;
-        for (int i = 0; i < 60; i++) {
+        for (int i = 0; i < 10; i++) {
             //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
-            dataSeries.appendData(new DataPoint(i, 60.0), false, (int) plotSize);
+            dataSeries.appendData(new DataPoint(i, 120.0), false, (int) plotSize);
         }
 
         //Activando leyendas:
@@ -628,11 +669,11 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         //ADICIONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNES DEMÁS GRÁFICAS
         //Variable Frecuencia Cardiaca
         //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(60.0, 0.0, 160.0, 20.0);
+        SetGraphParam(10.0, 0.0, 160.0, 20.0);
         setPlotParamBound();
         //DataPoint[] points = new DataPoint[140];
-        DataPoint[] points = new DataPoint[60];
-        for (int i = 0; i < 60; i++) {
+        DataPoint[] points = new DataPoint[10];
+        for (int i = 0; i < 10; i++) {
             //points[i] = new DataPoint(i, 5.0 * Math.sin(i/4.5));
             //points[i] = new DataPoint(i, 4.0);
             points[i] = new DataPoint(i, 100);
@@ -656,11 +697,11 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
         /*************************************************************/
         //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(60.0, 0.0, 160.0, 20.0);
+        SetGraphParam(10.0, 0.0, 160.0, 20.0);
         setPlotParamBound();
         //DataPoint[] points = new DataPoint[140];
-        DataPoint[] points1 = new DataPoint[60];
-        for (int i = 0; i < 60; i++) {
+        DataPoint[] points1 = new DataPoint[10];
+        for (int i = 0; i < 10; i++) {
             //points[i] = new DataPoint(i, 5.0 * Math.sin(i/4.5));
             //points[i] = new DataPoint(i, 4.0);
             points1[i] = new DataPoint(i, 80);                    //REFERENCIA DONDE SE MOSTRARÁ LA LINEA QUE PARTE DESDE EL EJE Y HACIA LA HORIZONTAL EN EL EJE X.
@@ -833,15 +874,21 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         Heart_rate = p.getPulse_min();
 
         //vd_ta.setText(Tension_arterial);
-        tv_diastolic.setText(Diastolic_pressure);
-        tv_systolic.setText(Systolic_pressure);
-        tv_pulse_min.setText(Heart_rate);
+        tv_diastolic1.setText(Diastolic_pressure);
+        tv_systolic1.setText(Systolic_pressure);
+        tv_pulse_min1.setText(Heart_rate);
+            /*
+             tv_diastolic.setText(Diastolic_pressure);
+             tv_systolic.setText(Systolic_pressure);
+             tv_pulse_min.setText(Heart_rate);
+
+            */
 
         //if (Spo2.equals("0") || Frec_cardiaca.equals("0")) {
-        if (tv_diastolic.getText().equals("0") || tv_systolic.getText().equals("0") || tv_pulse_min.getText().equals("0")) {
+        if (tv_diastolic1.getText().equals("0") || tv_systolic1.getText().equals("0") || tv_pulse_min1.getText().equals("0")) {
             //Toast.makeText(this, "Se ha detectado que el sensor ha sido desconectado o ha retirado su dedo indice de el.", Toast.LENGTH_SHORT).show();
             if(conta1 == 0){
-                //dialogoError();
+                dialogoError();
                 conta1++;
             }
 
@@ -850,7 +897,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             //Gráfica de Tensión Arterial. Dato 1. Diastolic.
             try {
                 //prev = scaler(Double.parseDouble(tv_diastolic.toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
-                prev = Double.parseDouble(tv_diastolic.getText().toString());
+                prev = Double.parseDouble(tv_diastolic1.getText().toString());
                 if (estado_sw) {
                     if (e) {  //Verifico el estado del checkbox.
                         if (plotCount <= plotlen) {
@@ -869,7 +916,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             //Gráfica de Tensión Arterial. Dato 2. Systolic.
             try {
                 //prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
-                prev1 = Double.parseDouble(tv_systolic.getText().toString());  // change this value depending on your application
+                prev1 = Double.parseDouble(tv_systolic1.getText().toString());  // change this value depending on your application
                 if (estado_sw) {
                     if (e) {  //Verifico el estado del checkbox.
                         if (plotCount1 <= plotlen1) {
@@ -888,7 +935,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             //Gráfica de Tensión Arterial. Dato 3. Pulse Min.
             try {
                 //prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
-                prev2 = Double.parseDouble(tv_pulse_min.getText().toString());  // change this value depending on your application
+                prev2 = Double.parseDouble(tv_pulse_min1.getText().toString());  // change this value depending on your application
                 if (estado_sw) {
                     if (e) {  //Verifico el estado del checkbox.
                         if (plotCount2 <= plotlen2) {
@@ -1036,21 +1083,38 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             // final String fecha,
             // final String hora,
             // final String responsable_especialista)
-
+            contax = 0;
             if(contador>=2) {
-                volleyBD.sendInfoServer(SignalMonitorTA.this,
-                        "Pruebas Finales Del Prototipo Biomédico # 1",
-                        "0",
-                        "0",
-                        tv_diastolic.getText().toString(),
-                        tv_systolic.getText().toString(),
-                        tv_pulse_min.getText().toString(),
-                        "0",
-                        "0",
-                        vd_alarma.getText().toString(),
-                        volleyBD.getDate(),
-                        volleyBD.getTime(),
-                        "28227838");
+                if(tv_diastolic1.getText().equals("0") || tv_diastolic1.getText().equals("")  || tv_systolic1.getText().equals("0") || tv_systolic1.getText().equals("") || tv_pulse_min1.getText().equals("0") || tv_pulse_min1.getText().equals("")){
+                    //Toast.makeText(SignalMonitorSpo2Pulso.this, "nada", Toast.LENGTH_SHORT).show();
+                }else{
+                    /*tv_diastolic.setText(Diastolic_pressure);
+                     tv_systolic.setText(Systolic_pressure);
+                     tv_pulse_min.setText(Heart_rate);*/
+
+                    if(contax==0){
+                         tv_diastolic.setText(tv_diastolic1.getText().toString());
+                         tv_systolic.setText(tv_systolic1.getText().toString());
+                         tv_pulse_min.setText(tv_pulse_min1.getText().toString());
+                         contax=1;
+                     }
+
+                    volleyBD.sendInfoServer(SignalMonitorTA.this,
+                            "Pruebas Finales Del Prototipo Biomédico # 1",
+                            "0",
+                            "0",
+                            tv_diastolic.getText().toString(),
+                            tv_systolic.getText().toString(),
+                            tv_pulse_min.getText().toString(),
+                            "0",
+                            "0",
+                            vd_alarma.getText().toString(),
+                            volleyBD.getDate(),
+                            volleyBD.getTime(),
+                            "28227838");
+
+                            dialogoFinal();
+                }
             }
 
             totalSegundos = Integer.parseInt(obtenerTiempo());
@@ -1060,6 +1124,43 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     };
 
 
+    private void dialogoError(){
+
+        new android.app.AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_error)
+                .setTitle("Info Sensor!!!")
+                .setMessage("Revice lo Siguiente:\n" +
+                        "1. Sensor este conectado a la tarjeta MySignals." + "\n" +
+                        "2. Para realizar una medición, una vez conectado debe encenderse desde el botón correspondiente." +"\n" +
+                        "3. Para efectuar diferentes mediciones es necesario que por medición se encienda el sensor." +"\n\n" +
+                        "Gracias!!!.")
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
+    }
+
+    private void dialogoFinal(){
+        new android.app.AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_info)
+                .setTitle("Completado!!!")
+                .setMessage("Se ha completado la medición. Press Aceptar para verificar la lecturas obtenidas." +
+                        "\n\nEn caso de querer realizar otra medición, encienda el sensor.")
+                //.setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
+    }
 
 
 }

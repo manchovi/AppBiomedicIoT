@@ -549,7 +549,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         //SetGraphParam(125, 0.0, 6.0, 0.0);
         //SetGraphParam(120, 0.0, 200.0, 0.0);    //Funciona y muestra bien los datos. Seria para una prueba de capcidad de respiración.
         //SetGraphParam(120, 0.0, 100.0, 0.0);
-        SetGraphParam(200, 0.0, 200.0, 0.0);
+        SetGraphParam(200, 0.0, 350.0, 0.0);
 
         setPlotParamBound();
         //plotSize = 201;//plotSize = 151;

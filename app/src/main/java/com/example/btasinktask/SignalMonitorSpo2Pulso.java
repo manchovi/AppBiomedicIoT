@@ -1026,7 +1026,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
         new android.app.AlertDialog.Builder(this)
                 .setIcon(R.drawable.ic_error)
-                .setTitle("Problemas encontrados!")
+                .setTitle("Check Sensor!!!")
                 .setMessage("Posibles razones:\n\n" +
                         "1. No se ha conectado o se ha desconectado el sensor de la tarjeta MySignals." + "\n" +
                         "2. Se ha retirado el dedo indice del sensor de medición. O Ambos casos, literal 1 y 2." + "\n" +
