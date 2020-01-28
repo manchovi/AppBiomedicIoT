@@ -60,12 +60,15 @@
     <item name="textGrey" type="color">#090909</item>
 
     <color name="chovi3">#03A9F4</color>
-    <color name="color_toolbar">#03A9F4</color>
+    <color name="color_toolbar">#FFFEFE</color>
 
     <color name="colorToolBar">#266496</color>
 
     <color name="blue">#0119A0</color>
     <color name="orange">#eaad43</color>
     <color name="green">#45bc62</color>
+
+    <color name="colorToolBarCardView">#444141</color>
+    <color name="coloriconos">#B60404</color>
 
 </resources>

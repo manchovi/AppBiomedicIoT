@@ -1,8 +1,5 @@
 package com.example.btasinktask;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -27,6 +24,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -35,16 +35,12 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
-import org.w3c.dom.Text;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
-public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.MiCallback{
-
-    boolean bandera = false;
+public class SignalMonitorTA_1 extends AppCompatActivity implements MiAsyncTask.MiCallback{
 
     //Instancia de la clase MiAsyncTask.
     private MiAsyncTask tareaAsincrona;
@@ -201,7 +197,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    VentanaDialog2(SignalMonitorTA.this);
+                    VentanaDialog2(SignalMonitorTA_1.this);
                 }else{
                     cb_time.setChecked(false);
                 }
@@ -226,7 +222,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             @Override
             public void onClick(View view) {
                 if(cb_legends.isChecked()){
-                    VentanaDialog1(SignalMonitorTA.this);
+                    VentanaDialog1(SignalMonitorTA_1.this);
                 }else{
                     legendsHidden();
                 }
@@ -246,12 +242,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                     plotCount = 0;
                     plotCount1 = 0;
                     plotCount2 = 0;
-
-                    tv_diastolic.setText("0");
-                    tv_systolic.setText("0");
-                    tv_pulse_min.setText("0");
-                    bandera = false;
-
                     setCheckBoxAll(true);
                     //cb_legends.setChecked(true);
                     cb_legends.setEnabled(true);
@@ -666,8 +656,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         dataSeries.setColor(color1);
         //dataSeries.setColor(Color.parseColor("#1a8cff"));
         dataSeries.setDrawDataPoints(true);
-        dataSeries.setDataPointsRadius(5);
-        dataSeries.setThickness(4);
+        dataSeries.setDataPointsRadius(3);
+        dataSeries.setThickness(2);
         graphPlot.addSeries(dataSeries);
 
         /***************************************************************/
@@ -696,8 +686,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         int color2 = this.getResources().getColor(R.color.color_fc);
         dataSeries1.setColor(color2);
         dataSeries1.setDrawDataPoints(true);
-        dataSeries1.setDataPointsRadius(5);
-        dataSeries1.setThickness(4);
+        dataSeries1.setDataPointsRadius(3);
+        dataSeries1.setThickness(2);
         graphPlot.addSeries(dataSeries1);
         /**************************************************************/
 
@@ -724,8 +714,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         int color3 = this.getResources().getColor(R.color.color_ta1);
         dataSeries2.setColor(color3);
         dataSeries2.setDrawDataPoints(true);
-        dataSeries2.setDataPointsRadius(5);
-        dataSeries2.setThickness(4);
+        dataSeries2.setDataPointsRadius(3);
+        dataSeries2.setThickness(2);
         graphPlot.addSeries(dataSeries2);
         /**************************************************************/
 
@@ -894,7 +884,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
         //if (Spo2.equals("0") || Frec_cardiaca.equals("0")) {
         if (tv_diastolic1.getText().equals("0") || tv_systolic1.getText().equals("0") || tv_pulse_min1.getText().equals("0")) {
-            bandera = false;
             //Toast.makeText(this, "Se ha detectado que el sensor ha sido desconectado o ha retirado su dedo indice de el.", Toast.LENGTH_SHORT).show();
             if(conta1 == 0){
                 dialogoError();
@@ -902,8 +891,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             }
 
         } else {//}
-
-            bandera = true;
 
             //Gráfica de Tensión Arterial. Dato 1. Diastolic.
             try {
@@ -1080,9 +1067,22 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         @Override
         public void run() {
             contador++;
+
+            //sendInfoServer(final Context context,
+            // final String descripcion,
+            // final String spo2,
+            // final String frec_cardiaca,
+            // final String diastolic,
+            // final String systolic ,
+            // final String pulse_min,
+            // final String frec_respiratoria,
+            // final String temp_corporal,
+            // final String alarma,
+            // final String fecha,
+            // final String hora,
+            // final String responsable_especialista)
             contax = 0;
-            //if(contador>=2) {
-            if(bandera) {
+            if(contador>=2) {
                 if(tv_diastolic1.getText().equals("0") || tv_diastolic1.getText().equals("")  || tv_systolic1.getText().equals("0") || tv_systolic1.getText().equals("") || tv_pulse_min1.getText().equals("0") || tv_pulse_min1.getText().equals("")){
                     //Toast.makeText(SignalMonitorSpo2Pulso.this, "nada", Toast.LENGTH_SHORT).show();
                 }else{
@@ -1103,7 +1103,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                         }
 
                         if (contax == 1) {
-                            volleyBD.sendInfoServer(SignalMonitorTA.this,
+                            volleyBD.sendInfoServer(SignalMonitorTA_1.this,
                                     "Pruebas Finales Del Prototipo Biomédico # 1",
                                     "0",
                                     "0",
@@ -1123,7 +1123,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                     }catch (Exception e){
                         e.getStackTrace();
                     }
-                        bandera = false;
+
 
                 }
                 contador=0;

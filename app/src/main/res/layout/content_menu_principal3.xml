@@ -31,7 +31,7 @@
             <com.synnapps.carouselview.CarouselView
                 android:id="@+id/carouselView"
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
+                android:layout_height="200dp"
                 app:fillColor="#FFFFFFFF"
                 app:pageColor="#00000000"
                 app:radius="6dp"
@@ -59,7 +59,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -84,13 +83,13 @@
                         android:id="@+id/config_server"
                         card_view:cardCornerRadius="8dp"
                         card_view:cardElevation="15dp"
-                        card_view:cardBackgroundColor="@color/white"
+                        card_view:cardBackgroundColor="#559CCC"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:elevation="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <!--card_view:cardBackgroundColor="@color/white"-->
+
 
                         <LinearLayout
                             android:id="@+id/linearLayoutCardContent0"
@@ -103,7 +102,7 @@
                             android:id="@+id/toolbarCard1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorToolBar"
+                            android:background="#444141"
                             app:popupTheme="@style/Theme.AppCompat.Light"
                             app:subtitleTextAppearance="@style/Card.Subtitle1"
                             app:theme="@style/ToolbarCard"
@@ -115,8 +114,7 @@
                             android:id="@+id/iv_config_server"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="0dp"
                             android:paddingTop="3dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_settings_applications"
@@ -177,7 +175,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/info1"
-                                    android:textColor="@color/black"
+                                    android:textColor="#fff"
                                     android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -206,7 +204,7 @@
                         android:id="@+id/config_especialista"
                         card_view:cardCornerRadius="8dp"
                         card_view:cardElevation="15dp"
-                        card_view:cardBackgroundColor="@color/white"
+                        card_view:cardBackgroundColor="#6F8DA3"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:elevation="15dp"
@@ -224,7 +222,7 @@
                             android:id="@+id/toolbarCard2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorToolBar"
+                            android:background="@color/textGrey"
                             app:popupTheme="@style/Theme.AppCompat.Light"
                             app:subtitleTextAppearance="@style/Card.Subtitle1"
                             app:theme="@style/ToolbarCard"
@@ -234,8 +232,7 @@
                             android:id="@+id/iv_config_especialista"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="0dp"
                             android:paddingTop="3dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_settings"
@@ -257,7 +254,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:onClick="toggleDetails2"
-                                android:background="#5DA2D1"
+                                android:background="#516E85"
                                 android:orientation="horizontal"
                                 android:padding="8dp">
 
@@ -294,7 +291,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/info2"
-                                    android:textColor="@color/black"
+                                    android:textColor="@android:color/white"
                                     android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -321,7 +318,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -346,7 +342,7 @@
                             android:id="@+id/config_alertaTemprana"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="@color/white"
+                            card_view:cardBackgroundColor="#E60215"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -364,7 +360,7 @@
                                     android:id="@+id/toolbarCard3"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorToolBar"
+                                    android:background="@color/textGrey"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -374,8 +370,7 @@
                                     android:id="@+id/iv_config_alerta"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_add_alert"
@@ -397,7 +392,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails3"
-                                    android:background="#F86F4A"
+                                    android:background="#FF4C4C"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -434,7 +429,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/info3"
-                                        android:textColor="@color/black"
+                                        android:textColor="@android:color/white"
                                         android:textSize="12sp" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -467,7 +462,7 @@
                             android:id="@+id/config_tc"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="@color/white"
+                            card_view:cardBackgroundColor="#ff7c58"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -486,7 +481,7 @@
                                     android:id="@+id/toolbarCard4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorToolBar"
+                                    android:background="@color/textGrey"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -498,8 +493,7 @@
                                     android:id="@+id/iv_config_tc"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_temperatura"
@@ -524,7 +518,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails4"
-                                    android:background="#F86F4A"
+                                    android:background="#F1643D"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -561,7 +555,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/info4"
-                                        android:textColor="@color/black"
+                                        android:textColor="#fff"
                                         android:textSize="12sp" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -582,7 +576,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -608,7 +601,7 @@
                             android:id="@+id/config_fr"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="@color/white"
+                            card_view:cardBackgroundColor="#585858"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -627,7 +620,7 @@
                                     android:id="@+id/toolbarCard5"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorToolBar"
+                                    android:background="@color/textGrey"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -639,8 +632,7 @@
                                     android:id="@+id/iv_config_fr"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_fr1"
@@ -665,7 +657,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails5"
-                                    android:background="#55AF64"
+                                    android:background="#5F645F"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -702,7 +694,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/info5"
-                                        android:textColor="@color/black"
+                                        android:textColor="#fff"
                                         android:textSize="12sp" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -731,7 +723,7 @@
                             android:id="@+id/config_pa"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="@color/white"
+                            card_view:cardBackgroundColor="#2A7436"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -749,7 +741,7 @@
                                     android:id="@+id/toolbarCard6"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorToolBar"
+                                    android:background="@color/textGrey"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -759,8 +751,7 @@
                                     android:id="@+id/iv_config_pa"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_tension"
@@ -782,7 +773,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails6"
-                                    android:background="#55AF64"
+                                    android:background="#388144"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -819,7 +810,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/info6"
-                                        android:textColor="@color/black"
+                                        android:textColor="@android:color/white"
                                         android:textSize="12sp"
                                         />
                                 </LinearLayout>
@@ -836,7 +827,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="50dp"
                 android:weightSum="2">
@@ -862,7 +852,7 @@
                             android:id="@+id/config_fc_spo2"
                             card_view:cardCornerRadius="8dp"
                             card_view:cardElevation="15dp"
-                            card_view:cardBackgroundColor="@color/white"
+                            card_view:cardBackgroundColor="#186BAC"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -880,7 +870,7 @@
                                     android:id="@+id/toolbarCard7"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorToolBar"
+                                    android:background="@color/textGrey"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -890,8 +880,7 @@
                                     android:id="@+id/iv_config_spo2_pulso"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/spo2ok"
@@ -914,7 +903,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails8"
-                                    android:background="#9E9B9B"
+                                    android:background="#2175B6"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -951,7 +940,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/info8"
-                                        android:textColor="@color/black"
+                                        android:textColor="@android:color/white"
                                         android:textSize="12sp"
                                         />
                                 </LinearLayout>
@@ -981,11 +970,10 @@
 
 
                         <androidx.cardview.widget.CardView
-                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/config_monitorAll"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="15dp"
-                            card_view:cardBackgroundColor="@color/white"
+                            app:cardBackgroundColor="#94877A"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
                             android:elevation="15dp"
@@ -1006,7 +994,7 @@
                                     android:id="@+id/toolbarCard8"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorToolBar"
+                                    android:background="@color/black"
                                     app:popupTheme="@style/Theme.AppCompat.Light"
                                     app:subtitleTextAppearance="@style/Card.Subtitle1"
                                     app:theme="@style/ToolbarCard"
@@ -1016,8 +1004,7 @@
                                     android:id="@+id/iv_config_monitor"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="0dp"
                                     android:paddingTop="3dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_user1"
@@ -1044,7 +1031,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:onClick="toggleDetails7"
-                                    android:background="#9E9B9B"
+                                    android:background="#818080"
                                     android:orientation="horizontal"
                                     android:padding="8dp">
 
@@ -1081,7 +1068,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/info9"
-                                        android:textColor="@color/black"
+                                        android:textColor="#fff"
                                         android:textSize="12sp" />
                                 </LinearLayout>
                             </LinearLayout>

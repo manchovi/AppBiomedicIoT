@@ -54,6 +54,17 @@
         Monitor para acceso a información de variable fisiológica de paciente\n[*SPO2]
     </string>
 
+    <string name="info9">
+        Autor:  Manuel de Jesús Gámez López.\n\n
+                Estudios: Téc. Mantto de Computadoras.\n
+                Téc. en Ing. Sistemas y Redes Informáticas.\n
+                Lic. en Ciencias de la Computación.\n
+                Ing. en Electrónica.\n
+                Año: 2019-2020.
+    </string>
+
+
+
     <!--Acceso a la información del paciente con repecto a la variable médica SPO2 (Saturación Parcial del Oxígeno)-->
 
     <string name="configurations1">Configuración</string>
@@ -80,8 +91,8 @@
     <string name="configurations8">MONITOR</string>
     <string name="subtitle8">Signos Paciente</string>
 
-    <string name="configurations9">Monitor</string>
-    <string name="subtitle9">Signos Paciente</string>
+    <string name="configurations9">Autor</string>
+    <string name="subtitle9">Desarrollador</string>
 
 
     <array name="interrogantes">

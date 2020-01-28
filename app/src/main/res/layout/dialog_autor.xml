@@ -67,7 +67,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Configuración Especialista"
+                            android:text="Autor"
                             android:fontFamily="cursive"
                             android:textAlignment="center"
                             android:textSize="24dp"
@@ -88,7 +88,7 @@
                         >
 
                         <ImageView
-                            android:id="@+id/BtnCerrar"
+                            android:id="@+id/BtnCerrarAutor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_close4"
@@ -141,7 +141,7 @@
                                 android:orientation="vertical"
                                 android:padding="6dp"
                                 android:gravity="center"
-                                android:background="#FFFFFF" >
+                                android:background="#E7EAEB" >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -149,7 +149,7 @@
                                     android:orientation="horizontal"
                                     android:layout_marginTop="0dp"
                                     android:layout_marginLeft="0dp"
-                                    android:background="#F8531F"
+                                    android:background="#FCF9F9"
                                     android:gravity="center" >
 
                                     <ImageView
@@ -159,10 +159,10 @@
 
                                     <TextView
                                         android:id="@+id/tvInfo3"
-                                        android:textColor="@color/white"
+                                        android:textColor="@color/black"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Datos para Notificaciones a Destinatario"
+                                        android:text="Información Desarrollador"
                                         android:padding="5dp"
                                         />
 
@@ -170,12 +170,20 @@
 
 
 
+                                <ImageView
+                                    android:id="@+id/foto"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/photo1"
+                                    />
+
                                 <TextView
                                     android:id="@+id/tv_doc_dr"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Documento de Identidad"
+                                    android:text="Autor: Manuel de Jesús Gámez López\nE-mail: manuel.gamez@itca.edu.sv\nTeléfono: (+503)6110-7065"
                                     android:layout_marginTop="5dp"
                                     android:textColor="@color/black"
                                     android:textSize="12dp"
@@ -188,8 +196,9 @@
                                     android:layout_width="wrap_content"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:layout_height="wrap_content"
-                                    android:text="xxxxx"
-                                    android:textSize="12dp"
+                                    android:text="Educación Superior:"
+                                    android:textSize="18dp"
+                                    android:layout_marginTop="15dp"
                                     />
 
 
@@ -198,7 +207,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Nombre Doctor / Especialísta Responsable"
+                                    android:text="Téc. en Mantenimiento de Computadoras.\nTéc. En Ing. Sistemas y Redes Informáticas.\nLic. en Ciencias de la Computación.\nIng. en Electrónica."
                                     android:layout_marginTop="5dp"
                                     android:textColor="@color/black"
                                     android:textSize="12dp"
@@ -206,83 +215,15 @@
 
 
                                 <TextView
-                                    android:id="@+id/tv_nombre_dr1"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:layout_width="wrap_content"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                                    android:layout_height="wrap_content"
-                                    android:text="xxxxx"
-                                    android:textSize="12dp"
-                                    />
-
-
-
-
-                                <TextView
-                                    android:id="@+id/tv_tel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Teléfono : [SMS]"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:textSize="8dp"
                                     android:textColor="@color/black"
-                                    android:textSize="14dp"
-                                    android:textStyle="bold"
+                                    android:text="***Hacer ciencia por hobby, ponerte retos, superar los tropiezos más duros y \ntrabajar con pasión en el objetivo o meta propuesta, es la clave para alcanzar\n el éxito de todo proyecto que se quiera emprender. ¡Nunca parar de aprender! \n\nbY Investigador Gámez."
                                     />
 
-
-                                <TextView
-                                    android:id="@+id/tv_tel1"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:layout_width="wrap_content"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                                    android:layout_height="wrap_content"
-                                    android:text="xxxxx"
-                                    android:textSize="12dp"
-                                    />
-
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/tiTelefono"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
-                                    android:textColorHint="@color/colorAccent">
-
-                                <EditText
-                                    android:id="@+id/et_tel1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="gone"
-                                    android:hint="Introduzca Teléfono Móvil del Responsable"
-                                    android:textSize="12dp"
-                                    android:inputType="phone"
-                                    />
-
-                                </com.google.android.material.textfield.TextInputLayout>
-
-                                <TextView
-                                    android:id="@+id/tv_email"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="@android:style/TextAppearance"
-                                    android:text="Email - Correo Electrónico"
-                                    android:layout_marginTop="5dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="14dp"
-                                    android:textStyle="bold"
-                                    />
-
-
-                                <TextView
-                                    android:id="@+id/tv_email1"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:layout_width="wrap_content"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                                    android:layout_height="wrap_content"
-                                    android:text="xxxxx"
-                                    android:textSize="12dp"
-                                    />
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/tiEmail"
@@ -305,32 +246,6 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-                                <LinearLayout
-                                    android:id="@+id/ll_gr1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:visibility="visible"
-                                    >
-
-                                    <Button
-                                        android:id="@+id/btnEdit"
-                                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Editar" />
-
-                                    <Button
-                                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="wrap_content"
-                                        android:text="Cerrar"
-                                        android:id="@+id/btnClose" />
-                                </LinearLayout>
 
 
                                 <LinearLayout

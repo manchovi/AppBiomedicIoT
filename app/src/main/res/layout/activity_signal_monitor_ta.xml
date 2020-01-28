@@ -207,7 +207,7 @@
                         android:layout_height="wrap_content" >
 
                         <LinearLayout
-                            android:background="@color/orange"
+                            android:background="@color/color_ta"
                             android:gravity="center"
                             android:orientation="vertical"
                             android:layout_weight="1"
@@ -244,7 +244,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:background="@color/green"
+                            android:background="@color/color_fc"
                             android:gravity="center"
                             android:orientation="vertical"
                             android:layout_weight="1"
@@ -279,7 +279,7 @@
 
                         </LinearLayout>
                         <LinearLayout
-                            android:background="@color/lightgray"
+                            android:background="@color/color_ta1"
                             android:gravity="center"
                             android:orientation="vertical"
                             android:layout_weight="1"

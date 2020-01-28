@@ -200,7 +200,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         }
 
-        detallePacienteEspecialista();
+        //detallePacienteEspecialista();
 
         tv_footer.setText("Documento Especialista: "+documentoEspecialista + "\n"+
                 "Nombre Especialista: "+nombreEspecialista + "\n" +
@@ -317,12 +317,13 @@ public class MenuPrincipal extends AppCompatActivity {
         iv_config_monitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MenuPrincipal.this, SignalsMonitor.class);
+                /*Intent intent = new Intent(MenuPrincipal.this, SignalsMonitor.class);
                 intent.putExtra("senalMONITOR", "1");
                 intent.putExtra("documento", documentoEspecialista);
                 intent.putExtra("nombreEspecialista", nombreEspecialista);
                 intent.putExtra("nombrePaciente", nombrePaciente);
-                startActivity(intent);
+                startActivity(intent);*/
+                about_autor();
             }
         });
 
@@ -517,8 +518,8 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
         Toolbar toolbarCard8 = (Toolbar) findViewById(R.id.toolbarCard8);
-        toolbarCard8.setTitle(R.string.configurations8);
-        toolbarCard8.setSubtitle(R.string.subtitle8);
+        toolbarCard8.setTitle(R.string.configurations9);
+        toolbarCard8.setSubtitle(R.string.subtitle9);
         toolbarCard8.inflateMenu(R.menu.menu_card);
         toolbarCard8.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -1246,6 +1247,37 @@ public class MenuPrincipal extends AppCompatActivity {
                 dialog.cancel();
             }
         });
+
+    }
+
+
+    private void about_autor() {
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        //mBuilder.setIcon(R.drawable.ic_servidor);
+        //mBuilder.setTitle("<<<UTLA>>>");
+        mBuilder.setCancelable(true);
+        //final View mView = getLayoutInflater().inflate(R.layout.dialog_server, null);
+        final View mView = getLayoutInflater().inflate(R.layout.dialog_autor, null);
+
+         //BtnCerrarAutor
+        ImageView BtnCerrarAutor = (ImageView)mView.findViewById(R.id.BtnCerrarAutor);
+
+        mBuilder.setView(mView);
+        //final AlertDialog dialog = mBuilder.create();
+        final android.app.AlertDialog dialog = mBuilder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //myDialog.show();
+        dialog.show();
+
+        BtnCerrarAutor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
 
     }
 
