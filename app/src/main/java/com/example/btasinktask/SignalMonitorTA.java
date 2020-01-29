@@ -37,6 +37,7 @@ import com.jjoe64.graphview.series.Series;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -788,6 +789,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         tvTrama.setText("Comprobando bluetooth");
 
+        try {
         if (mBluetoothAdapter != null) {
             //El dispositivo tiene adapatador BT. Ahora comprobamos que bt esta activado.
             if (mBluetoothAdapter.isEnabled()) {
@@ -813,36 +815,62 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                         }
                     }
 
-                    if (arduino != null) {
-                        //tareaAsincrona = new MiAsyncTask(this);
-                        tareaAsincrona = new MiAsyncTask(this, arduino);
-                        //tareaAsincrona = new MiAsyncTask(SignalsMonitor.this);
-                        tareaAsincrona.execute(arduino);
-                        /* try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }*/
-                        tareaAsincrona.SendData("P");
+                        if (arduino != null) {
 
-                    } else {
-                        //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
-                        //No hay ningun dispositivo emparejado. Salimos de la app.
-                        Toast.makeText(this, "No hay dispositivos emparejados, por favor, empareje el arduino", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
+                            try {
+                                //tareaAsincrona = new MiAsyncTask(this);
+                                tareaAsincrona = new MiAsyncTask(this, arduino);
+                                //tareaAsincrona = new MiAsyncTask(SignalsMonitor.this);
+                                tareaAsincrona.execute(arduino);
+                                /* try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }*/
+                                tareaAsincrona.SendData("P");
+                            } catch (Exception ex){
+                                ex.printStackTrace();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(this, "Waaaaaoooooo!", Toast.LENGTH_SHORT).show();
+                                tareaAsincrona.cancel(true);
+                                finish();
+                            }
+
+                        } else {
+                            //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
+                            //No hay ningun dispositivo emparejado. Salimos de la app.
+                            Toast.makeText(getApplicationContext(), "No hay dispositivos emparejados, por favor, empareje el arduino", Toast.LENGTH_LONG).show();
+                            //finish();
+                        }
+
                 } else {
                     //No hay ningun dispositivo emparejado. Salimos de la app.
                     Toast.makeText(this, "No hay dispositivos emparejados, por favor, empareje el arduino", Toast.LENGTH_LONG).show();
-                    finish();
+                    //finish();
                 }
+
             } else {
                 muestraDialogoConfirmacionActivacion();
             }
+
+
         } else {
             // El dispositivo no soporta bluetooth. Mensaje al usuario y salimos de la app
             Toast.makeText(this, "El dispositivo no soporta comunicación por Bluetooth", Toast.LENGTH_LONG).show();
         }
+
+
+        }catch (Exception e){
+            //Toast.makeText(getApplicationContext(), "Error. Compruebe que su dispositivo BT este encendido.", Toast.LENGTH_LONG).show();
+            tareaAsincrona.cancel(true);
+            finish();
+        }
+
+
     }  //Fin del Método...
 
 

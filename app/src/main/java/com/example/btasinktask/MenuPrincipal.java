@@ -191,6 +191,16 @@ public class MenuPrincipal extends AppCompatActivity {
                         "Nombre Especialista: "+nombreEspecialista + "\n" +
                         "Nombre Paciente: "+nombrePaciente, Toast.LENGTH_SHORT).show();*/
 
+                /*AlertDialog.Builder ventana = new AlertDialog.Builder(this);
+                ventana.setCancelable(true);
+                ventana.setTitle("Detalle Info:");
+                ventana.setMessage("Documento Especialísta: "+ documentoEspecialista + "\n"+
+                                   "Nombre Especialísta: "+ nombreEspecialista + "\n" +
+                                   "Nombre Paciente: " + nombrePaciente + "\n" +
+                                   "Tel. Especialísta: " + tel_especialista + "\n" +
+                                   "E-mail Especialísta: " + correo_especialista + "\n");
+                ventana.show();*/
+
                 if (senal.equals("1")) {
 
                 }
@@ -273,6 +283,8 @@ public class MenuPrincipal extends AppCompatActivity {
                     intent.putExtra("documento", documentoEspecialista);
                     intent.putExtra("nombreEspecialista", nombreEspecialista);
                     intent.putExtra("nombrePaciente", nombrePaciente);
+                    intent.putExtra("telefonoEspecialista", tel_especialista);
+                    intent.putExtra("emailEspecialista", correo_especialista);
                     startActivity(intent);
                 }
             }
@@ -282,10 +294,12 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuPrincipal.this, SignalMonitorFR.class);
-                intent.putExtra("senalFR", "1");
+                intent.putExtra("senalFR", "2");
                 intent.putExtra("documento", documentoEspecialista);
                 intent.putExtra("nombreEspecialista", nombreEspecialista);
                 intent.putExtra("nombrePaciente", nombrePaciente);
+                intent.putExtra("telefonoEspecialista", tel_especialista);
+                intent.putExtra("emailEspecialista", correo_especialista);
                 startActivity(intent);
             }
         });
@@ -294,10 +308,12 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTA.class);
-                intent.putExtra("senalPA", "1");
+                intent.putExtra("senalPA", "3");
                 intent.putExtra("documento", documentoEspecialista);
                 intent.putExtra("nombreEspecialista", nombreEspecialista);
                 intent.putExtra("nombrePaciente", nombrePaciente);
+                intent.putExtra("telefonoEspecialista", tel_especialista);
+                intent.putExtra("emailEspecialista", correo_especialista);
                 startActivity(intent);
             }
         });
@@ -306,10 +322,12 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuPrincipal.this, SignalMonitorSpo2Pulso.class);
-                intent.putExtra("senalSPO2_PULSO", "1");
+                intent.putExtra("senalSPO2_PULSO", "4");
                 intent.putExtra("documento", documentoEspecialista);
                 intent.putExtra("nombreEspecialista", nombreEspecialista);
                 intent.putExtra("nombrePaciente", nombrePaciente);
+                intent.putExtra("telefonoEspecialista", tel_especialista);
+                intent.putExtra("emailEspecialista", correo_especialista);
                 startActivity(intent);
             }
         });

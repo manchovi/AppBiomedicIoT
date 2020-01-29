@@ -22,6 +22,7 @@ public class Config {
 
 
     public static final String EMAIL = "hospitalsantateresa1920@gmail.com";           //EMAIL DE ORIGEN...PARA LOS CORREO ENVIADOS
+    public static final String ASUNTO = "ALERTA ACTIVADA!!!";
     public static final String PASSWORD = "hospital201920_";
 
 
@@ -29,7 +30,7 @@ public class Config {
     //public static final String DESTINATARIO = "winmanuel07@gmail.com";           //EMAIL DE QUIEN LOS RECIBIRÁ.
     public static final String DESTINATARIO = "manuel.gamez@itca.edu.sv";          //EMAIL DE QUIEN LOS RECIBIRÁ.
     public static final String NUMBER_PHONE = "61107065";                          //PHONE A QUIEN SE ENVIARAN LOS SMS.
-    public static final String ASUNTO = "Información Hospital";
+
     /*YA NO UTILIZARE ESTE CODIGO*/
 
 

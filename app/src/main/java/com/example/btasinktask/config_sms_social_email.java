@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.telephony.SmsManager;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -25,8 +27,10 @@ public class config_sms_social_email {
     private ProgressDialog pd;
     AlertDialog.Builder dialog;
     AlertDialog.Builder dialogo2;
-
     Session session = null;           //variable utilizada para envio de correo automatico.
+
+    String EmailOrigen_Hospital = Config.EMAIL;
+    String asunto_Email = Config.ASUNTO;
 
     private String conf_Server(Context context) {
         //Buscando datos en archivo credenciales.xml
@@ -42,6 +46,7 @@ public class config_sms_social_email {
         return t2;
     }
 
+
     private String infoConfDestinatarioEmail1(Context context){
         SharedPreferences preferences = context.getSharedPreferences("Destinatarios", Context.MODE_PRIVATE);
         String e1 = preferences.getString("email1","");
@@ -49,7 +54,7 @@ public class config_sms_social_email {
     }
 
 
-    public void EnviarSMS(final Context context) {
+    public void enviarSMS(final Context context) {
         pd = new ProgressDialog(context);
         pd.setMessage("Procesando, por favor espere...");
         pd.show();
@@ -69,11 +74,141 @@ public class config_sms_social_email {
         }
     }
 
-    private void mensaje1(Context context) {
-        Toast.makeText(context, "No se ha configurado.", Toast.LENGTH_SHORT).show();
+
+
+    public void sendInfo_SMS_TC(Context context, String temperatura, String telefono){
+
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String datosCompletos =
+                "*************************************************************\n" +
+                        "¡NOTIFICACIÓN TEMPERATURA CORPORAL!\n\n" +
+                        "*************************************************************\n" +
+                        "*Temperatura Corporal: " + temperatura +"\n\n" +
+                        "\nNombre del Paciente: " + nombrePaciente +"\n" +
+                        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                        "---------------------------------------------------------------------" + "\n" +
+                        //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+                        "\t\tSMS Generado: " + fecha() + " ~ " + hora() + "\n" +
+                        "---------------------------------------------------------------------" + "\n" +
+                        "Copyright(c) HOSPITAL 2019~2020. " +
+                        "\nAll rights reserved.";
+
+        sendSMS(context, datosCompletos, telefono);
+
     }
 
 
+    public void sendInfo_SMS_FR(Context context, String frec_respiratoria, String telefono){
+
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String datosCompletos =
+        "*************************************************************\n" +
+        "¡NOTIFICACIÓN FRECUENCIA RESPIRATORIA!\n\n" +
+        "*************************************************************\n" +
+        "*Frecuencia Respiratoria: " + frec_respiratoria +"\n\n" +
+        "\nNombre del Paciente: " + nombrePaciente +"\n" +
+        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+        "---------------------------------------------------------------------" + "\n" +
+        //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+        "\t\tSMS Generado: " + fecha() + " ~ " + hora() + "\n" +
+        "---------------------------------------------------------------------" + "\n" +
+        "Copyright(c) HOSPITAL 2019~2020. " +
+        "\nAll rights reserved.";
+
+        sendSMS(context, datosCompletos, telefono);
+    }
+
+
+
+    public void sendInfo_SMS_TA(Context context, String diastolic, String systolic, String pulsemin, String telefono){
+
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String datosCompletos =
+        "*************************************************************\n" +
+        "¡NOTIFICACIÓN TENSIÓN ARTERIAL!\n\n" +
+        "*************************************************************\n" +
+        "*Diastolic Pressure: " + diastolic +"\n" +
+        "*Systolic Pressure: " + systolic +"\n" +
+        "*Heart Rate: " + pulsemin +"\n\n" +
+        "\nNombre del Paciente: " + nombrePaciente +"\n" +
+        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+        "---------------------------------------------------------------------" + "\n" +
+        //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+        "\t\tSMS Generado: " + fecha() + " ~ " + hora() + "\n" +
+        "---------------------------------------------------------------------" + "\n" +
+        "Copyright(c) HOSPITAL 2019~2020. " +
+        "\nAll rights reserved.";
+
+        sendSMS(context, datosCompletos, telefono);
+    }
+
+
+    public void sendInfo_SMS_OXIMETRIA(Context context, String spo2, String frecuencia_cardiaca, String telefono){
+
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String datosCompletos =
+        "*************************************************************\n" +
+        "¡NOTIFICACIÓN OXIMETRÍA!\n\n" +
+        "*************************************************************\n" +
+        "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +"\n" +
+        "*Frecuencia Cardíaca: " + frecuencia_cardiaca +"\n\n" +
+        "\nNombre del Paciente: " + nombrePaciente +"\n" +
+        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+        "---------------------------------------------------------------------" + "\n" +
+        //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+        "\t\tSMS Generado: " + fecha() + " ~ " + hora() + "\n" +
+        "---------------------------------------------------------------------" + "\n" +
+        "Copyright(c) HOSPITAL 2019~2020. " +
+        "\nAll rights reserved.";
+
+        sendSMS(context, datosCompletos, telefono);
+    }
+
+
+
+    public void sendSMS(Context context, String datosCompletos, String numeroEspecialista){
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            //sms.sendTextMessage(numTel, null, datosCompletos, null,null);  //FUNCION LIMITADO A MENOS CARACTERES POR SMS
+            ArrayList msgTexts = sms.divideMessage(datosCompletos);
+            //sms.sendMultipartTextMessage(infoConfDestinatarioTel2(context), null, msgTexts, null, null);
+            sms.sendMultipartTextMessage(numeroEspecialista, null, msgTexts, null, null);
+
+            //Toast.makeText(getApplicationContext(), "Mensaje Enviado.", Toast.LENGTH_LONG).show();
+            //Toast toast = Toast.makeText(context, "MENSAJE ENVIADO A MÓVIL: " + infoConfDestinatarioTel2(context), Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(context, "MENSAJE ENVIADO A MÓVIL: " + numeroEspecialista, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+
+        } catch (Exception e) {
+            Toast.makeText(context, "Mensaje no enviado, datos incorrectos." + e.getMessage().toString(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+
+   //FIN DE FUNCIONES DE ENVIO DE SMS A ESPECIALÍSTAS.
+
+
+
+
+
+
+
+
+
+
+    private void mensaje1(Context context) {
+        Toast.makeText(context, "No se ha configurado.", Toast.LENGTH_SHORT).show();
+    }
 
 
     //Funciones para envio de correo electrónico con datos preconfigurados.
@@ -92,7 +227,7 @@ public class config_sms_social_email {
             dialogo2.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogo2, int id) {
                     //aca pondre la funcion para envio de email automatico.
-                    configuracion();
+                    //configuracion();
                     //capturar_info_biomedia();
                 }
             });
@@ -108,7 +243,7 @@ public class config_sms_social_email {
     }     //fin de funcion email_automatico.
 
 
-    public void configuracion() {
+    public void sesion_EmailOrigenHospital() {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -126,26 +261,247 @@ public class config_sms_social_email {
     }  //Fin función configuración.
 
 
-    private void capturar_info_biomedia(Context context, String asunto, String tc, String fr, String ta, String spo2, String fc, String especialista, String paciente) {
+    public String fecha(){
+        DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
+        String date = formatodate.format(new Date());
+        return date;
+    }
+
+    public String hora(){
+        DateFormat formatotime = new SimpleDateFormat("HH:mm:ss a");
+        String time = formatotime.format(new Date());
+        return time;
+    }
+
+
+    //Función para enviar notificación de variable biométrica Temperatura Corporal.
+    public void sendInfo_Email_TC(Context context, String email, String subject, String temperatura){
+
+        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+                                                  //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
+
+        /*Para estas dos variables estoy pensando hacer un inner join o simplemente mando los valores tomandolos de las variables de inicio de sesión*/
+        /*La otra opción que pienso, es que al iniciar sesión setear un archivo xml con sharedpreferenced con los datos que necesito y luego solo llamarlos
+        * donde se necesiten desde las diferentes actividades de la aplicación. Ya veré cual a la hora de las horas.*/
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String message =
+                "*************************************************************\n" +
+                "¡NOTIFICACIÓN TEMPERATURA CORPORAL!\n\n" +
+                "*************************************************************\n" +
+                "*Temperatura Corporal: " + temperatura +"\n\n" +
+                "\nNombre del Paciente: " + nombrePaciente +"\n" +
+                "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+                "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                "Copyright(c) HOSPITAL 2019~2020. " +
+                "\nAll rights reserved.";
+
+        //String message = temperatura;          //Dato a enviar.
+
+        //String message = "aca formaré todo el cuerpo del mensaje";
+        //sendEmail(infoConfDestinatarioEmail1(), asunto, temperatura, humedad, l1, l2, l3, l4, l5, l6, l7, l8, fecha, hora);
+        //sendEmail(infoConfDestinatarioEmail1(), asunto, temperatura);
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(context, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
+    }
+
+
+
+    //Función para enviar notificación de variable biométrica Frecuencia Respiratoria.
+    public void sendInfo_Email_FR(Context context, String email, String subject, String fr){
+
+        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+                                                  //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
+
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String message =
+                "*************************************************************\n" +
+                "¡NOTIFICACIÓN FRECUENCIA RESPIRATORIA!\n\n" +
+                "*************************************************************\n" +
+                "*Frecuencia Respiratoria: " + fr +"\n\n" +
+                "\nNombre del Paciente: " + nombrePaciente +"\n" +
+                "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+                "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                "Copyright(c) HOSPITAL 2019~2020. " +
+                "\nAll rights reserved.";
+
+        //String message = fc;          //Dato a enviar.
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(context, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
+    }
+
+
+
+    //Función para enviar notificación de variable biométrica Tensión / Presión Arterial.
+    public void sendInfo_Email_TA(Context context, String email, String subject, String diastolic, String systolic, String pulsemin){
+
+        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+                                                  //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
+
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String message =
+                "*************************************************************\n" +
+                "¡NOTIFICACIÓN TENSIÓN ARTERIAL!\n\n" +
+                "*************************************************************\n" +
+                "*Diastolic Pressure: " + diastolic +"\n" +
+                "*Systolic Pressure: " + systolic +"\n" +
+                "*Heart Rate: " + pulsemin +"\n\n" +
+                "\nNombre del Paciente: " + nombrePaciente +"\n" +
+                "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+                "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                "Copyright(c) HOSPITAL 2019~2020. " +
+                "\nAll rights reserved.";
+
+        //String message = diastolic, systolic, pulsemin;                                           //Dato a enviar.
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(context, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
+    }
+
+
+
+    //Función para enviar notificación de variable biométrica Oximetría.
+    public void sendInfo_Email_Oximetria(Context context, String email, String subject, String spo2, String frecuencia_cardiaca){
+
+        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+        //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
+
+        String nombrePaciente = "xxxxxx";
+        String nombreEspecialista = "++++++++";
+
+        String message =
+                "*************************************************************\n" +
+                "¡NOTIFICACIÓN OXIMETRÍA!\n\n" +
+                "*************************************************************\n" +
+                "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +"\n" +
+                "*Frecuencia Cardíaca: " + frecuencia_cardiaca +"\n\n" +
+                "\nNombre del Paciente: " + nombrePaciente +"\n" +
+                "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+                "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
+                "---------------------------------------------------------------------" + "\n" +
+                "Copyright(c) HOSPITAL 2019~2020. " +
+                "\nAll rights reserved.";
+
+        //String message = diastolic, systolic, pulsemin;                                           //Dato a enviar.
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(context, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
+    }
+
+
+
+
+
+
+
+    //OBtengo nombres y apellidos del usuario admin
+    public String getNameBD(Context context, String id){
+        db_SQLite admin = new db_SQLite(context);
+
+        int codigo=0;
+        String name="";String apellidos="";
+        SQLiteDatabase db = admin.getWritableDatabase();
+        Cursor fila = db.rawQuery("select nombres,apellidos from usuarios where codigo=1", null);
+        if (fila.moveToFirst()) {
+            codigo = fila.getInt(0);
+            name = fila.getString(1);
+            apellidos = fila.getString(2);
+        }
+        return name +" "+apellidos;
+    }
+
+
+    //Función para recuperar de la base de datos SQLite el/la dirección de correo del Especialista.
+    public String getEmail_db(Context context, String documento){
+
+        db_SQLite admin = new db_SQLite(context);
+        int codigo=0;
+        String correo="";
+        SQLiteDatabase db = admin.getWritableDatabase();
+        //Cursor fila = db.rawQuery("select usuario from tb_especialista where documento=1", null);
+        Cursor fila = db.rawQuery("select usuario from tb_especialista where documento='"+documento+"'", null);
+
+        if (fila.moveToFirst()) {
+            correo = fila.getString(0);
+        }
+
+        return correo;
+
+    }
+
+
+    //Función para recuperar de la base de datos SQLite el número de teléfono del especialísta.
+    public String getTelefo_db(Context context, String documento){
+
+        db_SQLite admin = new db_SQLite(context);
+
+        String telefono="";
+        SQLiteDatabase db = admin.getWritableDatabase();
+        //Cursor fila = db.rawQuery("select usuario from tb_especialista where documento=1", null);
+        Cursor fila = db.rawQuery("select telefono from tb_especialista where documento='"+documento+"'", null);
+
+        if (fila.moveToFirst()) {
+            telefono = fila.getString(0);
+        }
+
+        return telefono;
+    }
+
+
+
+
+    private void sendEmail(Context context, String asunto, String temp_corporal, String frec_respiratoria, String tens_arterial, String spo2, String frec_cardiaca, String doctor, String paciente) {
+    }
+
+    public void capturar_info_biomedia(Context context, String asunto, String tc, String fr, String ta, String spo2, String fc, String especialista, String paciente) {
         sendEmail(context, asunto, tc, fr, ta, spo2, fc, especialista, paciente);
     }
 
 
-    private void sendEmail(Context context, String asunto, String temp_corporal, String frec_respiratoria, String tens_arterial, String spo2, String frec_cardiaca, String doctor, String paciente) {
 
-        //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
-        DateFormat formatodate = new SimpleDateFormat("yyyy/MM/dd");
-        String date = formatodate.format(new Date());
+    /*HARÉ MEJOR QUE AL INICIAR SESIÓN SE MANDEN LOS VAROLES Y YO LOS CAPTURA Y GUARDO EN UN FICHERO XML.
+    * LUEGO DESDE ESTE FICHERO SOLO MANDO A PEDIR LOS DATOS QUE VAYA NECESITANDO.                       */
 
-        DateFormat formatotime = new SimpleDateFormat("HH:mm:ss a");
-        String time = formatotime.format(new Date());
+    /*
+    * ::::::::::::::::::::::::::::::::::::::::::::::::::::::OJO::::::::::::::::::::::::::::::::::::::::::::::::::
+    * Datos que nesito son:
+    * 1. Para enviar notificaciones via E-MAIL necesito captura el email del especialísta.
+    * 2. Para envair sms via GSM necesito capturar el número de teléfono del especialísta.
+    * 3. Para que el usuario destino de aviso o notificación activada a traves de un sms o e-mail
+    *    sepa de que paciente es la alerta activada y que especialísta está acargo en ese momento necesito tener:
+    *    NOMBRE DEL PACIENTE de la tabla tb_pacinente y NOMBRE ESPECIALÍSTA de la tabla tb_especialísta.
+     */
 
-        String message = "aca formaré todo el cuerpo del mensaje";
-
-    }
-
-
-
-
+    //PDFVIEW.
 
 }

@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="#03A9F4"
+        app:cardBackgroundColor="@color/colorToolBar"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -49,7 +49,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#03A9F4"
+                    android:background="@color/colorToolBar"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
 
@@ -68,14 +68,14 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Detalles Paciente"
-                            android:fontFamily="cursive"
-                            android:textAlignment="center"
-                            android:textSize="24dp"
-                            android:textStyle="bold"
-                            android:textColor="#ffffff"
                             android:background="@android:color/transparent"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                            android:fontFamily="cursive"
+                            android:text="Detalles Paciente"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:textColor="#ffffff"
+                            android:textSize="24dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -121,8 +121,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardUseCompatPadding="true"
-                            app:cardElevation="5dp"
-                            app:cardCornerRadius="3dp"
+                            app:cardElevation="6dp"
+                            app:cardCornerRadius="5dp"
                             android:layout_margin="6dp">
 
                             <LinearLayout
@@ -132,7 +132,7 @@
                                 android:orientation="vertical"
                                 android:padding="6dp"
                                 android:gravity="center"
-                                android:background="#E7EAEB">
+                                android:background="@color/white">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                                     android:orientation="horizontal"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="0dp"
-                                    android:background="#FF5722"
+                                    android:background="@color/colorToolBar"
                                     android:gravity="center">
 
 
@@ -151,7 +151,7 @@
 
                                     <TextView
                                         android:id="@+id/tvInfo"
-                                        android:textColor="#000"
+                                        android:textColor="@color/white"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="Información Personal"
@@ -168,7 +168,7 @@
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Código:"
                                     android:layout_marginTop="5dp"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"/>
 
                                 <TextView
@@ -187,7 +187,7 @@
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Documento de Identidad"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
 
@@ -208,7 +208,7 @@
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Nombre Paciente"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
 
@@ -323,7 +323,7 @@
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Dirección Paciente"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
 
@@ -354,7 +354,7 @@
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Teléfono Paciente"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
 
@@ -384,7 +384,7 @@
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Estado Paciente"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
 
@@ -414,7 +414,7 @@
                                     android:layout_height="wrap_content"
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Comentarios"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
 
@@ -458,8 +458,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             card_view:cardUseCompatPadding="true"
-                            card_view:cardElevation="5dp"
-                            card_view:cardCornerRadius="3dp"
+                            app:cardElevation="6dp"
+                            app:cardCornerRadius="5dp"
                             android:layout_margin="0dp">
 
                             <LinearLayout
@@ -478,7 +478,7 @@
                                     android:orientation="horizontal"
                                     android:layout_marginTop="0dp"
                                     android:layout_marginLeft="0dp"
-                                    android:background="#FF5722"
+                                    android:background="@color/colorToolBar"
                                     android:gravity="center"
                                     >
 
@@ -490,7 +490,7 @@
 
                                     <TextView
                                         android:id="@+id/tvInfo2"
-                                        android:textColor="#000"
+                                        android:textColor="@color/white"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="Pariente o Contacto del Paciente"
@@ -507,7 +507,7 @@
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Nombre Pariente del paciente"
                                     android:layout_marginTop="5dp"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
 
@@ -539,10 +539,9 @@
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Teléfono de Contacto Pariente"
                                     android:layout_marginTop="5dp"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
-
 
                                 <TextView
                                     android:id="@+id/tvtelefonopariente1"
@@ -569,10 +568,9 @@
                                     android:textAppearance="@android:style/TextAppearance"
                                     android:text="Dirección de Contacto Pariente"
                                     android:layout_marginTop="5dp"
-                                    android:textColor="@color/chovi3"
+                                    android:textColor="@color/red"
                                     android:textSize="12dp"
                                     />
-
 
                                 <TextView
                                     android:id="@+id/tvdireccionpariente1"
@@ -591,10 +589,7 @@
                                     android:hint="Dirección Pariente del Paciente (Familiar o amigo)"
                                     android:textSize="12dp"
                                     />
-
                             </LinearLayout>
-
-
                         </androidx.cardview.widget.CardView>
 
 
@@ -608,8 +603,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         card_view:cardUseCompatPadding="true"
-                        card_view:cardElevation="5dp"
-                        card_view:cardCornerRadius="3dp"
+                        app:cardElevation="6dp"
+                        app:cardCornerRadius="5dp"
                         android:layout_margin="0dp">
 
                     <LinearLayout
@@ -619,7 +614,7 @@
                         android:orientation="vertical"
                         android:padding="6dp"
                         android:gravity="center"
-                        android:background="#E7EAEB"
+                        android:background="@color/white"
                         >
 
                         <LinearLayout
@@ -628,7 +623,7 @@
                             android:orientation="horizontal"
                             android:layout_marginTop="0dp"
                             android:layout_marginLeft="0dp"
-                            android:background="#FF5722"
+                            android:background="@color/colorToolBar"
                             android:gravity="center"
                             >
 
@@ -639,7 +634,7 @@
 
                             <TextView
                                 android:id="@+id/tvInfo3"
-                                android:textColor="#000"
+                                android:textColor="@color/white"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Responsable del Monitoreo del Paciente"
@@ -656,7 +651,7 @@
                             android:textAppearance="@android:style/TextAppearance"
                             android:text="Dr. Especialísta Responsable"
                             android:layout_marginTop="5dp"
-                            android:textColor="@color/chovi3"
+                            android:textColor="@color/red"
                             android:textSize="12dp"
                             />
 
@@ -686,6 +681,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:textColor="@color/red"
                                 android:text="Editar" />
 
                             <Button
@@ -694,7 +690,9 @@
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:text="Cerrar"
-                                android:id="@+id/btnClose" />
+                                android:id="@+id/btnClose"
+                                android:textColor="@color/red"
+                                />
                         </LinearLayout>
 
 

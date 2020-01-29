@@ -67,7 +67,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Configuración Alertas"
+                            android:text="Configuración Notificaciones"
                             android:fontFamily="cursive"
                             android:textAlignment="center"
                             android:textSize="24dp"
@@ -126,12 +126,11 @@
 
 
                         <androidx.cardview.widget.CardView
-                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            card_view:cardUseCompatPadding="true"
-                            card_view:cardElevation="5dp"
-                            card_view:cardCornerRadius="3dp"
+                            app:cardUseCompatPadding="true"
+                            app:cardElevation="6dp"
+                            app:cardCornerRadius="5dp"
                             android:layout_margin="0dp">
 
                             <LinearLayout
@@ -141,7 +140,7 @@
                                 android:orientation="vertical"
                                 android:padding="6dp"
                                 android:gravity="center"
-                                android:background="#E7EAEB" >
+                                android:background="#FEFFFF" >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -149,7 +148,7 @@
                                     android:orientation="horizontal"
                                     android:layout_marginTop="0dp"
                                     android:layout_marginLeft="0dp"
-                                    android:background="#7E2205"
+                                    android:background="@color/colorToolBar"
                                     android:gravity="center" >
 
                                     <ImageView
@@ -162,7 +161,7 @@
                                         android:textColor="@color/white"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Parámetros de Variables Biométricas"
+                                        android:text="Seteo de Valores para Notificación"
                                         android:padding="5dp"
                                         />
 
@@ -182,59 +181,68 @@
                                     />
 
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/tiTelefono"
+                                <LinearLayout
+                                    android:id="@+id/valor1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
-                                    android:textColorHint="@color/grey"
-                                    >
+                                    android:orientation="horizontal">
 
-                                <EditText
-                                    android:id="@+id/et_tel1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="visible"
-                                    android:hint="SpO2: 0.0"
-                                    android:textSize="14dp"
-                                    android:inputType="number"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/blue"
-                                    android:drawablePadding="5dp"
-                                    android:paddingLeft="1dp"
-                                    android:drawableStart="@drawable/spo2_ico2"
-                                    android:ems="10"
-                                    />
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/tiTelefono"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_marginRight="5dp"
+                                        android:textColorHint="@color/grey">
 
-                                </com.google.android.material.textfield.TextInputLayout>
+                                        <EditText
+                                            android:id="@+id/et_spo2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:visibility="visible"
+                                            android:hint="SpO2: 0.0"
+                                            android:textSize="14dp"
+                                            android:inputType="number"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/blue"
+                                            android:drawablePadding="5dp"
+                                            android:paddingLeft="1dp"
+                                            android:drawableStart="@drawable/spo2_ico2"
+                                            android:ems="10"
+                                            />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/tiEmail"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_marginRight="15dp"
+                                        android:textColorHint="@color/grey">
+
+                                        <EditText
+                                            android:id="@+id/et_pulso"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:visibility="visible"
+                                            android:hint="Pulso: 0.0"
+                                            android:textSize="14dp"
+                                            android:inputType="number"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/blue"
+                                            android:drawablePadding="5dp"
+                                            android:paddingLeft="1dp"
+                                            android:drawableStart="@drawable/spo2_ico2"
+                                            android:ems="10"
+                                            />
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
 
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/tiEmail"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
-                                    android:textColorHint="@color/grey">
 
-                                <EditText
-                                    android:id="@+id/et_email1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="visible"
-                                    android:hint="Pulso: 0.0"
-                                    android:textSize="14dp"
-                                    android:inputType="number"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/blue"
-                                    android:drawablePadding="5dp"
-                                    android:paddingLeft="1dp"
-                                    android:drawableStart="@drawable/spo2_ico2"
-                                    android:ems="10"
-                                    />
 
-                                </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -306,7 +314,7 @@
                                         android:visibility="visible"
                                         android:hint="Value °C: 0.0"
                                         android:textSize="14dp"
-                                        android:inputType="number"
+                                        android:inputType="numberDecimal"
                                         android:textAlignment="center"
                                         android:textColor="@color/blue"
                                         android:drawablePadding="5dp"
@@ -331,17 +339,29 @@
                                     android:textStyle="bold"
                                     />
 
+
+
+
+
+                            <LinearLayout
+                                android:id="@+id/valor2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
+
+
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/tis4_0"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginRight="2dp"
                                     android:textColorHint="@color/grey">
 
                                     <EditText
                                         android:id="@+id/et_Diastolic"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:visibility="visible"
                                         android:hint="Diastolic: 0.0"
@@ -352,7 +372,7 @@
                                         android:drawablePadding="5dp"
                                         android:paddingLeft="1dp"
                                         android:drawableStart="@drawable/tension_ico"
-                                        android:ems="10"
+                                        android:ems="6"
                                         />
 
                                 </com.google.android.material.textfield.TextInputLayout>
@@ -360,42 +380,41 @@
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/tis4_1"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
                                     android:textColorHint="@color/grey">
 
                                     <EditText
                                         android:id="@+id/et_Systolic"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:visibility="visible"
+                                        android:drawableStart="@drawable/tension_ico"
+                                        android:drawablePadding="5dp"
+                                        android:ems="6"
                                         android:hint="Systolic: 0.0"
-                                        android:textSize="14dp"
                                         android:inputType="number"
+                                        android:paddingLeft="1dp"
                                         android:textAlignment="center"
                                         android:textColor="@color/blue"
-                                        android:drawablePadding="5dp"
-                                        android:paddingLeft="1dp"
-                                        android:drawableStart="@drawable/tension_ico"
-                                        android:ems="10"
-                                        />
+                                        android:textSize="14dp"
+                                        android:visibility="visible" />
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/tis4_2"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginRight="2dp"
                                     android:textColorHint="@color/grey">
 
                                     <EditText
                                         android:id="@+id/et_Pulse_min"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:visibility="visible"
                                         android:hint="Pulse/min: 0.0"
@@ -405,13 +424,12 @@
                                         android:drawablePadding="5dp"
                                         android:paddingLeft="1dp"
                                         android:drawableStart="@drawable/tension_ico"
-                                        android:ems="10"
-
+                                        android:ems="6"
                                         />
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
-
+                            </LinearLayout>
 
 
 
@@ -420,31 +438,29 @@
                                     android:id="@+id/ll_gr1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:gravity="right"
                                     android:orientation="horizontal"
                                     android:visibility="visible"
-                                    android:layout_marginTop="25dp"
-                                    android:layout_marginBottom="10dp"
                                     >
 
                                     <Button
                                         android:id="@+id/btnGuardo"
                                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                                        android:layout_width="0dp"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".7"
-                                        android:text="Guardar Configuración"
-                                        android:textColor="@color/red"
-                                        />
+                                        android:text="Guardar"
+                                        android:textColor="@color/blue" />
 
                                     <Button
-                                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                                        android:layout_width="0dp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        android:text="Cerrar"
                                         android:id="@+id/btnClose"
-                                        android:textColor="@color/red"
-                                        />
+                                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="15dp"
+                                        android:text="Cerrar"
+                                        android:textColor="@color/blue" />
 
                                 </LinearLayout>
                             </LinearLayout>

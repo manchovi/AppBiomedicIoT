@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#6B6767">
+    android:background="@color/white">
 
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -16,9 +16,9 @@
     <!--Header-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="35dp"
         android:orientation="horizontal"
-        android:background="#ffffff"
+        android:background="@color/colorToolBar"
         android:layout_marginTop="0dp"
         android:gravity="right">
 
@@ -28,7 +28,9 @@
             android:textSize="18dp"
             android:text="Tiempo Envio Servidor"
             android:textAlignment="center"
-            android:textColor="#068BFF"
+            android:textColor="@color/white"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             />
 
     </LinearLayout>
@@ -73,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="Habilitar Envio Según Tiempo"
-                android:textColor="#fff"
+                android:textColor="@color/black"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -84,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"
-                android:textColorHint="@color/colorAccent">
+                android:textColorHint="@color/blue">
                 <EditText
                     android:id="@+id/etTiempo"
                     android:layout_width="match_parent"
@@ -117,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#ffffff"
+        android:background="@color/colorToolBar"
         android:layout_marginTop="10dp"
         android:gravity="right">
 
@@ -129,12 +131,12 @@
             android:text="Cancelar"
             android:textSize="12dp"
             android:textStyle="bold"
-            android:textColor="#068BFF" />
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorToolBar"
             android:text="***"
             />
 
@@ -142,7 +144,7 @@
             android:id="@+id/btnAplica"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#068BFF"
+            android:textColor="@color/white"
             android:background="@android:color/transparent"
             android:textSize="12dp"
             android:textStyle="bold"

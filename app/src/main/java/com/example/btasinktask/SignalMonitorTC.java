@@ -92,7 +92,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     private boolean getStatusCheckBoxVisibleoculto = false;
 
     int contador = 0;
-    String senal = "";
+
 
     AlertDialog.Builder dialogo, dialogo1;
     private ProgressDialog pd;
@@ -108,6 +108,13 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     boolean estadoSendDataServer = false;
     boolean ultimoEstado = false;
     int totalSegundos = 0;
+
+    String senal = "";
+    String documentoEspecialista="";
+    String nombreEspecialista="";
+    String nombrePaciente="";
+    String tel_especialista="";
+    String correo_especialista="";
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -154,6 +161,41 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         cb_legends = (CheckBox)findViewById(R.id.cb_legends);
         cb_send = (CheckBox)findViewById(R.id.cb_send);
         cb_time = (CheckBox)findViewById(R.id.cb_time);
+
+
+
+        try {
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+
+            if (bundle != null) {
+                senal = bundle.getString("senal");;
+                documentoEspecialista = bundle.getString("documento");
+                nombreEspecialista = bundle.getString("nombreEspecialista");
+                nombrePaciente = bundle.getString("nombrePaciente");
+                tel_especialista = bundle.getString("telefono_especialista");
+                correo_especialista = bundle.getString("correo_especialista");
+
+                //En esta sección me he quedado, al llegar a casa la probaré.
+                AlertDialog.Builder ventana = new AlertDialog.Builder(this);
+                ventana.setCancelable(true);
+                ventana.setTitle("Detalle Info:");
+                ventana.setMessage("Documento Especialísta: "+ documentoEspecialista + "\n"+
+                                   "Nombre Especialísta: "+ nombreEspecialista + "\n" +
+                                   "Nombre Paciente: " + nombrePaciente + "\n" +
+                                   "Tel. Especialísta: " + tel_especialista + "\n" +
+                                   "E-mail Especialísta: " + correo_especialista + "\n");
+                ventana.show();
+
+                if (senal.equals("1")) {
+
+                }
+            }
+
+        }catch (Exception e){
+
+        }
+
 
 
         ultimoEstado = obtenerEstadoCbox();

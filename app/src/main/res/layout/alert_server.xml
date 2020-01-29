@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="#03A9F4"
+        app:cardBackgroundColor="@color/colorToolBar"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -48,7 +48,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#03A9F4"
+                    android:background="@color/colorToolBar"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
 

@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="250dp"
-    android:layout_height="165dp"
-    android:background="#6B6767">
+    android:layout_height="175dp"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="35dp"
         android:orientation="horizontal"
-        android:background="#ffffff"
+        android:background="@color/colorToolBar"
         android:layout_marginTop="0dp"
         android:gravity="right">
 
@@ -19,7 +19,8 @@
             android:textSize="18dp"
             android:text="Posición Leyenda"
             android:textAlignment="center"
-            android:textColor="#068BFF"
+            android:textColor="@color/white"
+            android:paddingTop="5dp"
             />
 
     </LinearLayout>
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="TOP"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="16dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:text="BOTTOM"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="16dp"
             android:textStyle="bold" />
              </LinearLayout>
@@ -98,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="MIDDLE"
-                android:textColor="#fff"
+                android:textColor="@color/black"
                 android:textSize="16dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -116,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="VISIBLE"
-                android:textColor="#fff"
+                android:textColor="@color/black"
                 android:textSize="16dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -127,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:orientation="horizontal"
-        android:background="#ffffff"
+        android:background="@color/colorToolBar"
         android:layout_marginTop="10dp"
         android:gravity="right"
         >
@@ -141,12 +142,12 @@
             android:text="Cancelar"
             android:textSize="12dp"
             android:textStyle="bold"
-            android:textColor="#068BFF" />
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorToolBar"
             android:text="***"
             />
 
@@ -154,7 +155,7 @@
             android:id="@+id/btnAplicar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#068BFF"
+            android:textColor="@color/white"
             android:background="@android:color/transparent"
             android:alpha="1"
             android:textSize="12dp"

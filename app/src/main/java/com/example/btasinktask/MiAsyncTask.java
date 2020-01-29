@@ -91,6 +91,7 @@ public class MiAsyncTask extends AsyncTask<BluetoothDevice, Dto_variables, Void>
 
         } catch (IOException iOe) {
             aStream = null;
+
         }
 
         callback = CALLBACK;
