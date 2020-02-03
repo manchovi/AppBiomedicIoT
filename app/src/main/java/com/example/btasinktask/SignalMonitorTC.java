@@ -998,7 +998,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                 //valorTC = Integer.parseInt(vd_tc.getText().toString());
                 valorTC = Double.parseDouble(vd_tc.getText().toString());
                 volleyBD.sendInfoServer(SignalMonitorTC.this,
-                        "Pruebas Finales Del Prototipo Biomédico # 1",
+                        "Monitor Temperatura Corporal",
                         "0",
                        "0",
                         "0",
@@ -1022,15 +1022,11 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                 if(contadorSMS_Email == 0) {
                     //Tengo que poner la condición de activación del checkbox de avisar o notificar.
                     if(obternerEstadoCboxNotificaciones()) {
-
                         //if (getTemperaturaSeteada > 0 && getTemperaturaSeteada <= valorTC) {   //Asi es como funciona la cosa.
                         //if (getTemperaturaSeteada >= valorTC) {                                 //Funciona tambien.
-                        if (valorTC > 0 && valorTC >= getTemperaturaSeteada) {
-                        //if (getTemperaturaSeteada > 0 &&  valorTC >= getTemperaturaSeteada ) {
 
-                        //if(getTemperaturaSeteada > 0 && getTemperaturaSeteada <= valorTC){
-                        //if (getTemperaturaSeteada > 0 && getTemperaturaSeteada <= dato) {
-                        //if ((getTemperaturaSeteada > 0) && (Temp_corporal >= getTemperaturaSeteada)) {
+                        //if (valorTC > 0 && valorTC >= getTemperaturaSeteada) {
+                        if (valorTC >= getTemperaturaSeteada) {
                             //Aca pondré las funciones para enviar las notificaciones:
                             //VIA: SMS Y EMAIL.
 

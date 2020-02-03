@@ -1000,7 +1000,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                     //Toast.makeText(SignalMonitorSpo2Pulso.this, "nada", Toast.LENGTH_SHORT).show();
                 }else {
                     volleyBD.sendInfoServer(SignalMonitorSpo2Pulso.this,
-                            "Pruebas Finales Del Prototipo Biomédico # 1",
+                            "Monitor Oximetría",
                             vd_spo2.getText().toString(),
                             vd_fc.getText().toString(),
                             "0",
@@ -1026,13 +1026,14 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
         new android.app.AlertDialog.Builder(this)
                 .setIcon(R.drawable.ic_error)
-                .setTitle("Check Sensor!!!")
-                .setMessage("Posibles razones:\n\n" +
+                .setTitle("¡Información Oximetría!")
+                .setMessage("Razones de esta Ventana:\n\n" +
                         "1. No se ha conectado o se ha desconectado el sensor de la tarjeta MySignals." + "\n" +
-                        "2. Se ha retirado el dedo indice del sensor de medición. O Ambos casos, literal 1 y 2." + "\n" +
-                        "3. Se ha dañado el sensor." + "\n\n" +
-                        "Verifique y vuelva a intentarlo.")
-                .setNegativeButton(android.R.string.cancel, null)
+                        "2. Se ha retirado el dedo indice del sensor biométrico. O Ambos casos, literal 1 y 2." + "\n" +
+                        "3. Sensor malo." + "\n" +
+                        "4. Info usuarios." + "\n\n" +
+                        "Press aceptar para continuar.")
+                //.setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
