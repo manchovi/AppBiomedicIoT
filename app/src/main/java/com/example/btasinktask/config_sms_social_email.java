@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,16 +77,13 @@ public class config_sms_social_email {
 
 
 
-    public void sendInfo_SMS_TC(Context context, String temperatura, String telefono){
-
-        String nombrePaciente = "xxxxxx";
-        String nombreEspecialista = "++++++++";
-
+    public void sendInfo_SMS_TC(Context context, String temperatura, String telefonoEspecialista, String nombreEspecialista, String nombrePaciente){
+        DecimalFormat df = new DecimalFormat("#.00");
         String datosCompletos =
                 "*************************************************************\n" +
                         "¡NOTIFICACIÓN TEMPERATURA CORPORAL!\n\n" +
                         "*************************************************************\n" +
-                        "*Temperatura Corporal: " + temperatura +"\n\n" +
+                        "*Temperatura Corporal: " + temperatura + " °C ~ " + df.format(((((Double.parseDouble(String.valueOf(temperatura)))*1.8)+32.0))) + " °F.\n" +
                         "\nNombre del Paciente: " + nombrePaciente +"\n" +
                         "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
                         "---------------------------------------------------------------------" + "\n" +
@@ -95,7 +93,7 @@ public class config_sms_social_email {
                         "Copyright(c) HOSPITAL 2019~2020. " +
                         "\nAll rights reserved.";
 
-        sendSMS(context, datosCompletos, telefono);
+        sendSMS(context, datosCompletos, telefonoEspecialista);
 
     }
 
@@ -184,7 +182,7 @@ public class config_sms_social_email {
 
             //Toast.makeText(getApplicationContext(), "Mensaje Enviado.", Toast.LENGTH_LONG).show();
             //Toast toast = Toast.makeText(context, "MENSAJE ENVIADO A MÓVIL: " + infoConfDestinatarioTel2(context), Toast.LENGTH_LONG);
-            Toast toast = Toast.makeText(context, "MENSAJE ENVIADO A MÓVIL: " + numeroEspecialista, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(context, "MENSAJE ENVIADO A ESPECIALÍSTA: " + numeroEspecialista, Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
 
@@ -273,26 +271,30 @@ public class config_sms_social_email {
         return time;
     }
 
+    /********************************************************************/
+    /****************Sección de Envio de Correos*************************/
+    /********************************************************************/
 
     //Función para enviar notificación de variable biométrica Temperatura Corporal.
-    public void sendInfo_Email_TC(Context context, String email, String subject, String temperatura){
+    public void sendInfo_Email_TC(Context context, String email, String subject, String temperatura, String nombreEspecialista, String nombrePaciente){
 
-        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+        //sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
                                                   //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
 
         /*Para estas dos variables estoy pensando hacer un inner join o simplemente mando los valores tomandolos de las variables de inicio de sesión*/
         /*La otra opción que pienso, es que al iniciar sesión setear un archivo xml con sharedpreferenced con los datos que necesito y luego solo llamarlos
         * donde se necesiten desde las diferentes actividades de la aplicación. Ya veré cual a la hora de las horas.*/
-        String nombrePaciente = "xxxxxx";
-        String nombreEspecialista = "++++++++";
+        //Esperando que todo salga de marivilla con el next code...
+
+        DecimalFormat df = new DecimalFormat("#.00");
 
         String message =
                 "*************************************************************\n" +
-                "¡NOTIFICACIÓN TEMPERATURA CORPORAL!\n\n" +
-                "*************************************************************\n" +
-                "*Temperatura Corporal: " + temperatura +"\n\n" +
-                "\nNombre del Paciente: " + nombrePaciente +"\n" +
-                "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                "¡NOTIFICACIÓN TEMPERATURA CORPORAL!\n" +
+                "*************************************************************\n\n" +
+                "* Temperatura Corporal: " + temperatura  + " °C ~ " + df.format(((((Double.parseDouble(String.valueOf(temperatura)))*1.8)+32.0))) + " °F.\n" +
+                "* Nombre del Paciente: " + nombrePaciente +"\n" +
+                "* Nombre del Especialísta: " + nombreEspecialista +"\n\n" +
                 "---------------------------------------------------------------------" + "\n" +
                 //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
                 "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
@@ -306,11 +308,22 @@ public class config_sms_social_email {
         //sendEmail(infoConfDestinatarioEmail1(), asunto, temperatura, humedad, l1, l2, l3, l4, l5, l6, l7, l8, fecha, hora);
         //sendEmail(infoConfDestinatarioEmail1(), asunto, temperatura);
 
+        //Toast.makeText(context, "Correoo:"+email, Toast.LENGTH_SHORT).show();
+
         //Creating SendMail object
         SendMail sm = new SendMail(context, email, subject, message);
-
         //Executing sendmail to send email
         sm.execute();
+
+
+        /*SendMail1 sm = new SendMail1(context, email, subject, message);
+        if(sm.sendEmail()){
+            Toast.makeText(context, "E-mail enviado correctamente!!!", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Problemas. No se puedo enviar el correo.", Toast.LENGTH_SHORT).show();
+        }*/
+
+
     }
 
 

@@ -25,17 +25,49 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="Tiempo Envio Servidor"
-            android:textAlignment="center"
-            android:textColor="@color/white"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            />
+            android:text="Control de Comunicación Remota"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/llchbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <CheckBox
+            android:id="@+id/cb_enabledSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:checked="false"
+            android:text="Habilitar Servidor IoT"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/cb_enabledNotificaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:checked="false"
+            android:text="Habilitar Notificación"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
 
 
@@ -57,27 +89,16 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center">
-
-
-            <CheckBox
-                android:id="@+id/cb_enabledSend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Habilitar Envio Según Tiempo"
-                android:textColor="@color/black"
-                android:textSize="14dp"
-                android:textStyle="bold" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -106,6 +127,8 @@
 
 
         </LinearLayout>
+
+
     </LinearLayout>
 
 

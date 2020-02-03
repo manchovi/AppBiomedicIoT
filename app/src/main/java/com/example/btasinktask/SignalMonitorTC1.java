@@ -1,8 +1,5 @@
 package com.example.btasinktask;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,6 +24,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -41,7 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
-public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.MiCallback{
+public class SignalMonitorTC1 extends AppCompatActivity implements MiAsyncTask.MiCallback{
 
     //Instancia de la clase MiAsyncTask.
     private MiAsyncTask tareaAsincrona;
@@ -122,8 +121,6 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
 
     config_sms_social_email notificacionesUser = new config_sms_social_email();
     int contadorSMS_Email = 0;
-
-    double valorTC = 0;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -231,7 +228,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    VentanaDialog2(SignalMonitorTC.this);
+                    VentanaDialog2(SignalMonitorTC1.this);
                 }else{
                     cb_time.setChecked(false);
                 }
@@ -257,7 +254,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
             @Override
             public void onClick(View view) {
                 if(cb_legends.isChecked()){
-                    VentanaDialog1(SignalMonitorTC.this);
+                    VentanaDialog1(SignalMonitorTC1.this);
                 }else{
                     legendsHidden();
                 }
@@ -588,7 +585,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     editor.commit();
      */
 
-    private String getUmbralTC() {
+    private String getUmbralSpo2() {
         SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
         String tempe = preferences.getString("tc", "0");
         return tempe;
@@ -995,9 +992,8 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
             contador++;
 
             if(contador>=2) {
-                //valorTC = Integer.parseInt(vd_tc.getText().toString());
-                valorTC = Double.parseDouble(vd_tc.getText().toString());
-                volleyBD.sendInfoServer(SignalMonitorTC.this,
+                //int valorTC = Integer.parseInt(vd_tc.getText().toString());
+                volleyBD.sendInfoServer(SignalMonitorTC1.this,
                         "Pruebas Finales Del Prototipo Biomédico # 1",
                         "0",
                        "0",
@@ -1005,7 +1001,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                         "0",
                         "0",
                         "0",
-                        String.valueOf(valorTC),                                   //vd_tc.getText().toString(),//vd_tc.getText().toString(),
+                        vd_tc.getText().toString(),                    //String.valueOf(valorTC), //vd_tc.getText().toString(),
                         vd_alarma.getText().toString(),
                         volleyBD.getDate(),
                         volleyBD.getTime(),
@@ -1017,17 +1013,11 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
 
                 //int dato = Integer.parseInt(vd_tc.getText().toString());
 
-                //int getTemperaturaSeteada = Integer.parseInt(getUmbralSpo2());
-                double getTemperaturaSeteada = Double.parseDouble(getUmbralTC());
+                int getTemperaturaSeteada = Integer.parseInt(getUmbralSpo2());
                 if(contadorSMS_Email == 0) {
                     //Tengo que poner la condición de activación del checkbox de avisar o notificar.
                     if(obternerEstadoCboxNotificaciones()) {
-
-                        //if (getTemperaturaSeteada > 0 && getTemperaturaSeteada <= valorTC) {   //Asi es como funciona la cosa.
-                        //if (getTemperaturaSeteada >= valorTC) {                                 //Funciona tambien.
-                        if (valorTC > 0 && valorTC >= getTemperaturaSeteada) {
-                        //if (getTemperaturaSeteada > 0 &&  valorTC >= getTemperaturaSeteada ) {
-
+                        if (getTemperaturaSeteada > 0 && getTemperaturaSeteada <= 30) {
                         //if(getTemperaturaSeteada > 0 && getTemperaturaSeteada <= valorTC){
                         //if (getTemperaturaSeteada > 0 && getTemperaturaSeteada <= dato) {
                         //if ((getTemperaturaSeteada > 0) && (Temp_corporal >= getTemperaturaSeteada)) {
@@ -1035,8 +1025,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                             //VIA: SMS Y EMAIL.
 
                             //Envio el SMS con el valor actual de la medición de temperatura corporal.
-                            //notificacionesUser.sendInfo_SMS_TC(SignalMonitorTC.this, Temp_corporal, tel_especialista, nombreEspecialista, nombrePaciente);
-                            notificacionesUser.sendInfo_SMS_TC(SignalMonitorTC.this, String.valueOf(valorTC), tel_especialista, nombreEspecialista, nombrePaciente);
+                            notificacionesUser.sendInfo_SMS_TC(SignalMonitorTC1.this, Temp_corporal, tel_especialista, nombreEspecialista, nombrePaciente);
 
                                 /*try {
                                     Thread.sleep(3000);
@@ -1045,7 +1034,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                                 }*/
 
                             //Envio el correo electrónico con el valor actual de la medición de la temperatura corporal.
-                            notificacionesUser.sendInfo_Email_TC(SignalMonitorTC.this, correo_especialista, "!!!ALERTA¡¡¡", Temp_corporal, nombreEspecialista, nombrePaciente);
+                            notificacionesUser.sendInfo_Email_TC(SignalMonitorTC1.this, correo_especialista, "!!!ALERTA¡¡¡", Temp_corporal, nombreEspecialista, nombrePaciente);
 
                             //Toast.makeText(this, "Vamos bien...", Toast.LENGTH_SHORT).show();
                             contadorSMS_Email = 1;

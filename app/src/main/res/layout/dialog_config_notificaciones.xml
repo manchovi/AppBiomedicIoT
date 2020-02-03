@@ -185,58 +185,39 @@
                                     android:id="@+id/valor1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:paddingLeft="15dp"
+                                    android:paddingRight="15dp"
                                     android:orientation="horizontal">
-
-                                    <com.google.android.material.textfield.TextInputLayout
-                                        android:id="@+id/tiTelefono"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="15dp"
-                                        android:layout_marginRight="5dp"
-                                        android:textColorHint="@color/grey">
 
                                         <EditText
                                             android:id="@+id/et_spo2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:visibility="visible"
+                                            android:layout_weight=".5"
                                             android:hint="SpO2: 0.0"
                                             android:textSize="14dp"
                                             android:inputType="number"
-                                            android:textAlignment="center"
                                             android:textColor="@color/blue"
                                             android:drawablePadding="5dp"
                                             android:paddingLeft="1dp"
                                             android:drawableStart="@drawable/spo2_ico2"
-                                            android:ems="10"
                                             />
-                                    </com.google.android.material.textfield.TextInputLayout>
-
-                                    <com.google.android.material.textfield.TextInputLayout
-                                        android:id="@+id/tiEmail"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="15dp"
-                                        android:layout_marginRight="15dp"
-                                        android:textColorHint="@color/grey">
 
                                         <EditText
                                             android:id="@+id/et_pulso"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:layout_weight=".5"
                                             android:visibility="visible"
                                             android:hint="Pulso: 0.0"
                                             android:textSize="14dp"
                                             android:inputType="number"
-                                            android:textAlignment="center"
                                             android:textColor="@color/blue"
                                             android:drawablePadding="5dp"
                                             android:paddingLeft="1dp"
                                             android:drawableStart="@drawable/spo2_ico2"
-                                            android:ems="10"
                                             />
-
-                                    </com.google.android.material.textfield.TextInputLayout>
 
                                 </LinearLayout>
 
@@ -273,10 +254,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:visibility="visible"
-                                        android:hint="Value: 0.0"
+                                        android:hint="Frecuencia Respiratoria: 0.0"
                                         android:textSize="14dp"
                                         android:inputType="number"
-                                        android:textAlignment="center"
                                         android:textColor="@color/blue"
                                         android:drawablePadding="5dp"
                                         android:paddingLeft="1dp"
@@ -312,10 +292,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:visibility="visible"
-                                        android:hint="Value °C: 0.0"
+                                        android:hint="Temperatura Corporal [°C]: 0.0"
                                         android:textSize="14dp"
                                         android:inputType="numberDecimal"
-                                        android:textAlignment="center"
                                         android:textColor="@color/blue"
                                         android:drawablePadding="5dp"
                                         android:paddingLeft="1dp"
@@ -367,7 +346,6 @@
                                         android:hint="Diastolic: 0.0"
                                         android:textSize="14dp"
                                         android:inputType="number"
-                                        android:textAlignment="center"
                                         android:textColor="@color/blue"
                                         android:drawablePadding="5dp"
                                         android:paddingLeft="1dp"
@@ -390,15 +368,14 @@
                                         android:id="@+id/et_Systolic"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:drawableStart="@drawable/tension_ico"
                                         android:drawablePadding="5dp"
                                         android:ems="6"
                                         android:hint="Systolic: 0.0"
                                         android:inputType="number"
                                         android:paddingLeft="1dp"
-                                        android:textAlignment="center"
                                         android:textColor="@color/blue"
                                         android:textSize="14dp"
+                                        android:paddingTop="15dp"
                                         android:visibility="visible" />
 
                                 </com.google.android.material.textfield.TextInputLayout>
@@ -420,10 +397,9 @@
                                         android:hint="Pulse/min: 0.0"
                                         android:textSize="14dp"
                                         android:inputType="number"
-                                        android:textAlignment="center"
                                         android:drawablePadding="5dp"
                                         android:paddingLeft="1dp"
-                                        android:drawableStart="@drawable/tension_ico"
+                                        android:paddingTop="15dp"
                                         android:ems="6"
                                         />
 
@@ -458,7 +434,7 @@
                                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="15dp"
+                                        android:layout_marginRight="15dp"
                                         android:text="Cerrar"
                                         android:textColor="@color/blue" />
 

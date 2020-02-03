@@ -25,6 +25,7 @@ import androidx.cardview.widget.CardView;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +70,15 @@ public class MenuPrincipal extends AppCompatActivity {
     boolean estado_dir_api;
     boolean estado_dir_portal;
 
+    boolean estado_spo2 = false;
+    boolean estado_fc = false;
+    boolean estado_tc = false;
+    boolean estado_fr = false;
+    boolean estado_diastolic = false;
+    boolean estado_systolic = false;
+    boolean estado_pulsemin = false;
+
+
     CarouselView carouselView;
     AlertDialog.Builder dialogo; AlertDialog.Builder dialog;
 
@@ -76,7 +86,9 @@ public class MenuPrincipal extends AppCompatActivity {
                           R.drawable.image_7, R.drawable.image_8, R.drawable.image_9, R.drawable.image_10, R.drawable.image_11, R.drawable.image_12,
                           R.drawable.image_13, R.drawable.image_14, R.drawable.image_15};
 
-    int[] sampleImages1 = {R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4, R.drawable.image_5};
+    int[] sampleImages1 = {R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4, R.drawable.image_5, R.drawable.image_6, R.drawable.image_7, R.drawable.image_8};
+
+    //R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4, R.drawable.image_5, R.drawable.image_6, R.drawable.image_7
 
     String senal;
     String documentoEspecialista;
@@ -236,6 +248,8 @@ public class MenuPrincipal extends AppCompatActivity {
                 config_server();
             }
         });*/
+
+        //limpiarDatosArchivoXML();
 
         iv_config_server = (ImageView)findViewById(R.id.iv_config_server);
         iv_config_especialista = (ImageView)findViewById(R.id.iv_config_especialista);
@@ -796,7 +810,7 @@ public class MenuPrincipal extends AppCompatActivity {
         });
         dialogo.show();
 
-    }
+    } //End
 
 
     public void goBack(){
@@ -804,6 +818,25 @@ public class MenuPrincipal extends AppCompatActivity {
         startActivity(intent);
         //finish();
         finishAffinity();
+    }
+
+
+    public void showToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_root));
+
+        TextView toastText = layout.findViewById(R.id.toast_text);
+        ImageView toastImage = layout.findViewById(R.id.toast_image);
+
+        toastText.setText(message);
+        toastImage.setImageResource(R.drawable.ic_check);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+
+        toast.show();
     }
 
 
@@ -820,7 +853,55 @@ public class MenuPrincipal extends AppCompatActivity {
         //Aca colocar el mapeo o referencia de cada control en el Layout.
         //Button btnSave = (Button)mView.findViewById(R.id.btnSave);                                //BOTONES DEL DIALOG CONFIGURACION.
         //TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
+        final EditText et_spo2 = (EditText) mView.findViewById(R.id.et_spo2);
+        final EditText et_fc = (EditText) mView.findViewById(R.id.et_pulso);
+        final EditText et_fr = (EditText) mView.findViewById(R.id.et_fr);
+        final EditText et_tc = (EditText) mView.findViewById(R.id.et_tc);
+        final EditText et_Diastolic = (EditText) mView.findViewById(R.id.et_Diastolic);
+        final EditText et_Systolic = (EditText) mView.findViewById(R.id.et_Systolic);
+        final EditText et_Pulse_min = (EditText) mView.findViewById(R.id.et_Pulse_min);
+
         ImageView BtnCerrar = (ImageView) mView.findViewById(R.id.BtnCerrar);
+        Button btnClose = (Button) mView.findViewById(R.id.btnClose);
+        Button btnGuardo = (Button) mView.findViewById(R.id.btnGuardo);
+
+        //Buscando datos en archivo credenciales.xml
+        SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
+        String saturacion = preferences.getString("spo2","0");
+        String frec_cardiaca = preferences.getString("fc","0");
+        String frec_respiratoria = preferences.getString("fr","0");
+        String temperatura = preferences.getString("tc","0");                 //temperatura > 0 && temperatura <= valorSeteado
+        String diastolic = preferences.getString("diastolic","0");
+        String systolic = preferences.getString("systolic","0");
+        String pulsemin = preferences.getString("pulse","0");
+        String fecha = preferences.getString("fecha", "0");
+        String hora = preferences.getString("hora", "0");
+
+        if (saturacion.equals("0")){
+            /*tv_servidor.setText("Servidor: " +server);
+            tv_directorio.setText("API-WebService: " + folder);
+            tv_directorioPortal.setText("Portal Web: " + porta);
+            tv_fecha.setText("Fecha de Registro: "+fec);
+            tv_hora.setText("Hora de Registro: "+hor);*/
+        }else{
+            /*tv_encabezado.setVisibility(mView.VISIBLE);
+            tv_encabezado.setText("Server API/Web service: "+ server + folder);
+            tv_encabezado1.setText("Server Portal Web: "+ server + porta);
+            tv_servidor.setVisibility(mView.GONE);
+            tv_directorio.setVisibility(mView.GONE);
+            tv_directorioPortal.setVisibility(mView.GONE);
+            tv_fecha.setVisibility(mView.GONE);
+            tv_hora.setVisibility(mView.GONE);*/
+        }
+
+        et_spo2.setText(saturacion);
+        et_fc.setText(frec_cardiaca);
+        et_fr.setText(frec_respiratoria);
+        et_tc.setText(temperatura);
+        et_Diastolic.setText(diastolic);
+        et_Systolic.setText(systolic);
+        et_Pulse_min.setText(pulsemin);
+
 
         mBuilder.setView(mView);
         //final AlertDialog dialog = mBuilder.create();
@@ -836,7 +917,415 @@ public class MenuPrincipal extends AppCompatActivity {
             }
         });
 
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnGuardo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+
+                    estado_spo2 = false;
+                    estado_fc = false;
+                    estado_fr = false;
+                    estado_tc = false;
+                    estado_diastolic = false;
+                    estado_systolic = false;
+                    estado_pulsemin = false;
+
+                    //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
+                    DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
+                    String date= formatodate.format(new Date());
+                    DateFormat formatotime= new SimpleDateFormat("HH:mm:ss a");
+                    String time= formatotime.format(new Date());
+
+                    //Acciones de guardado.
+                    /*int spo2 = Integer.parseInt(et_spo2.getText().toString());
+                    int fc = Integer.parseInt(et_fc.getText().toString());
+                    int tc = Integer.parseInt(et_tc.getText().toString());
+                    int fr = Integer.parseInt(et_fr.getText().toString());
+                    int diastolic = Integer.parseInt(et_Diastolic.getText().toString());
+                    int systolic = Integer.parseInt(et_Systolic.getText().toString());
+                    int pulsemin = Integer.parseInt(et_Pulse_min.getText().toString());*/
+
+                    String spo2 = et_spo2.getText().toString();
+                    String fc = et_fc.getText().toString();
+                    String tc = et_tc.getText().toString();
+                    String  fr = et_fr.getText().toString();
+                    String diastolic = et_Diastolic.getText().toString();
+                    String systolic = et_Systolic.getText().toString();
+                    String pulsemin = et_Pulse_min.getText().toString();
+
+                    if(!spo2.isEmpty() && !spo2.equals("0")){
+                        estado_spo2 = true;
+
+                        if(estado_spo2 && (!fc.isEmpty() && !fc.equals("0"))){
+                            estado_fc = true;
+
+                            if(estado_fc && (!fr.isEmpty() && !fr.equals("0"))){
+                                estado_fr = true;
+
+                                if(estado_fr && (!tc.isEmpty() && !tc.equals("0"))){
+                                    estado_tc = true;
+
+                                    if(estado_tc && (!diastolic.isEmpty() && !diastolic.equals("0"))){
+                                        estado_diastolic = true;
+
+                                        if(estado_diastolic && (!systolic.isEmpty() && !systolic.equals("0"))){
+                                            estado_systolic = true;
+
+                                            if(estado_systolic && (!pulsemin.isEmpty() && !pulsemin.equals("0"))){
+                                                estado_pulsemin = true;
+
+                                                if(estado_spo2 && estado_fc && estado_fr && estado_tc && estado_diastolic && estado_systolic && estado_pulsemin){
+                                                //if(estado_pulsemin){
+                                                    et_spo2.setError(null);
+                                                    et_fc.setError(null);
+                                                    et_fr.setError(null);
+                                                    et_tc.setError(null);
+                                                    et_Diastolic.setError(null);
+                                                    et_Systolic.setError(null);
+                                                    et_Pulse_min.setError(null);
+
+                                                    SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = preferences.edit();
+                                                    editor.putString("spo2", spo2);
+                                                    editor.putString("fc", fc);
+                                                    editor.putString("fr", fr);
+                                                    editor.putString("tc", tc);                 //temperatura > 0 && temperatura <= valorSeteado
+                                                    editor.putString("diastolic", diastolic);
+                                                    editor.putString("systolic", systolic);
+                                                    editor.putString("pulse", pulsemin);
+                                                    editor.putString("fecha", date);
+                                                    editor.putString("hora", time);
+                                                    editor.commit();
+
+                                                    //Toast.makeText(MenuPrincipal.this, "Configuración Guardada Correctamente.", Toast.LENGTH_SHORT).show();
+                                                    showToast("Parámetros guardados correctamente!");
+
+                                                    }else{
+                                                            Toast.makeText(MenuPrincipal.this, "Complete la información.\nTodos los campos son obligatorios.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                            }else{
+                                                et_Pulse_min.setText("150");
+                                                et_Pulse_min.setError("Campo Obligatorio");
+                                                et_Systolic.setError(null);
+                                                et_Pulse_min.requestFocus();
+                                                estado_pulsemin = false;
+                                            }
+
+                                        }else{
+                                            et_Systolic.setText("250");
+                                            et_Systolic.setError("Campo Obligatorio");
+                                            et_Diastolic.setError(null);
+                                            et_Systolic.requestFocus();
+                                            estado_systolic = false;
+                                        }
+
+                                    }else{
+                                        et_Diastolic.setText("250");
+                                        et_Diastolic.setError("Campo Obligatorio");
+                                        et_tc.setError(null);
+                                        et_Diastolic.requestFocus();
+                                        estado_diastolic = false;
+                                    }
+
+                                }else{
+                                    et_tc.setText("50");
+                                    et_tc.setError("Campo Obligatorio");
+                                    et_fr.setError(null);
+                                    et_tc.requestFocus();
+                                    estado_tc = false;
+                                }
+
+                            }else{
+                                et_fr.setText("1000");
+                                et_fr.setError("Campo Obligatorio");
+                                et_fc.setError(null);
+                                et_fr.requestFocus();
+                                estado_fr = false;
+                            }
+
+
+                        }else{
+                            et_fc.setText("110");
+                            et_fc.setError("Campo Obligatorio");
+                            et_spo2.setError(null);
+                            et_fc.requestFocus();
+                            estado_fc = false;
+                        }
+
+                    }else{
+                        et_spo2.setText("110");
+                        et_spo2.setError("Campo Obligatorio");
+                        et_spo2.requestFocus();
+                        estado_spo2 = false;
+                    }
+
+
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
     }
+
+
+    public void limpiarDatosArchivoXML() {
+        SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+
+
+    private void config_server() {
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        //mBuilder.setIcon(R.drawable.ic_servidor);
+        //mBuilder.setTitle("<<<UTLA>>>");
+
+        mBuilder.setCancelable(false);
+        //final View mView = getLayoutInflater().inflate(R.layout.dialog_server, null);
+        final View mView = getLayoutInflater().inflate(R.layout.alert_server, null);
+
+        //controles donde muestro informacion del archivo credenciales.xml creado con
+        //SharedPreferences.
+        final Spinner sprotocolo = (Spinner)mView.findViewById(R.id.sprotocolo);
+        final TextView tv_encabezado = (TextView)mView.findViewById(R.id.tv_encabezado);
+        final TextView tv_encabezado1 = (TextView)mView.findViewById(R.id.tv_encabezado1);  //et_portal
+        final TextView tv_servidor = (TextView)mView.findViewById(R.id.tv_servidor);
+        final TextView tv_directorio = (TextView)mView.findViewById(R.id.tv_directorio);
+        final TextView tv_directorioPortal = (TextView)mView.findViewById(R.id.tv_directorioPortal);
+        final TextView tv_fecha = (TextView)mView.findViewById(R.id.tv_fecha);
+        final TextView tv_hora = (TextView)mView.findViewById(R.id.tv_hora);
+
+        final EditText dominio = (EditText) mView.findViewById(R.id.et_dominio);
+        final EditText directorio = (EditText) mView.findViewById(R.id.et_directorio);
+        final EditText portal = (EditText) mView.findViewById(R.id.et_portal); //et_portal
+        final TextInputLayout ti_dominio=(TextInputLayout)mView.findViewById(R.id.ti_dominio);
+
+        Button btnSave = (Button)mView.findViewById(R.id.btnSave);      //BOTONES DEL DIALOG CONFIGURACION.
+        Button btnCancel = (Button)mView.findViewById(R.id.btnCancel);
+
+        //TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
+        ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
+
+        final String[] lista =new String[]{
+                "http://",
+                "https://",
+        };
+        ArrayAdapter<String> adaptador1 =new ArrayAdapter<String> (this,android.R.layout.simple_spinner_item, lista);
+        sprotocolo.setAdapter(adaptador1);
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Settings Your Server PC", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
+        //Buscando datos en archivo credenciales.xml
+        SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        String server = preferences.getString("servidor","Sin configurar.");
+        String folder = preferences.getString("folder","Sin configurar.");
+        String porta = preferences.getString("portal","Sin configurar.");
+        String fec = preferences.getString("fecha", "NA.");
+        String hor = preferences.getString("hora", "NA.");
+        if (server.equals("Sin configurar.")){
+            tv_servidor.setText("Servidor: " +server);
+            tv_directorio.setText("API-WebService: " + folder);
+            tv_directorioPortal.setText("Portal Web: " + porta);
+            tv_fecha.setText("Fecha de Registro: "+fec);
+            tv_hora.setText("Hora de Registro: "+hor);
+        }else{
+            tv_encabezado.setVisibility(mView.VISIBLE);
+            tv_encabezado.setText("Server API/Web service: "+ server + folder);
+            tv_encabezado1.setText("Server Portal Web: "+ server + porta);
+            tv_servidor.setVisibility(mView.GONE);
+            tv_directorio.setVisibility(mView.GONE);
+            tv_directorioPortal.setVisibility(mView.GONE);
+            tv_fecha.setVisibility(mView.GONE);
+            tv_hora.setVisibility(mView.GONE);
+        }
+
+        dominio.setText(server);
+        directorio.setText(folder);
+        portal.setText(porta);
+        ////////////////////////////////////////////////////////////////////////////////////
+        /*mBuilder.setPositiveButton("GUARDAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"JAJAJA",Toast.LENGTH_LONG).show();
+
+            }
+        });
+        //mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+        mBuilder.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });*/
+        ////////////////////////////////////////////////////////////////////////////////////
+        mBuilder.setView(mView);
+        //final AlertDialog dialog = mBuilder.create();
+        final android.app.AlertDialog dialog = mBuilder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //myDialog.show();
+        dialog.show();
+
+        //btnVerificarRespuesta.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                estado_nombre = false;
+                estado_dir_api = false;
+                estado_dir_portal = false;
+                //if (Patterns.DOMAIN_NAME.matcher(dominio.getText().toString()).matches()==false){
+                if (Patterns.DOMAIN_NAME.matcher(dominio.getText().toString()).matches() == false &&
+                        Patterns.IP_ADDRESS.matcher(dominio.getText().toString()).matches() == false) {
+                    dominio.setText(null);
+                    dominio.setError("Nombre de dominio o IP inválido");
+                    ti_dominio.setError("Nombre de dominio o IP inválido");
+                    estado_nombre = false;
+                    dominio.requestFocus();
+                    //ti_dominio.setVisibility(View.VISIBLE);
+                } else {
+                    estado_nombre = true;
+                    ti_dominio.setError(null);
+                    //ti_dominio.setVisibility(View.GONE);
+                }
+
+                //if(directorio.getText().toString().length()==0 || !directorio.getText().equals("Sin configurar.")){
+                /*if(directorio.getText().equals("Sin configurar.")){
+                    directorio.setError("Campo opcional. Dejar en Blanco");
+                    directorio.setText(null);
+                    directorio.requestFocus();
+                    estado_dir_api = false;
+                }else{
+                    estado_dir_api = true;
+                }
+                //portal.getText().toString().length()==0 &&
+                //if(portal.getText().equals("Sin configurar.") && portal.getText().toString().length()==0){
+                if(portal.getText().equals("Sin configurar.")){
+                    portal.setError("Campo Obligadorio");
+                    portal.setText(null);
+                    portal.requestFocus();
+                    estado_dir_portal = false;
+                }else{
+                    estado_dir_portal = true;
+                }*/
+
+
+                if(estado_nombre){
+                    //if(estado_nombre && estado_dir_api && estado_dir_portal){
+                    SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+                    //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
+                    DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
+                    String date= formatodate.format(new Date());
+                    DateFormat formatotime= new SimpleDateFormat("HH:mm:ss a");
+                    String time= formatotime.format(new Date());
+
+                    String servidor = dominio.getText().toString();
+
+                    String folderSevice="";
+                    if(directorio.getText().toString().equals("Sin configurar.")){   //Esta es la forma correcta de comparar el string
+                        //Toast.makeText(MenuPrincipal.this, "o.k", Toast.LENGTH_SHORT).show();
+                        folderSevice = "";
+                    }else{
+                        //Toast.makeText(MenuPrincipal.this, "not", Toast.LENGTH_SHORT).show();
+                        folderSevice = directorio.getText().toString();
+                    }
+                    //String folder = directorio.getText().toString();
+
+
+                    String folderPortal = "";
+                    if(portal.getText().toString().equals("Sin configurar.")){   //Esta es la forma correcta de comparar el string
+                        folderPortal = "";
+                    }else{
+                        folderPortal = portal.getText().toString();
+                    }
+                    //String folder1 = portal.getText().toString();
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    //editor.putString("servidor", sprotocolo.getSelectedItem().toString() + servidor + "/");
+                    editor.putString("servidor", sprotocolo.getSelectedItem().toString() + servidor);
+                    //editor.putString("folder", folder);
+                    editor.putString("folder", folderSevice);
+                    editor.putString("portal", folderPortal);
+                    editor.putString("fecha", date);
+                    editor.putString("hora", time);
+                    editor.commit();
+
+                    tv_encabezado.setVisibility(mView.VISIBLE);
+                    //tv_encabezado.setText("Server API-Web Service: "+ servidor +"/" + folderSevice);
+                    tv_encabezado.setText("Server API-Web Service: "+ servidor + folderSevice);
+
+                    tv_encabezado1.setVisibility(mView.VISIBLE);
+                    tv_encabezado1.setText("Server Portal Web: "+ servidor + folderPortal);
+                    //tv_encabezado1.setText("Server Portal Web: "+ servidor +"/" + folder1);
+
+                    tv_servidor.setVisibility(mView.VISIBLE);
+                    tv_directorio.setVisibility(mView.VISIBLE);
+                    tv_fecha.setVisibility(mView.VISIBLE);
+                    tv_hora.setVisibility(mView.VISIBLE);
+
+                    tv_servidor.setText("Server: " + servidor);
+                    tv_directorio.setText("Directorios: " + folderSevice + ", " + folderPortal);
+                    //tv_directorio.setText("Directorios: " +folder+", "+folder1);
+                    tv_fecha.setText("Fecha de Registro: "+date);
+                    tv_hora.setText("Hora de Registro: "+time);
+
+                    //CON ESTE CODIGO LOGRE CERRAR EL DIAGO1-INICIO-FIN
+                    /*mBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            dialog.cancel();
+                        }
+                    });
+                    dialog.cancel();*/
+
+                    Toast.makeText(getApplicationContext(),"Registro creado correctamente!!!",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //CON ESTE CODIGO LOGRE CERRAR EL DIAGO1-INICIO-FIN
+                mBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.cancel();
+            }
+        });
+
+
+        BtnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
+    }
+
+
+
+
+
 
     private void dialog_config_espelialista() {
         final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
@@ -1033,240 +1522,7 @@ public class MenuPrincipal extends AppCompatActivity {
     //Fin de procedimiento aca estoy de momento.
 
 
-    private void config_server() {
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
-        //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
-        //mBuilder.setIcon(R.drawable.ic_servidor);
-        //mBuilder.setTitle("<<<UTLA>>>");
 
-        mBuilder.setCancelable(false);
-        //final View mView = getLayoutInflater().inflate(R.layout.dialog_server, null);
-        final View mView = getLayoutInflater().inflate(R.layout.alert_server, null);
-
-        //controles donde muestro informacion del archivo credenciales.xml creado con
-        //SharedPreferences.
-        final Spinner sprotocolo = (Spinner)mView.findViewById(R.id.sprotocolo);
-        final TextView tv_encabezado = (TextView)mView.findViewById(R.id.tv_encabezado);
-        final TextView tv_encabezado1 = (TextView)mView.findViewById(R.id.tv_encabezado1);  //et_portal
-        final TextView tv_servidor = (TextView)mView.findViewById(R.id.tv_servidor);
-        final TextView tv_directorio = (TextView)mView.findViewById(R.id.tv_directorio);
-        final TextView tv_directorioPortal = (TextView)mView.findViewById(R.id.tv_directorioPortal);
-        final TextView tv_fecha = (TextView)mView.findViewById(R.id.tv_fecha);
-        final TextView tv_hora = (TextView)mView.findViewById(R.id.tv_hora);
-
-        final EditText dominio = (EditText) mView.findViewById(R.id.et_dominio);
-        final EditText directorio = (EditText) mView.findViewById(R.id.et_directorio);
-        final EditText portal = (EditText) mView.findViewById(R.id.et_portal); //et_portal
-        final TextInputLayout ti_dominio=(TextInputLayout)mView.findViewById(R.id.ti_dominio);
-
-        Button btnSave = (Button)mView.findViewById(R.id.btnSave);      //BOTONES DEL DIALOG CONFIGURACION.
-        Button btnCancel = (Button)mView.findViewById(R.id.btnCancel);
-
-        //TextView txtclose = (TextView)mView.findViewById(R.id.txtclose);
-        ImageView BtnCerrar = (ImageView)mView.findViewById(R.id.BtnCerrar);
-
-        final String[] lista =new String[]{
-                "http://",
-                "https://",
-        };
-        ArrayAdapter<String> adaptador1 =new ArrayAdapter<String> (this,android.R.layout.simple_spinner_item, lista);
-        sprotocolo.setAdapter(adaptador1);
-
-        Toast toast = Toast.makeText(getApplicationContext(), "Settings Your Server PC", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-
-        //Buscando datos en archivo credenciales.xml
-        SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        String server = preferences.getString("servidor","Sin configurar.");
-        String folder = preferences.getString("folder","Sin configurar.");
-        String porta = preferences.getString("portal","Sin configurar.");
-        String fec = preferences.getString("fecha", "NA.");
-        String hor = preferences.getString("hora", "NA.");
-        if (server.equals("Sin configurar.")){
-            tv_servidor.setText("Servidor: " +server);
-            tv_directorio.setText("API-WebService: " + folder);
-            tv_directorioPortal.setText("Portal Web: " + porta);
-            tv_fecha.setText("Fecha de Registro: "+fec);
-            tv_hora.setText("Hora de Registro: "+hor);
-        }else{
-            tv_encabezado.setVisibility(mView.VISIBLE);
-            tv_encabezado.setText("Server API/Web service: "+ server + folder);
-            tv_encabezado1.setText("Server Portal Web: "+ server + porta);
-            tv_servidor.setVisibility(mView.GONE);
-            tv_directorio.setVisibility(mView.GONE);
-            tv_directorioPortal.setVisibility(mView.GONE);
-            tv_fecha.setVisibility(mView.GONE);
-            tv_hora.setVisibility(mView.GONE);
-        }
-
-        dominio.setText(server);
-        directorio.setText(folder);
-        portal.setText(porta);
-        ////////////////////////////////////////////////////////////////////////////////////
-        /*mBuilder.setPositiveButton("GUARDAR", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"JAJAJA",Toast.LENGTH_LONG).show();
-
-            }
-        });
-        //mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-        mBuilder.setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });*/
-        ////////////////////////////////////////////////////////////////////////////////////
-        mBuilder.setView(mView);
-        //final AlertDialog dialog = mBuilder.create();
-        final android.app.AlertDialog dialog = mBuilder.create();
-
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //myDialog.show();
-        dialog.show();
-
-        //btnVerificarRespuesta.setOnClickListener(new View.OnClickListener() {
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                estado_nombre = false;
-                estado_dir_api = false;
-                estado_dir_portal = false;
-                //if (Patterns.DOMAIN_NAME.matcher(dominio.getText().toString()).matches()==false){
-                if (Patterns.DOMAIN_NAME.matcher(dominio.getText().toString()).matches() == false &&
-                        Patterns.IP_ADDRESS.matcher(dominio.getText().toString()).matches() == false) {
-                    dominio.setText(null);
-                    dominio.setError("Nombre de dominio o IP inválido");
-                    ti_dominio.setError("Nombre de dominio o IP inválido");
-                    estado_nombre = false;
-                    dominio.requestFocus();
-                    //ti_dominio.setVisibility(View.VISIBLE);
-                } else {
-                    estado_nombre = true;
-                    ti_dominio.setError(null);
-                    //ti_dominio.setVisibility(View.GONE);
-                }
-
-                //if(directorio.getText().toString().length()==0 || !directorio.getText().equals("Sin configurar.")){
-                /*if(directorio.getText().equals("Sin configurar.")){
-                    directorio.setError("Campo opcional. Dejar en Blanco");
-                    directorio.setText(null);
-                    directorio.requestFocus();
-                    estado_dir_api = false;
-                }else{
-                    estado_dir_api = true;
-                }
-                //portal.getText().toString().length()==0 &&
-                //if(portal.getText().equals("Sin configurar.") && portal.getText().toString().length()==0){
-                if(portal.getText().equals("Sin configurar.")){
-                    portal.setError("Campo Obligadorio");
-                    portal.setText(null);
-                    portal.requestFocus();
-                    estado_dir_portal = false;
-                }else{
-                    estado_dir_portal = true;
-                }*/
-
-
-                if(estado_nombre){
-                //if(estado_nombre && estado_dir_api && estado_dir_portal){
-                    SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-                    //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
-                    DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
-                    String date= formatodate.format(new Date());
-                    DateFormat formatotime= new SimpleDateFormat("HH:mm:ss a");
-                    String time= formatotime.format(new Date());
-
-                    String servidor = dominio.getText().toString();
-
-                    String folderSevice="";
-                    if(directorio.getText().toString().equals("Sin configurar.")){   //Esta es la forma correcta de comparar el string
-                        //Toast.makeText(MenuPrincipal.this, "o.k", Toast.LENGTH_SHORT).show();
-                        folderSevice = "";
-                    }else{
-                        //Toast.makeText(MenuPrincipal.this, "not", Toast.LENGTH_SHORT).show();
-                        folderSevice = directorio.getText().toString();
-                    }
-                    //String folder = directorio.getText().toString();
-
-
-                    String folderPortal = "";
-                    if(portal.getText().toString().equals("Sin configurar.")){   //Esta es la forma correcta de comparar el string
-                        folderPortal = "";
-                    }else{
-                        folderPortal = portal.getText().toString();
-                    }
-                    //String folder1 = portal.getText().toString();
-
-                    SharedPreferences.Editor editor = preferences.edit();
-                    //editor.putString("servidor", sprotocolo.getSelectedItem().toString() + servidor + "/");
-                    editor.putString("servidor", sprotocolo.getSelectedItem().toString() + servidor);
-                    //editor.putString("folder", folder);
-                    editor.putString("folder", folderSevice);
-                    editor.putString("portal", folderPortal);
-                    editor.putString("fecha", date);
-                    editor.putString("hora", time);
-                    editor.commit();
-
-                    tv_encabezado.setVisibility(mView.VISIBLE);
-                    //tv_encabezado.setText("Server API-Web Service: "+ servidor +"/" + folderSevice);
-                    tv_encabezado.setText("Server API-Web Service: "+ servidor + folderSevice);
-
-                    tv_encabezado1.setVisibility(mView.VISIBLE);
-                    tv_encabezado1.setText("Server Portal Web: "+ servidor + folderPortal);
-                    //tv_encabezado1.setText("Server Portal Web: "+ servidor +"/" + folder1);
-
-                    tv_servidor.setVisibility(mView.VISIBLE);
-                    tv_directorio.setVisibility(mView.VISIBLE);
-                    tv_fecha.setVisibility(mView.VISIBLE);
-                    tv_hora.setVisibility(mView.VISIBLE);
-
-                    tv_servidor.setText("Server: " + servidor);
-                    tv_directorio.setText("Directorios: " + folderSevice + ", " + folderPortal);
-                    //tv_directorio.setText("Directorios: " +folder+", "+folder1);
-                    tv_fecha.setText("Fecha de Registro: "+date);
-                    tv_hora.setText("Hora de Registro: "+time);
-
-                    //CON ESTE CODIGO LOGRE CERRAR EL DIAGO1-INICIO-FIN
-                    /*mBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            dialog.cancel();
-                        }
-                    });
-                    dialog.cancel();*/
-
-                    Toast.makeText(getApplicationContext(),"Registro creado correctamente!!!",Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //CON ESTE CODIGO LOGRE CERRAR EL DIAGO1-INICIO-FIN
-                mBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.cancel();
-            }
-        });
-
-
-        BtnCerrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-            }
-        });
-
-    }
 
 
     private void about_autor() {

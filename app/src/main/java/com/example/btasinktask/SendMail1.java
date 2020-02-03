@@ -15,7 +15,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class SendMail extends AsyncTask<Void, Void, Void> {
+public class SendMail1{
 
     //Declaring Variables
     private Context context;
@@ -26,11 +26,13 @@ public class SendMail extends AsyncTask<Void, Void, Void> {
     private String subject;
     private String message;
 
+    public boolean bandera = false;
+
     //Progressdialog to show while sending email
     private ProgressDialog progressDialog;
 
     //Class Constructor
-    public SendMail(Context context, String email, String subject, String message){
+    public SendMail1(Context context, String email, String subject, String message){
         //Initializing variables
         this.context = context;
         this.email = email;
@@ -38,25 +40,11 @@ public class SendMail extends AsyncTask<Void, Void, Void> {
         this.message = message;
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        //Showing progress dialog while sending email
-        Toast.makeText(context, "Notificación Email en Proceso...", Toast.LENGTH_SHORT).show();
-        //progressDialog = ProgressDialog.show(context,"Enviando correo.","Por favor espere...",false,false);
-    }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        //Dismissing the progress dialog
-        //progressDialog.dismiss();
-        //Showing a success message
-        Toast.makeText(context,"E-mail Enviado.", Toast.LENGTH_LONG).show();
-    }
+    //Toast.makeText(context,"Mensaje Enviado.", Toast.LENGTH_LONG).show();
 
-    @Override
-    protected Void doInBackground(Void... params) {
+
+    public boolean sendEmail() {
         //Creating properties
         Properties props = new Properties();
 
@@ -91,9 +79,16 @@ public class SendMail extends AsyncTask<Void, Void, Void> {
             //Sending email
             Transport.send(mm);
 
+            bandera =true;
+
         } catch (MessagingException e) {
+            bandera = false;
             e.printStackTrace();
         }
-        return null;
+
+        return bandera;
     }
+
+
+
 }
