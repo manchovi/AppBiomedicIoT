@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -125,6 +126,10 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
 
     double valorTC = 0;
 
+    private BluetoothAdapter mBluetoothAdapter;
+    private static BluetoothAdapter blue_Adapter;                     //otra var bt
+    //private BroadcastReceiver blue_State;                             //broadcast receiver for status of the bluetooth in the device
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -137,6 +142,8 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             stopRepeating();
+                            myFunctionStopTask();    //Función para que me termine el proceso en segundo plano de la comunicación Bluetooth.
+                            //DisabledBT();            //Apago Bluetooth del dispositivo  movil: Tablet o Smartphone.
                             finish();
                         }
                     })
@@ -171,7 +178,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         cb_send = (CheckBox)findViewById(R.id.cb_send);
         cb_time = (CheckBox)findViewById(R.id.cb_time);
 
-
+        descubrirDispositivosBT();
 
         try {
             Intent intent = getIntent();
@@ -751,15 +758,50 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     }
 
 
-    @Override
-    protected void onResume() {
-        /* El metodo on resume es el adecuado para inicialzar todos aquellos procesos que actualicen la interfaz de usuario
-        Por lo tanto invocamos aqui al método que activa el BT y crea la tarea asincrona que recupera los datos*/
-        super.onResume();
-        descubrirDispositivosBT();
-        //Toast.makeText(SignalMonitorTC.this, "Entre...", Toast.LENGTH_SHORT).show();
+    //Checks that the Android device Bluetooth is available and prompts to be turned on if off
+    private void EnableddBT() {
+        if(mBluetoothAdapter==null) {
+            Toast.makeText(getBaseContext(), "Device does not support bluetooth", Toast.LENGTH_LONG).show();
+        } else {
+            if (mBluetoothAdapter.isEnabled()) {
+            } else {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, 1);
+            }
+        }
     }
 
+    public void DisabledBT() {
+        try {
+            if (mBluetoothAdapter.isEnabled()) {
+                try {
+                    mBluetoothAdapter.disable();
+                    //socket.close();
+                    //socket=null;
+                    //myFunctionStopTask();   //Estoy dudando de esta función.
+                    Toast.makeText(getApplicationContext(), "Bluetooth apagado correctamente.", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //msg("Bluetooth apagado.");
+                }
+            }
+
+        }catch (Exception e){
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            mBluetoothAdapter.disable();
+            //msg("Bluetooth Apagado.");
+        }
+    }
+
+
+
+    private void demora(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void descubrirDispositivosBT() {
         /*
@@ -768,7 +810,8 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         En caso negativo presenta un mensaje al usuario y sale de la aplicación.
         */
         //Comprobamos que el dispositivo tiene adaptador bluetooth
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         //Toast.makeText(this, "Que raro...", Toast.LENGTH_SHORT).show();
 
@@ -832,24 +875,32 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
 
 
     @Override
+    protected void onResume() {
+        /* El metodo on resume es el adecuado para inicialzar todos aquellos procesos que actualicen la interfaz de usuario
+        Por lo tanto invocamos aqui al método que activa el BT y crea la tarea asincrona que recupera los datos*/
+        super.onResume();
+        //descubrirDispositivosBT();
+    }
+
+
+    @Override
     protected void onStop() {
     /*Cuando la actividad es destruida, se ejecuta este método.
     Es el lugar adecuado para terminar todos aquellos procesos que se ejecutan en segundo plano, como es el caso de
     nuestra tarea asíncrona que actualiza la interfaz de usuario.
     */
         super.onStop();
+        /*if (tareaAsincrona != null) {
+            tareaAsincrona.cancel(true);
+            tareaAsincrona.SendData("C");
+        }*/
+    }
+
+
+    public void myFunctionStopTask(){
         if (tareaAsincrona != null) {
             tareaAsincrona.cancel(true);
             tareaAsincrona.SendData("C");
-
-           /* Toast.makeText(this, "Cerrando enlace BT. Espere un momento por favor.\n...", Toast.LENGTH_SHORT).show();
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Toast.makeText(this, "Listo. Ahora puede monitorear otra variable de su preferencia.", Toast.LENGTH_SHORT).show();*/
-
         }
     }
 

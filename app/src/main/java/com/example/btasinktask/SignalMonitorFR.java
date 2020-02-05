@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -108,6 +109,12 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
     boolean ultimoEstado = false;
     int totalSegundos = 0;
 
+    //private BluetoothAdapter bluetoothAdapter;
+    //Comprobamos que el dispositivo tiene adaptador bluetooth
+    private BluetoothAdapter mBluetoothAdapter;
+    private static BluetoothAdapter blue_Adapter;                     //otra var bt
+    private BroadcastReceiver blue_State;                             //broadcast receiver for status of the bluetooth in the device
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -120,6 +127,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             stopRepeating();
+                            myFunctionStopTask();    //Función para que me termine el proceso en segundo plano de la comunicación Bluetooth.
+                            //DisabledBT();            //Apago Bluetooth del dispositivo  movil: Tablet o Smartphone.
                             finish();
                         }
                     })
@@ -153,6 +162,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         cb_legends = (CheckBox)findViewById(R.id.cb_legends);
         cb_send = (CheckBox)findViewById(R.id.cb_send);
         cb_time = (CheckBox)findViewById(R.id.cb_time);
+
+        descubrirDispositivosBT();                           //FUNCION PUESTA ACA PARA PRUEBAS
 
         ultimoEstado = obtenerEstadoCbox();
         if(ultimoEstado){
@@ -561,12 +572,12 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
 
         //Activando leyendas:
         dataSeries.setTitle("Frecuencia Respiratoria");
-        int color1 = this.getResources().getColor(R.color.color_fr);
+        int color1 = this.getResources().getColor(R.color.color_fc);
         dataSeries.setColor(color1);
         //dataSeries.setColor(Color.parseColor("#1a8cff"));
         dataSeries.setDrawDataPoints(true);
         dataSeries.setDataPointsRadius(2);   //dataSeries.setDataPointsRadius(3);
-        dataSeries.setThickness(2);
+        dataSeries.setThickness(4);
         graphPlot.addSeries(dataSeries);
 
         /***************************************************************/
@@ -606,14 +617,52 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
     }
 
 
-    @Override
-    protected void onResume() {
-        /* El metodo on resume es el adecuado para inicialzar todos aquellos procesos que actualicen la interfaz de usuario
-        Por lo tanto invocamos aqui al método que activa el BT y crea la tarea asincrona que recupera los datos*/
-        super.onResume();
-        descubrirDispositivosBT();
+
+
+    //Checks that the Android device Bluetooth is available and prompts to be turned on if off
+    private void EnableddBT() {
+        if(mBluetoothAdapter==null) {
+            Toast.makeText(getBaseContext(), "Device does not support bluetooth", Toast.LENGTH_LONG).show();
+        } else {
+            if (mBluetoothAdapter.isEnabled()) {
+            } else {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, 1);
+            }
+        }
     }
 
+    public void DisabledBT() {
+        try {
+            if (mBluetoothAdapter.isEnabled()) {
+                try {
+                    mBluetoothAdapter.disable();
+                    //socket.close();
+                    //socket=null;
+                    //myFunctionStopTask();   //Estoy dudando de esta función.
+                    Toast.makeText(getApplicationContext(), "Bluetooth apagado correctamente.", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //msg("Bluetooth apagado.");
+                }
+            }
+
+        }catch (Exception e){
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            mBluetoothAdapter.disable();
+            //msg("Bluetooth Apagado.");
+        }
+    }
+
+
+
+    private void demora(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void descubrirDispositivosBT() {
         /*
@@ -622,11 +671,13 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         En caso negativo presenta un mensaje al usuario y sale de la aplicación.
         */
         //Comprobamos que el dispositivo tiene adaptador bluetooth
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         tvTrama.setText("Comprobando bluetooth");
 
         if (mBluetoothAdapter != null) {
+
             //El dispositivo tiene adapatador BT. Ahora comprobamos que bt esta activado.
             if (mBluetoothAdapter.isEnabled()) {
                 //Esta activado. Obtenemos la lista de dispositivos BT emparejados con nuestro dispositivo android.
@@ -675,12 +726,23 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
                 }
             } else {
                 muestraDialogoConfirmacionActivacion();
+
             }
         } else {
             // El dispositivo no soporta bluetooth. Mensaje al usuario y salimos de la app
             Toast.makeText(this, "El dispositivo no soporta comunicación por Bluetooth", Toast.LENGTH_LONG).show();
         }
     }  //Fin del Método...
+
+
+
+    @Override
+    protected void onResume() {
+        /* El metodo on resume es el adecuado para inicialzar todos aquellos procesos que actualicen la interfaz de usuario
+        Por lo tanto invocamos aqui al método que activa el BT y crea la tarea asincrona que recupera los datos*/
+        super.onResume();
+        //descubrirDispositivosBT();
+    }
 
 
     @Override
@@ -690,6 +752,14 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
     nuestra tarea asíncrona que actualiza la interfaz de usuario.
     */
         super.onStop();
+        /*if (tareaAsincrona != null) {
+            tareaAsincrona.cancel(true);
+            tareaAsincrona.SendData("F");
+        }*/
+    }
+
+
+    public void myFunctionStopTask(){
         if (tareaAsincrona != null) {
             tareaAsincrona.cancel(true);
             tareaAsincrona.SendData("F");
@@ -711,7 +781,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
     @Override
     public void onDatosBiomedicos(Dto_variables p) {
 
-        int color5 = this.getResources().getColor(R.color.color_fr);
+        int color5 = this.getResources().getColor(R.color.color_fc);
         vd_fr.setTextColor(color5);
         Frec_respiratoria = p.getFrecuencia_respiratoria();
         vd_fr.setText(Frec_respiratoria);
@@ -754,6 +824,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
                         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(enableBtIntent, Config.REQUEST_ENABLE_BT);
                         //startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                        //descubrirDispositivosBT();            //SI PRESIONA EL BOTON DE SI, QUE BUSQUE A CONECTARSE CON EL BLUETOOTH DEL CIRCUITO MYSIGNALS.
+                        //otraFuncion();
                     }
 
                 })
@@ -838,7 +910,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
 
             if (contador >= 2) {
                 volleyBD.sendInfoServer(SignalMonitorFR.this,
-                        "Pruebas Finales Del Prototipo Biomédico # 1",
+                        "Monitor Frecuencia Respiratoria",
                         "0",
                         "0",
                         "0",

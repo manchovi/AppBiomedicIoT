@@ -1,8 +1,5 @@
 package com.example.btasinktask;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -27,6 +24,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -40,65 +40,50 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
-public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsyncTask.MiCallback {
+public class SignalMonitorFR1 extends AppCompatActivity implements MiAsyncTask.MiCallback{
 
     //Instancia de la clase MiAsyncTask.
     private MiAsyncTask tareaAsincrona;
     SuperClase instanciaSuper = new SuperClase();
     Conexion_volley volleyBD = new Conexion_volley();
 
-    //hiloAsyncTask thread = new hiloAsyncTask();
     private SignalsMonitor.hiloAsyncTask thread;
     private Handler mHandler = new Handler();
 
     boolean estado_leyendaGraph = false;
-
     boolean estado_sw = false;
-    private double prev, prev1;
 
+    private double prev;
     private double plotCount = 1;
-    private double plotCount1 = 1;
-
     private double plotlen = 201;//private double plotlen = 121;
-    private double plotlen1 = 201;//private double plotlen1 = 121;
-
     private double plotRes = 1;
-    private double plotRes1 = 1;
-
 
     private boolean aviso = false;
 
     public static Handler btHandler;
-    final int handlerState = 0;                         //used to identify handler message
+    final int handlerState = 0;        				 //used to identify handler message
 
-    private int conta1 = 0;
+    private int conta1=0;
     private LineGraphSeries<DataPoint> dataSeries;
     //dataSeries = new LineGraphSeries<>();
 
     //LineGraphSeries<DataPoint> dataSeries1 = new LineGraphSeries<>(points);
     private LineGraphSeries<DataPoint> dataSeries1;
-    private LineGraphSeries<DataPoint> dataSeries2;
-
-    //private PlotInterface plotter;
 
     private double plotSize = 201;//private double plotSize = 121;
-
     private GraphView graphPlot;
     private TextView txtXval, txtYval, tvTrama;
-    private TextView vd_spo2, vd_fc, vd_alarma;
-    private CheckBox cb_spo2, cb_fc, cb_legends, cb_send, cb_time;
-    Switch swDataStream;
-    boolean a = false;
-    boolean b = false;
-    boolean c = false;
-    boolean d = false;
-    boolean e = false;
-    boolean tutoCheckBox = false;
 
-    String v0 = "0";
-    String Spo2 = "";
-    String Frec_cardiaca = "";
-    int Alarma = 0;
+
+    private TextView vd_fr, vd_alarma;
+    private CheckBox cb_fr, cb_legends, cb_send, cb_time;
+    String v0="0";
+    String Frec_respiratoria="";
+    int Alarma=0;
+
+    Switch swDataStream;
+    boolean a = false;boolean b=false;boolean c=false;boolean d=false;boolean e=false;
+    boolean tutoCheckBox=false;
 
     private boolean getStatusCheckBoxTop = false;
     private boolean getStatusCheckBoxBottom = false;
@@ -106,12 +91,13 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
     private boolean getStatusCheckBoxVisibleoculto = false;
 
     int contador = 0;
+    String senal = "";
 
     AlertDialog.Builder dialogo, dialogo1;
     private ProgressDialog pd;
     //Variable para crear mis propios cuadros de dialogo.
     Dialog myDialog;
-    private CheckBox cb_top, cb_bottom, cb_middle, cb_visibleoculto;
+    private CheckBox cb_top,cb_bottom,cb_middle,cb_visibleoculto;
     boolean estadoCheck = false;
     boolean estadoTop = false;
     boolean estadoBottom = false;
@@ -120,27 +106,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
     boolean estadoSendDataServer = false;
     boolean ultimoEstado = false;
-    boolean ultimoEstadoCBServer = false;
-    boolean ultimoEstadoCBNotificaciones = false;
     int totalSegundos = 0;
-
-
-    String senal = "";
-    String documentoEspecialista="";
-    String nombreEspecialista="";
-    String nombrePaciente="";
-    String tel_especialista="";
-    String correo_especialista="";
-
-    config_sms_social_email notificacionesUser = new config_sms_social_email();
-    int contadorSMS_Email = 0;
-
-    int valorSpO2 = 0;
-    int valorFC = 0;
-
-    private BluetoothAdapter mBluetoothAdapter;
-    private static BluetoothAdapter blue_Adapter;                     //otra var bt
-    //private BroadcastReceiver blue_State;                             //broadcast receiver for status of the bluetooth in the device
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -154,8 +120,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             stopRepeating();
-                            myFunctionStopTask();    //Función para que me termine el proceso en segundo plano de la comunicación Bluetooth.
-                            //DisabledBT();            //Apago Bluetooth del dispositivo  movil: Tablet o Smartphone.
                             finish();
                         }
                     })
@@ -167,10 +131,11 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         return super.onKeyDown(keyCode, event);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signal_monitor_spo2_pulso);
+        setContentView(R.layout.activity_signal_monitor_fr);
 
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -181,52 +146,13 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         txtXval = (TextView) findViewById(R.id.txtXval);
         txtYval = (TextView) findViewById(R.id.txtYval);
 
-        vd_spo2 = (TextView) findViewById(R.id.vd_spo2);
-        vd_fc = (TextView) findViewById(R.id.vd_fc);
-
+        vd_fr = (TextView) findViewById(R.id.vd_fr);
         vd_alarma = (TextView) findViewById(R.id.vd_alarma);
 
-        cb_spo2 = (CheckBox) findViewById(R.id.cb_spo2);
-        cb_fc = (CheckBox) findViewById(R.id.cb_fc);
-
+        cb_fr = (CheckBox) findViewById(R.id.cb_fr);
         cb_legends = (CheckBox)findViewById(R.id.cb_legends);
         cb_send = (CheckBox)findViewById(R.id.cb_send);
         cb_time = (CheckBox)findViewById(R.id.cb_time);
-
-        descubrirDispositivosBT();
-
-        try {
-            Intent intent = getIntent();
-            Bundle bundle = intent.getExtras();
-
-            if (bundle != null) {
-                senal = bundle.getString("senal");;
-                documentoEspecialista = bundle.getString("documento");
-                nombreEspecialista = bundle.getString("nombreEspecialista");
-                nombrePaciente = bundle.getString("nombrePaciente");
-                tel_especialista = bundle.getString("telefonoEspecialista");
-                correo_especialista = bundle.getString("emailEspecialista");
-
-                //En esta sección me he quedado, al llegar a casa la probaré.
-                /*AlertDialog.Builder ventana = new AlertDialog.Builder(this);
-                ventana.setCancelable(true);
-                ventana.setTitle("Detalle Info:");
-                ventana.setMessage("Documento Especialísta: "+ documentoEspecialista + "\n"+
-                        "Nombre Especialísta: "+ nombreEspecialista + "\n" +
-                        "Nombre Paciente: " + nombrePaciente + "\n" +
-                        "Tel. Especialísta: " + tel_especialista + "\n" +
-                        "E-mail Especialísta: " + correo_especialista + "\n");
-                ventana.show();*/
-
-                if (senal.equals("1")) {
-
-                }
-            }
-
-        }catch (Exception e){
-
-        }
-
 
         ultimoEstado = obtenerEstadoCbox();
         if(ultimoEstado){
@@ -240,20 +166,14 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             cb_send.setEnabled(false);
         }
 
-        ultimoEstadoCBNotificaciones = obternerEstadoCboxNotificaciones();
-
-
         //cb_legends.setChecked(false);
         cb_legends.setEnabled(false);
-
-        //Detengo el hilo que envia los datos de los sensores a la base de datos en el servidor
-        //Base de datos MyQSL.
 
         cb_time.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    VentanaDialog2(SignalMonitorSpo2Pulso.this);
+                    VentanaDialog2(SignalMonitorFR1.this);
                 }else{
                     cb_time.setChecked(false);
                 }
@@ -261,36 +181,24 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         });
 
 
-        cb_spo2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    a=true;
-                }else{
-                    a=false;
-                }
-            }
-        });
-
-
-        cb_fc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb_fr.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b1) {
                 if(b1){
-                    b=true;
+                    e=true;
                 }else{
-                    b=false;
+                    e=false;
                 }
             }
         });
 
-        setCheckBoxAll(true, true);
+        setCheckBoxAll(true);
 
         cb_legends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(cb_legends.isChecked()){
-                    VentanaDialog1(SignalMonitorSpo2Pulso.this);
+                    VentanaDialog1(SignalMonitorFR1.this);
                 }else{
                     legendsHidden();
                 }
@@ -305,19 +213,16 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                 if(status){
                     estado_sw = true;
                     ResetGraph();
-                    ResetGraph1();
-                    plotCount = 0;     //Estas variables son las que hacen posible reiniciar la onda desde cero.
-                    plotCount1 = 0;    //Esquina izquierda de la cuadricula donde se pinta el valor leido por el sensor.
-                    setCheckBoxAll(true,true);
+                    //ResetGraph1();
+                    plotCount = 0;
+                    setCheckBoxAll(true);
                     //cb_legends.setChecked(true);
                     cb_legends.setEnabled(true);
-                    //tareaAsincrona.SendData("O");
                 }else{
                     estado_sw = false;
-                    setCheckBoxAll(false,false);
+                    setCheckBoxAll(false);
                     //cb_legends.setChecked(false);
                     cb_legends.setEnabled(false);
-                    //tareaAsincrona.SendData("S");         //PROBARE SI FUNCIONA ESTAS LÍNEAS LUEGO JOJOJ JAJAJA JEJEJE JIJIJI JOJOJO JUJUJUJU
                 }
             }
         });
@@ -348,22 +253,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         });
 
     }  //FIn onCreate
-
-
-    public void legendsHidden(){
-        graphPlot.getLegendRenderer().setVisible(false);
-        graphPlot.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-        //graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#ffffcc"));
-        //graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#000099"));
-        graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#5a5a5a"));
-        graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#ffffff"));
-        //Toast.makeText(SignalsMonitor.this, "Desactivado", Toast.LENGTH_SHORT).show();
-        estadoTop = false;
-        estadoMiddle = false;
-        estadoBottom = false;
-        estadoVisibleoculto = false;
-        cb_legends.setChecked(false);
-    }
 
 
     public void VentanaDialog1(final Context context){
@@ -405,17 +294,11 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         btnAplicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //AQui va...
-                /*
-                Toast.makeText(context, "Chovi = EstadoTop:"+estadoTop+"\n"+
-                        "EstadoMiddle:"+estadoMiddle+"\n"+
-                        "EstadoBottom:"+estadoBottom+"\n"+
-                        "EstadoVisibleoculto:"+estadoVisibleoculto, Toast.LENGTH_SHORT).show();
-                 */
                 verificarLegendsActive(estadoTop, estadoMiddle, estadoBottom, estadoVisibleoculto);
                 myDialog.dismiss();
             }
         });
+
 
 
         cb_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -460,6 +343,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             }
         });
 
+
         cb_middle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b3) {
@@ -492,8 +376,8 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                 }
             }
         });
+    }  //Fin Método VentanaDialog1
 
-    }
 
 
     public void VentanaDialog2(final Context context){
@@ -506,7 +390,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         //estadoSendDataServer=false;
 
         CheckBox cb_enabledSend = (CheckBox)myDialog.findViewById(R.id.cb_enabledSend);
-        CheckBox cb_enabledNotificaciones = (CheckBox)myDialog.findViewById(R.id.cb_enabledNotificaciones);
         //cb_enabledSend.setChecked(false);
 
         final EditText etTiempo = (EditText)myDialog.findViewById(R.id.etTiempo);
@@ -515,14 +398,9 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         Button btnAplica = (Button)myDialog.findViewById(R.id.btnAplica);
 
         ultimoEstado = obtenerEstadoCbox();
-        ultimoEstadoCBNotificaciones = obternerEstadoCboxNotificaciones();
-
-
         valorTime = obtenerTiempo();
         etTiempo.setText(valorTime);
-
         cb_enabledSend.setChecked(ultimoEstado);
-        cb_enabledNotificaciones.setChecked(ultimoEstadoCBNotificaciones);
 
         cb_enabledSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -537,19 +415,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             }
         });
 
-        cb_enabledNotificaciones.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean estado) {
-                if(estado){
-                    //estadoSendDataServer=true;
-                    ultimoEstadoCBNotificaciones = true;
-                }else{
-                    //estadoSendDataServer=false;
-                    ultimoEstadoCBNotificaciones = false;
-                }
-            }
-        });
-
         btnAplica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -559,8 +424,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                 }else{
                     String t = etTiempo.getText().toString();
                     //createfiletime(estadoSendDataServer, t);
-                    //createfiletime(ultimoEstado, t);
-                    createfiletime(ultimoEstado, ultimoEstadoCBNotificaciones, t);
+                    createfiletime(ultimoEstado, t);
 
                     if(obtenerEstadoCbox()){
                         stopRepeating();
@@ -590,11 +454,10 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
 
-    }
+    }  //Fin del Método VentanaDialog2
 
 
-    //public void createfiletime(boolean estadocbox, String tiempo){
-    public void createfiletime(boolean estadocbox, boolean estadocboxNotificaciones, String tiempo){
+    public void createfiletime(boolean estadocbox, String tiempo){
         SharedPreferences preferences = getSharedPreferences("filetime", Context.MODE_PRIVATE);
         //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
         DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
@@ -604,7 +467,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("tiempo", tiempo);
         editor.putBoolean("estadocbox", estadocbox);
-        editor.putBoolean("estadocboxNotificacion", estadocboxNotificaciones);
         editor.commit();
     }
 
@@ -619,12 +481,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
     public boolean obtenerEstadoCbox() {
         SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
         boolean estado = preferences.getBoolean("estadocbox",false);
-        return estado;   //return preferences.getString("tiempo", "Sin configurar.");
-    }
-
-    public boolean obternerEstadoCboxNotificaciones(){
-        SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
-        boolean estado = preferences.getBoolean("estadocboxNotificacion",false);
         return estado;   //return preferences.getString("tiempo", "Sin configurar.");
     }
 
@@ -671,22 +527,13 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         estadoTop = false;
         estadoVisibleoculto = false;
 
-    }
+    } //Fin del Método
 
 
     void setValueDefaultGraph(){
-        //Envio el etado de todos los checkbox
-        //plotter.AllStatusCheckBox(a, b, c, d, e);
         graphPlot.setPadding(15, 15, 15, 15);
-        /********************************************************************************************/
-        /*        URL para colores: www.w3schools.com/colors/colors_picker.asp
-         *                           www.color-hex.com
-         */
-        /********************************************************************************************/
-
         graphPlot.getGridLabelRenderer().setHighlightZeroLines(true);
         //Me da error: graphPlot.getGridLabelRenderer().getGridStyle(GridLabelRenderer.GridStyle.BOTH);
-
         //Color verde oscuro: #005904. Define el color de la grilla/cuadricula donde se muestra el gráfico.
         graphPlot.getGridLabelRenderer().setGridColor(Color.parseColor("#005904"));
         //Color verde más claro: #008c07. Define el color del texto o etiquetas del gráfico en vertical.
@@ -699,122 +546,63 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         //Color amarillo claro: #e2ea00. Define el color que tendrá la línea que se traza con los datos en el gráfico.
         //dataSeries.setColor(Color.parseColor("#e2ea00"));
 
-        int color1 = this.getResources().getColor(R.color.color_spo2);
-        dataSeries.setColor(color1);
-        //dataSeries.setColor(Color.parseColor("#1a8cff"));
-
-        //Activando leyendas:
-        dataSeries.setTitle("SPO2");
-        dataSeries.setDrawDataPoints(true);
-        dataSeries.setDataPointsRadius(3);
-        dataSeries.setThickness(2);
-
-        /*
-        SetGraphParam(121, -0.5, 4.1, -4.1);
-        setPlotParamBound();
-        plotSize = 122;
-        for (int i = 0; i < 121; i++) {*/
-
-        //SetGraphParam(150, -0.5, 1023.0, -10.1);
         //SetGraphParam(125, 0.0, 6.0, 0.0);
-        SetGraphParam(200, 0.0, 120.0, 40.0);
+        //SetGraphParam(120, 0.0, 200.0, 0.0);    //Funciona y muestra bien los datos. Seria para una prueba de capcidad de respiración.
+        //SetGraphParam(120, 0.0, 100.0, 0.0);
+        SetGraphParam(200, 0.0, 350.0, 0.0);
+
         setPlotParamBound();
-        //plotSize = 151;
+        //plotSize = 201;//plotSize = 151;
         for (int i = 0; i < 200; i++) {
             //dataSeries.appendData(new DataPoint(i, 2.0 * Math.sin(i / 2.5)), false, (int) plotSize);
-            //dataSeries.appendData(new DataPoint(i, 2.0), false, (int) plotSize);
-            dataSeries.appendData(new DataPoint(i, 90), false, (int) plotSize);
+            //dataSeries.appendData(new DataPoint(i, 3.0), false, (int) plotSize);
+            dataSeries.appendData(new DataPoint(i, (plotSize/2)), false, (int) plotSize);
         }
+
+        //Activando leyendas:
+        dataSeries.setTitle("Frecuencia Respiratoria");
+        int color1 = this.getResources().getColor(R.color.color_fc);
+        dataSeries.setColor(color1);
+        //dataSeries.setColor(Color.parseColor("#1a8cff"));
+        dataSeries.setDrawDataPoints(true);
+        dataSeries.setDataPointsRadius(2);   //dataSeries.setDataPointsRadius(3);
+        dataSeries.setThickness(4);
         graphPlot.addSeries(dataSeries);
+
         /***************************************************************/
 
 
-        //ADICIONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNES DEMÁS GRÁFICAS
-        //Variable Frecuencia Cardiaca
-        //SetGraphParam(125, 2.5, 6.0, 0.0);
-        SetGraphParam(200, 0.0, 120.0, 40.0);
-        setPlotParamBound();
-        //DataPoint[] points = new DataPoint[140];
-        DataPoint[] points = new DataPoint[200];
-        for (int i = 0; i < 200; i++) {
-            //points[i] = new DataPoint(i, 5.0 * Math.sin(i/4.5));
-            //points[i] = new DataPoint(i, 4.0);
-            points[i] = new DataPoint(i, 70);
-        }
 
-        dataSeries1 = new LineGraphSeries<>(points);
-        //LineGraphSeries<DataPoint> dataSeries1 = new LineGraphSeries<>(points);
-
-        // styling series
-        dataSeries1.setTitle("Frecuencia Cardiaca");
-        //dataSeries1.setColor(Color.GRAY);
-        int color2 = this.getResources().getColor(R.color.color_fc);
-        dataSeries1.setColor(color2);
-        dataSeries1.setDrawDataPoints(true);
-        dataSeries1.setDataPointsRadius(3);
-        dataSeries1.setThickness(2);
-        graphPlot.addSeries(dataSeries1);
-        /**************************************************************/
     }
 
 
-    void setCheckBoxAll(boolean chb1, boolean chb2){
+    public void legendsHidden(){
+        graphPlot.getLegendRenderer().setVisible(false);
+        graphPlot.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        //graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#ffffcc"));
+        //graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#000099"));
+        graphPlot.getLegendRenderer().setBackgroundColor(Color.parseColor("#5a5a5a"));
+        graphPlot.getLegendRenderer().setTextColor(Color.parseColor("#ffffff"));
+        //Toast.makeText(SignalsMonitor.this, "Desactivado", Toast.LENGTH_SHORT).show();
+        estadoTop = false;
+        estadoMiddle = false;
+        estadoBottom = false;
+        estadoVisibleoculto = false;
+        cb_legends.setChecked(false);
+    }
+
+
+    void setCheckBoxAll(boolean chb){
         try {
-            cb_spo2.setEnabled(chb1);
-            cb_fc.setEnabled(chb2);
+            cb_fr.setEnabled(chb);
         }catch (Exception e){
 
         }
     }
+
 
     public void SetSwitch(boolean estatus){
         swDataStream.setChecked(estatus);
-    }
-
-
-    //Checks that the Android device Bluetooth is available and prompts to be turned on if off
-    private void EnableddBT() {
-        if(mBluetoothAdapter==null) {
-            Toast.makeText(getBaseContext(), "Device does not support bluetooth", Toast.LENGTH_LONG).show();
-        } else {
-            if (mBluetoothAdapter.isEnabled()) {
-            } else {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, 1);
-            }
-        }
-    }
-
-    public void DisabledBT() {
-        try {
-            if (mBluetoothAdapter.isEnabled()) {
-                try {
-                    mBluetoothAdapter.disable();
-                    //socket.close();
-                    //socket=null;
-                    //myFunctionStopTask();   //Estoy dudando de esta función.
-                    Toast.makeText(getApplicationContext(), "Bluetooth apagado correctamente.", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    //msg("Bluetooth apagado.");
-                }
-            }
-
-        }catch (Exception e){
-            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            mBluetoothAdapter.disable();
-            //msg("Bluetooth Apagado.");
-        }
-    }
-
-
-
-    private void demora(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -825,8 +613,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         En caso negativo presenta un mensaje al usuario y sale de la aplicación.
         */
         //Comprobamos que el dispositivo tiene adaptador bluetooth
-        //BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         tvTrama.setText("Comprobando bluetooth");
 
@@ -856,18 +643,16 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                     }
 
                     if (arduino != null) {
-                        //tareaAsincrona = new MiAsyncTask(this);
                         tareaAsincrona = new MiAsyncTask(this, arduino);
                         //tareaAsincrona = new MiAsyncTask(SignalsMonitor.this);
                         tareaAsincrona.execute(arduino);
-                        /* try {
+                        //Toast.makeText(this, "Listo!!!!!!!!", Toast.LENGTH_SHORT).show();
+                        /*try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }*/
-                        tareaAsincrona.SendData("O");
-                        //tareaAsincrona.cerrar_conect_bt();
-
+                        tareaAsincrona.SendData("R");
                     } else {
                         //No hemos encontrado nuestro dispositivo BT, es necesario emparejarlo antes de poder usarlo.
                         //No hay ningun dispositivo emparejado. Salimos de la app.
@@ -886,7 +671,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
             // El dispositivo no soporta bluetooth. Mensaje al usuario y salimos de la app
             Toast.makeText(this, "El dispositivo no soporta comunicación por Bluetooth", Toast.LENGTH_LONG).show();
         }
-    }
+    }  //Fin del Método...
 
 
     @Override
@@ -894,7 +679,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         /* El metodo on resume es el adecuado para inicialzar todos aquellos procesos que actualicen la interfaz de usuario
         Por lo tanto invocamos aqui al método que activa el BT y crea la tarea asincrona que recupera los datos*/
         super.onResume();
-        //descubrirDispositivosBT();
+        descubrirDispositivosBT();
     }
 
 
@@ -905,28 +690,12 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
     nuestra tarea asíncrona que actualiza la interfaz de usuario.
     */
         super.onStop();
-        /*if (tareaAsincrona != null) {
-            tareaAsincrona.cancel(true);
-            tareaAsincrona.SendData("S");
-        }*/
-
-    }
-
-
-    public void myFunctionStopTask(){
         if (tareaAsincrona != null) {
             tareaAsincrona.cancel(true);
-            tareaAsincrona.SendData("S");
+            tareaAsincrona.SendData("F");
         }
     }
 
-    /*Los métodos onTaskCompleted, onCancelled, onTemperaturaUpdate, son nuestros "callback".
-    Java es un lenguaje en el que no se puede pasar una función como argumento. De tal manera, que no podemos
-    pasarle a la tarea asincrona la función que tendria que ejecutar para actualizar la interfaz de usuario.
-    Esto se soluciona usando el interfaz "MiCallback". Ese interfaz obliga a declarar estos tres métodos en la clase que lo implemeta, en este caso, esta
-    actividad. De tal manera que podemos pasar como parametro esta clase a la tarea asincrona, y la tarea asincrona podrá invocar a estos métodos cuando
-    considere necesario.
-    */
 
     @Override
     public void onTaskCompleted() {
@@ -938,83 +707,36 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
     }
 
+
     @Override
     public void onDatosBiomedicos(Dto_variables p) {
-        //int color1 = getContext().getResources().getColor(R.color.color_spo2);
-        int color1 = this.getResources().getColor(R.color.color_spo2);
-        vd_spo2.setTextColor(color1);
-        Spo2 = p.getSaturacion_parcial_oxigeno_SPO2();
-        //vd_spo2.setText(p.getSaturacion_parcial_oxigeno_SPO2());
-        vd_spo2.setText(Spo2);
 
-
-        int color2 = this.getResources().getColor(R.color.color_fc);
-        vd_fc.setTextColor(color2);
-        Frec_cardiaca = p.getFrecuencia_cardiaca_o_pulso();
-        vd_fc.setText(Frec_cardiaca);
-
-        //if (Spo2.equals("0") || Frec_cardiaca.equals("0")) {
-        if (vd_spo2.getText().equals("0") || vd_fc.getText().equals("0")) {
-            //Toast.makeText(this, "Se ha detectado que el sensor ha sido desconectado o ha retirado su dedo indice de el.", Toast.LENGTH_SHORT).show();
-            if(conta1 == 0){
-                dialogoError();
-                //En este momento detendré el envio de datos a la base de datos.
-                stopRepeating();
-                cb_send.setChecked(false);
-                cb_send.setEnabled(false);
-                conta1++;
-            }
-
-        } else {//}
-        //GRAFICA I: Saturación Parcial del Oxígeno (SPO2)
+        int color5 = this.getResources().getColor(R.color.color_fc);
+        vd_fr.setTextColor(color5);
+        Frec_respiratoria = p.getFrecuencia_respiratoria();
+        vd_fr.setText(Frec_respiratoria);
+        //GRAFICA IV: Frecuencia Respiratoria
         try {
-            conta1 = 0;
-            //prev = scaler(Double.parseDouble(vd_spo2.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
-            prev = Double.parseDouble(vd_spo2.getText().toString());                               // change this value depending on your application
+            //prev = scaler(Double.parseDouble(vd_fr.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
+            prev = Double.parseDouble(vd_fr.getText().toString());  // change this value depending on your application
             if (estado_sw) {
-                if (a) {  //Verifico el estado del checkbox.
+                if (e) {  //Verifico el estado del checkbox.
                     if (plotCount <= plotlen) {
-                        plotValue(plotCount, prev, p.getSaturacion_parcial_oxigeno_SPO2());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
+                        plotValue(plotCount, prev, p.getFrecuencia_respiratoria());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
                         plotCount = plotCount + plotRes;
                     } else {
-                        //clearGraph();
                         ResetGraph();
                         plotCount = 0;
                     }
                     //aqui estaba
                 }
             }
-        } catch (NumberFormatException nfe) {
+        }catch (NumberFormatException nfe)
+        {
             prev = 0;
-        }   //FIN GRÁFICA I
-
-
-        /*int color2 = this.getResources().getColor(R.color.color_fc);
-        vd_fc.setTextColor(color2);
-        Frec_cardiaca = p.getFrecuencia_cardiaca_o_pulso();
-        vd_fc.setText(Frec_cardiaca);*/
-        //GRAFICA II: Frecuencia Cardiaca
-        try {
-            //prev1 = scaler(Double.parseDouble(vd_fc.getText().toString()), 0, 1023, 0.0, 5.0);  // change this value depending on your application
-            prev1 = Double.parseDouble(vd_fc.getText().toString());  // change this value depending on your application
-            if (estado_sw) {
-                if (b) {  //Verifico el estado del checkbox.
-                    if (plotCount1 <= plotlen1) {
-                        plotValue1(plotCount1, prev1, p.getFrecuencia_cardiaca_o_pulso());  //Aqui sigue mi analisis LUEGO :-(setPlot1(plotCount, prev1, c_Frec_cardiaca);
-                        plotCount1 = plotCount1 + plotRes1;
-                    } else {
-                        ResetGraph1();
-                        plotCount1 = 0;
-                    }
-                    //aqui estaba
-                }
-            }
-        } catch (NumberFormatException nfe) {
-            prev1 = 0;
-        }   //FIN GRÁFICA II
+        }//FIN GRÁFICA TEMPERATURA CORPORAL
 
         vd_alarma.setText(p.getAlarma());
-    }
         //tvTrama.setText("Trama: 0");
     }
 
@@ -1078,26 +800,15 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
     void plotValue(double xVal, double yVal, String spo2){
         @SuppressLint("DefaultLocale") String fyVal = String.format("%3.2f", yVal);
         @SuppressLint("DefaultLocale") String fxVal = String.format("%3.2f", xVal);
+
         dataSeries.appendData(new DataPoint(xVal, yVal), false, (int) plotSize);
         tvTrama.setText("X-Axis: "+xVal+" ");
     }
 
 
-    void plotValue1(double xVal1, double yVal1, String fc){
-        //if(b) {
-        @SuppressLint("DefaultLocale") String fyVal = String.format("%3.2f", yVal1);
-        @SuppressLint("DefaultLocale") String fxVal = String.format("%3.2f", xVal1);
-        dataSeries1.appendData(new DataPoint(xVal1, yVal1), false, (int) plotSize);
-    }
-
     //Reset Grafica Saturación Parcial del Oxígeno (SPO2)
     void ResetGraph() {
         dataSeries.resetData(new DataPoint[]{});
-    }
-
-    //Reset Grafica Frecuencia Cardiaca
-    void ResetGraph1() {
-        dataSeries1.resetData(new DataPoint[]{});
     }
 
 
@@ -1125,105 +836,26 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         public void run() {
             contador++;
 
-            if(contador>=2) {
-                //ACA ESTOY PENSANDO PONER UNAS CONDICIONES PARA
-                //1. Si hay valores de 0 que no guarde en la base de datos.
-                //2. SI los edittext no leen nada, es decir estan en blanco sin dato (Ni cero) tampoco debe enviarse información a la base de datos.
-                if(vd_spo2.getText().equals("0") || vd_spo2.getText().equals("")  || vd_fc.getText().equals("0") || vd_fc.getText().equals("")){
-                    //Toast.makeText(SignalMonitorSpo2Pulso.this, "nada", Toast.LENGTH_SHORT).show();
-                }else {
-
-                    valorSpO2 = Integer.parseInt(vd_spo2.getText().toString());
-                    valorFC = Integer.parseInt(vd_fc.getText().toString());
-
-                    volleyBD.sendInfoServer(SignalMonitorSpo2Pulso.this,
-                            "Monitor Oximetría",
-                            String.valueOf(valorSpO2),                //vd_spo2.getText().toString(),
-                            String.valueOf(valorFC),                  //vd_fc.getText().toString(),
-                            "0",
-                            "0",
-                            "0",
-                            "0",
-                            "0",
-                            vd_alarma.getText().toString(),
-                            volleyBD.getDate(),
-                            volleyBD.getTime(),
-                            "28227838");
-
-                    /********************************************************************/
-                    /****************BEGIN PARTE DE LA COMUNICACIÓN**********************/
-                    /********************************************************************/
-
-                    int getSpo2Seteada = Integer.parseInt(getUmbralSPO2());
-                    int getFcSeteada = Integer.parseInt(getUmbralFC());
-
-                    if(contadorSMS_Email == 0) {
-                        if(obternerEstadoCboxNotificaciones()) {
-                            if (valorSpO2 >= getSpo2Seteada || valorFC >= getFcSeteada) {
-                                //Envio el SMS con el valor actual de la medición de temperatura corporal.
-
-                                //notificacionesUser.sendInfo_SMS_TA(SignalMonitorSpo2Pulso.this, String.valueOf(valorTC), tel_especialista, nombreEspecialista, nombrePaciente);
-                                notificacionesUser.sendInfo_SMS_OXIMETRIA(SignalMonitorSpo2Pulso.this, String.valueOf(valorSpO2), String.valueOf(valorFC), tel_especialista, nombreEspecialista, nombrePaciente);
-
-                                //Envio el correo electrónico con el valor actual de la medición de la temperatura corporal.
-                                notificacionesUser.sendInfo_Email_Oximetria(SignalMonitorSpo2Pulso.this, correo_especialista, "!!!ALERTA OXIMETRÍA¡¡¡", String.valueOf(valorSpO2), String.valueOf(valorFC), nombreEspecialista, nombrePaciente);
-
-                                //Toast.makeText(this, "Vamos bien...", Toast.LENGTH_SHORT).show();
-                                contadorSMS_Email = 1;
-                            }
-                        }
-                    }
-
-
-
-                    /********************************************************************/
-                    /****************END PARTE DE LA COMUNICACIÓN************************/
-                    /********************************************************************/
-                }
-        }
+            if (contador >= 2) {
+                volleyBD.sendInfoServer(SignalMonitorFR1.this,
+                        "Monitor Frecuencia Respiratoria",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        "0",
+                        vd_fr.getText().toString(),
+                        "0",
+                        vd_alarma.getText().toString(),
+                        volleyBD.getDate(),
+                        volleyBD.getTime(),
+                        "28227838");
+            }
 
             totalSegundos = Integer.parseInt(obtenerTiempo());
             totalSegundos = totalSegundos * 1000;
             mHandler.postDelayed(this, totalSegundos);
         }
     };
-
-
-    private void dialogoError(){
-
-        new android.app.AlertDialog.Builder(this)
-                .setIcon(R.drawable.ic_error)
-                .setTitle("¡Información Oximetría!")
-                .setMessage("Razones de esta Ventana:\n\n" +
-                        "1. No se ha conectado o se ha desconectado el sensor de la tarjeta MySignals." + "\n" +
-                        "2. Se ha retirado el dedo indice del sensor biométrico. O Ambos casos, literal 1 y 2." + "\n" +
-                        "3. Sensor malo." + "\n" +
-                        "4. Info usuarios." + "\n\n" +
-                        "Press aceptar para continuar.")
-                //.setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {//un listener que al pulsar, cierre la aplicacion
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                          dialog.dismiss();
-                    }
-                })
-                .show();
-
-    }
-
-
-    private String getUmbralSPO2() {
-        SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
-        String dato = preferences.getString("spo2", "0");
-        return dato;
-    }
-
-
-    private String getUmbralFC() {
-        SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
-        String dato = preferences.getString("fc", "0");
-        return dato;
-    }
-
 
 }

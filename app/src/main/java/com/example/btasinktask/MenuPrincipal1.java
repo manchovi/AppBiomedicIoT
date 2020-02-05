@@ -11,20 +11,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageClickListener;
-import com.synnapps.carouselview.ImageListener;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -45,13 +31,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MenuPrincipal extends AppCompatActivity {
+public class MenuPrincipal1 extends AppCompatActivity {
 
     private ViewGroup linearLayoutDetails1, linearLayoutDetails2, linearLayoutDetails3, linearLayoutDetails4, linearLayoutDetails5, linearLayoutDetails6, linearLayoutDetails7, linearLayoutDetails8;
     private ImageView imageViewExpand1, imageViewExpand2, imageViewExpand3, imageViewExpand4, imageViewExpand5, imageViewExpand6, imageViewExpand7, imageViewExpand8;
@@ -108,7 +103,6 @@ public class MenuPrincipal extends AppCompatActivity {
 
     private static BluetoothAdapter mBluetoothAdapter;                     //otra var bt
     private BroadcastReceiver blue_State;
-    boolean estadoPOWER_BT = false;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -190,17 +184,17 @@ public class MenuPrincipal extends AppCompatActivity {
                         break;
                     }
                     case (BluetoothAdapter.STATE_OFF): {
-                        Toast.makeText(MenuPrincipal.this, "Bluetooth is OFF", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, "Bluetooth is OFF", Toast.LENGTH_SHORT).show();
                         //  bluetooth_ON = false;
                         break;
                     }
                     case (BluetoothAdapter.STATE_CONNECTED): {
-                        Toast.makeText(MenuPrincipal.this, "Bluetooth is Connected ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, "Bluetooth is Connected ", Toast.LENGTH_SHORT).show();
                         //checkConnected = true;
                         break;
                     }
                     case (BluetoothAdapter.STATE_DISCONNECTED): {
-                        Toast.makeText(MenuPrincipal.this, "Bluetooth Disconnected ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, "Bluetooth Disconnected ", Toast.LENGTH_SHORT).show();
                         //checkConnected = false;
                         break;
                     }
@@ -235,14 +229,8 @@ public class MenuPrincipal extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(checkStatusPOWER_BT()){
-                    Snackbar.make(view, "Bluetooth Encendido. Con Acceso a Monitores.", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }else{
-                    Snackbar.make(view, "Bluetooth Apagado. Sin Acceso a Monitores.", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 
@@ -309,13 +297,7 @@ public class MenuPrincipal extends AppCompatActivity {
             }
         });*/
 
-
-
-
-        /***********BEGIN OJOTES CHOVI*************/
         //limpiarDatosArchivoXML();
-        //limpiarDatosConfiguracionServidor();                         //Me hace falta probar esta función señores.
-        /*************END OJOTES CHOVI*************/
 
         iv_config_server = (ImageView)findViewById(R.id.iv_config_server);
         iv_config_especialista = (ImageView)findViewById(R.id.iv_config_especialista);
@@ -356,11 +338,9 @@ public class MenuPrincipal extends AppCompatActivity {
                 nombrePaciente*/
                 String comprobacion = conf_Server().trim();
                 if (comprobacion.equals("Sin configurar.")) {
-                    //mensaje1();                                //Estos mensajes los pondré con Toast Personalizado.
-                    showToast("* Opción Deshabilitada. \n\nServidor Destino no Configurado Aún.\nConfigurar para habilitar opción.");
+                    mensaje1();                                //Estos mensajes los pondré con Toast Personalizado.
                 }else {
-                    /*
-                    Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTC.class);
+                    Intent intent = new Intent(MenuPrincipal1.this, SignalMonitorTC.class);
                     intent.putExtra("senalTC", "1");
                     intent.putExtra("documento", documentoEspecialista);
                     intent.putExtra("nombreEspecialista", nombreEspecialista);
@@ -368,9 +348,9 @@ public class MenuPrincipal extends AppCompatActivity {
                     intent.putExtra("telefonoEspecialista", tel_especialista);
                     intent.putExtra("emailEspecialista", correo_especialista);
                     startActivity(intent);
-                    */
 
-                    VerificoStatusBT(1);
+                    //Meter aca la condición que verifica el estado del bluetooth. si esta encendido chivo, pero sino que aparezca la opción para poder encenderlo.
+
                 }
             }
         });
@@ -380,11 +360,6 @@ public class MenuPrincipal extends AppCompatActivity {
         iv_config_fr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String comprobacion = conf_Server().trim();
-                if (comprobacion.equals("Sin configurar.")) {
-                    //mensaje1();                                //Estos mensajes los pondré con Toast Personalizado.
-                    showToast("* Opción Deshabilitada. \n\nServidor Destino no Configurado Aún.\nConfigurar para habilitar opción.");
-                }else {
                 /*Intent intent = new Intent(MenuPrincipal.this, SignalMonitorFR.class);
                 intent.putExtra("senalFR", "2");
                 intent.putExtra("documento", documentoEspecialista);
@@ -393,50 +368,36 @@ public class MenuPrincipal extends AppCompatActivity {
                 intent.putExtra("telefonoEspecialista", tel_especialista);
                 intent.putExtra("emailEspecialista", correo_especialista);
                 startActivity(intent);*/
-                    VerificoStatusBT(2);
-                }
+                VerificoStatusBT();
+
             }
         });
 
         iv_config_pa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String comprobacion = conf_Server().trim();
-                if (comprobacion.equals("Sin configurar.")) {
-                    //mensaje1();                                //Estos mensajes los pondré con Toast Personalizado.
-                    showToast("* Opción Deshabilitada. \n\nServidor Destino no Configurado Aún.\nConfigurar para habilitar opción.");
-                }else {
-                        /*Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTA.class);
-                        intent.putExtra("senalPA", "3");
-                        intent.putExtra("documento", documentoEspecialista);
-                        intent.putExtra("nombreEspecialista", nombreEspecialista);
-                        intent.putExtra("nombrePaciente", nombrePaciente);
-                        intent.putExtra("telefonoEspecialista", tel_especialista);
-                        intent.putExtra("emailEspecialista", correo_especialista);
-                        startActivity(intent);*/
-                        VerificoStatusBT(3);
-                }
+                Intent intent = new Intent(MenuPrincipal1.this, SignalMonitorTA.class);
+                intent.putExtra("senalPA", "3");
+                intent.putExtra("documento", documentoEspecialista);
+                intent.putExtra("nombreEspecialista", nombreEspecialista);
+                intent.putExtra("nombrePaciente", nombrePaciente);
+                intent.putExtra("telefonoEspecialista", tel_especialista);
+                intent.putExtra("emailEspecialista", correo_especialista);
+                startActivity(intent);
             }
         });
 
         iv_config_spo2_pulso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String comprobacion = conf_Server().trim();
-                if (comprobacion.equals("Sin configurar.")) {
-                    mensaje1();                                //Estos mensajes los pondré con Toast Personalizado.
-                    showToast("* Opción Deshabilitada. \n\nServidor Destino no Configurado Aún.\nConfigurar para habilitar opción.");
-                }else {
-                /*Intent intent = new Intent(MenuPrincipal.this, SignalMonitorSpo2Pulso.class);
+                Intent intent = new Intent(MenuPrincipal1.this, SignalMonitorSpo2Pulso.class);
                 intent.putExtra("senalSPO2_PULSO", "4");
                 intent.putExtra("documento", documentoEspecialista);
                 intent.putExtra("nombreEspecialista", nombreEspecialista);
                 intent.putExtra("nombrePaciente", nombrePaciente);
                 intent.putExtra("telefonoEspecialista", tel_especialista);
                 intent.putExtra("emailEspecialista", correo_especialista);
-                startActivity(intent);*/
-                    VerificoStatusBT(4);
-                }
+                startActivity(intent);
             }
         });
 
@@ -488,13 +449,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -511,13 +472,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -535,13 +496,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -559,13 +520,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -582,13 +543,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -605,13 +566,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -629,13 +590,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -652,13 +613,13 @@ public class MenuPrincipal extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_option1:
-                        Toast.makeText(MenuPrincipal.this, R.string.option1, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option1, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option2:
-                        Toast.makeText(MenuPrincipal.this, R.string.option2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option2, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_option3:
-                        Toast.makeText(MenuPrincipal.this, R.string.option3, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuPrincipal1.this, R.string.option3, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -667,42 +628,10 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
 
-    private void goMonitorTC(){
-        Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTC.class);
-        intent.putExtra("senalTC", "1");
-        intent.putExtra("documento", documentoEspecialista);
-        intent.putExtra("nombreEspecialista", nombreEspecialista);
-        intent.putExtra("nombrePaciente", nombrePaciente);
-        intent.putExtra("telefonoEspecialista", tel_especialista);
-        intent.putExtra("emailEspecialista", correo_especialista);
-        startActivity(intent);
-    }
 
     private void goMonitorFR(){
-        Intent intent = new Intent(MenuPrincipal.this, SignalMonitorFR.class);
-        intent.putExtra("senalFC", "1");
-        intent.putExtra("documento", documentoEspecialista);
-        intent.putExtra("nombreEspecialista", nombreEspecialista);
-        intent.putExtra("nombrePaciente", nombrePaciente);
-        intent.putExtra("telefonoEspecialista", tel_especialista);
-        intent.putExtra("emailEspecialista", correo_especialista);
-        startActivity(intent);
-    }
-
-    private void goMontitorPA(){
-        Intent intent = new Intent(MenuPrincipal.this, SignalMonitorTA.class);
-        intent.putExtra("senalPA", "3");
-        intent.putExtra("documento", documentoEspecialista);
-        intent.putExtra("nombreEspecialista", nombreEspecialista);
-        intent.putExtra("nombrePaciente", nombrePaciente);
-        intent.putExtra("telefonoEspecialista", tel_especialista);
-        intent.putExtra("emailEspecialista", correo_especialista);
-        startActivity(intent);
-    }
-
-    private void goMontitorOximetria(){
-        Intent intent = new Intent(MenuPrincipal.this, SignalMonitorSpo2Pulso.class);
-        intent.putExtra("senalSPO2_PULSO", "4");
+        Intent intent = new Intent(MenuPrincipal1.this, SignalMonitorFR.class);
+        intent.putExtra("senalTC", "1");
         intent.putExtra("documento", documentoEspecialista);
         intent.putExtra("nombreEspecialista", nombreEspecialista);
         intent.putExtra("nombrePaciente", nombrePaciente);
@@ -713,6 +642,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
     public void DisabledBT() {
+
         try {
             if (mBluetoothAdapter.isEnabled()) {
                 try {
@@ -726,6 +656,7 @@ public class MenuPrincipal extends AppCompatActivity {
                     //msg("Bluetooth apagado.");
                 }
             }
+
         }catch (Exception e){
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             mBluetoothAdapter.disable();
@@ -749,33 +680,17 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
     //Checks that the Android device Bluetooth is available and prompts to be turned on if off
-    private void VerificoStatusBT(int n_monitor) {
+    private void VerificoStatusBT() {
         if(mBluetoothAdapter==null) {
             Toast.makeText(getBaseContext(), "Device does not support bluetooth", Toast.LENGTH_LONG).show();
         } else {
             if (!mBluetoothAdapter.isEnabled()) {
-                //Muestro un Toast para que vea el doctor que tiene que encender su blueooth.
-                showToast1("Sin Acceso!.\nEs necesario que confirme dando clic en el botón SI para encender el Bluetooth de su dispositivo y habilidar el acceso al MONITOR.");
-
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, 1);
-
             } else {
 
                 //ACA LLAMARE LOS INTENET QUE VAN A CADA MONITOR SEGUN LA VARIABLE BIOMETRICA A MEDIR.
-                if(n_monitor == 1){
-                    goMonitorTC();
-
-                }else if(n_monitor == 2){
-                    goMonitorFR();
-
-                }else if(n_monitor == 3){
-                    goMontitorPA();
-
-                }else if(n_monitor == 4){
-                    goMontitorOximetria();
-                }
-
+                goMonitorFR();
 
             }
         }
@@ -818,21 +733,18 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
     // check if this device supports bluetooth connectivity
-    private boolean checkStatusPOWER_BT() {
-        estadoPOWER_BT = false;
+    private boolean bt_support_check1() {
         if (mBluetoothAdapter == null) {
             Toast.makeText(getBaseContext(), "This device does not support Bluetooth", Toast.LENGTH_LONG).show();
-            //return false;
+            return false;
         } else {
             if (!mBluetoothAdapter.isEnabled()) {
-                //Toast.makeText(getBaseContext(), "Bluetooth is OFF", Toast.LENGTH_LONG).show();
-                estadoPOWER_BT = false;
+                Toast.makeText(getBaseContext(), "Bluetooth is OFF", Toast.LENGTH_LONG).show();
             } else {
-                //Toast.makeText(getBaseContext(), "Bluetooth is ON", Toast.LENGTH_LONG).show();
-                estadoPOWER_BT = true;
+                Toast.makeText(getBaseContext(), "Bluetooth is ON", Toast.LENGTH_LONG).show();
             }
+            return true;
         }
-        return  estadoPOWER_BT;
     }
 
     // check if this device supports bluetooth connectivity
@@ -866,7 +778,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
     public void detallePacienteEspecialista(){
-        AlertDialog.Builder al = new AlertDialog.Builder(MenuPrincipal.this);
+        AlertDialog.Builder al = new AlertDialog.Builder(MenuPrincipal1.this);
         al.setCancelable(true);
         al.setIcon(R.drawable.ic_info);
         al.setTitle("Información Recibida");
@@ -1073,9 +985,11 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
 
+
+
     private void confirmacion(){
         String mensaje = "¿Realmente desea cerrar esta pantalla?";
-        dialogo = new AlertDialog.Builder(MenuPrincipal.this);
+        dialogo = new AlertDialog.Builder(MenuPrincipal1.this);
         dialogo.setIcon(R.drawable.ic_close);
         dialogo.setTitle("Warning");
         dialogo.setMessage(mensaje);
@@ -1100,14 +1014,12 @@ public class MenuPrincipal extends AppCompatActivity {
     } //End
 
 
-
     public void goBack(){
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
         //finish();
         finishAffinity();
     }
-
 
 
     public void showToast(String message) {
@@ -1128,29 +1040,9 @@ public class MenuPrincipal extends AppCompatActivity {
         toast.show();
     }
 
-    public void showToast1(String message) {
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_root));
-
-        TextView toastText = layout.findViewById(R.id.toast_text);
-        ImageView toastImage = layout.findViewById(R.id.toast_image);
-
-        toastText.setText(message);
-        toastImage.setImageResource(R.drawable.ic_info);
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.BOTTOM, 0, 0);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(layout);
-
-        toast.show();
-
-    }
-
-
 
     private void dialog_config_notificaciones() {
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal1.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
         //mBuilder.setIcon(R.drawable.ic_servidor);
         //mBuilder.setTitle("<<<UTLA>>>");
@@ -1317,7 +1209,7 @@ public class MenuPrincipal extends AppCompatActivity {
                                                     showToast("Parámetros guardados correctamente!");
 
                                                     }else{
-                                                            Toast.makeText(MenuPrincipal.this, "Complete la información.\nTodos los campos son obligatorios.", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(MenuPrincipal1.this, "Complete la información.\nTodos los campos son obligatorios.", Toast.LENGTH_SHORT).show();
                                                         }
                                             }else{
                                                 et_Pulse_min.setText("150");
@@ -1387,18 +1279,6 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
 
-
-
-    public void limpiarDatosConfiguracionServidor() {
-        SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.commit();
-    }
-
-
-
-
     public void limpiarDatosArchivoXML() {
         SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -1408,9 +1288,8 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
 
-
     private void config_server() {
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal1.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
         //mBuilder.setIcon(R.drawable.ic_servidor);
         //mBuilder.setTitle("<<<UTLA>>>");
@@ -1650,7 +1529,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
     private void dialog_config_espelialista() {
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal1.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
         //mBuilder.setIcon(R.drawable.ic_servidor);
         //mBuilder.setTitle("<<<UTLA>>>");
@@ -1832,9 +1711,9 @@ public class MenuPrincipal extends AppCompatActivity {
                             tv_tel1.setText(et_tel1.getText().toString());
                             tv_email1.setText(et_email1.getText().toString());
 
-                            Toast.makeText(MenuPrincipal.this, "Datos Actualizados Correctamente!!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MenuPrincipal1.this, "Datos Actualizados Correctamente!!!", Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(MenuPrincipal.this, "Se encontrarón problemas. No se pudo actualizar su información.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MenuPrincipal1.this, "Se encontrarón problemas. No se pudo actualizar su información.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -1848,7 +1727,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
     private void about_autor() {
-        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal.this);
+        final android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(MenuPrincipal1.this);
         //AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
         //mBuilder.setIcon(R.drawable.ic_servidor);
         //mBuilder.setTitle("<<<UTLA>>>");

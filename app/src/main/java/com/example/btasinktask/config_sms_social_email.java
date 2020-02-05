@@ -122,18 +122,16 @@ public class config_sms_social_email {
 
 
 
-    public void sendInfo_SMS_TA(Context context, String diastolic, String systolic, String pulsemin, String telefono){
+    public void sendInfo_SMS_TA(Context context, String diastolic, String systolic, String pulsemin, String telefonoEspecialista, String nombreEspecialista, String nombrePaciente){
 
-        String nombrePaciente = "xxxxxx";
-        String nombreEspecialista = "++++++++";
 
         String datosCompletos =
         "*************************************************************\n" +
         "¡NOTIFICACIÓN TENSIÓN ARTERIAL!\n\n" +
         "*************************************************************\n" +
-        "*Diastolic Pressure: " + diastolic +"\n" +
-        "*Systolic Pressure: " + systolic +"\n" +
-        "*Heart Rate: " + pulsemin +"\n\n" +
+        "*Diastolic Pressure: " + diastolic +" mmHg.\n" +
+        "*Systolic Pressure: " + systolic +" mmHg.\n" +
+        "*Heart Rate: " + pulsemin +" bmp\n\n" +
         "\nNombre del Paciente: " + nombrePaciente +"\n" +
         "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
         "---------------------------------------------------------------------" + "\n" +
@@ -143,21 +141,18 @@ public class config_sms_social_email {
         "Copyright(c) HOSPITAL 2019~2020. " +
         "\nAll rights reserved.";
 
-        sendSMS(context, datosCompletos, telefono);
+        sendSMS(context, datosCompletos, telefonoEspecialista);
     }
 
 
-    public void sendInfo_SMS_OXIMETRIA(Context context, String spo2, String frecuencia_cardiaca, String telefono){
-
-        String nombrePaciente = "xxxxxx";
-        String nombreEspecialista = "++++++++";
+    public void sendInfo_SMS_OXIMETRIA(Context context, String spo2, String frecuencia_cardiaca, String telefonoEspecialista, String nombreEspecialista, String nombrePaciente){
 
         String datosCompletos =
         "*************************************************************\n" +
         "¡NOTIFICACIÓN OXIMETRÍA!\n\n" +
         "*************************************************************\n" +
-        "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +"\n" +
-        "*Frecuencia Cardíaca: " + frecuencia_cardiaca +"\n\n" +
+        "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +" %\n" +
+        "*Frecuencia Cardíaca: " + frecuencia_cardiaca +" PRbpm\n\n" +
         "\nNombre del Paciente: " + nombrePaciente +"\n" +
         "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
         "---------------------------------------------------------------------" + "\n" +
@@ -167,7 +162,7 @@ public class config_sms_social_email {
         "Copyright(c) HOSPITAL 2019~2020. " +
         "\nAll rights reserved.";
 
-        sendSMS(context, datosCompletos, telefono);
+        sendSMS(context, datosCompletos, telefonoEspecialista);
     }
 
 
@@ -327,11 +322,42 @@ public class config_sms_social_email {
     }
 
 
+    //Función para enviar notificación de variable biométrica Oximetría.
+    public void sendInfo_Email_Oximetria(Context context, String email, String subject, String spo2, String frecuencia_cardiaca, String nombreEspecialista, String nombrePaciente){
+
+        //sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+        //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
+
+        String message =
+                "*************************************************************\n" +
+                        "¡NOTIFICACIÓN OXIMETRÍA!\n\n" +
+                        "*************************************************************\n" +
+                        "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +" %\n" +
+                        "*Frecuencia Cardíaca: " + frecuencia_cardiaca +" PRbpm\n\n" +
+                        "\nNombre del Paciente: " + nombrePaciente +"\n" +
+                        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                        "---------------------------------------------------------------------" + "\n" +
+                        //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+                        "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
+                        "---------------------------------------------------------------------" + "\n" +
+                        "Copyright(c) HOSPITAL 2019~2020. " +
+                        "\nAll rights reserved.";
+
+        //String message = diastolic, systolic, pulsemin;                                           //Dato a enviar.
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(context, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
+    }
+
+
 
     //Función para enviar notificación de variable biométrica Frecuencia Respiratoria.
     public void sendInfo_Email_FR(Context context, String email, String subject, String fr){
 
-        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+        //sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
                                                   //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
 
         String nombrePaciente = "xxxxxx";
@@ -365,7 +391,7 @@ public class config_sms_social_email {
     //Función para enviar notificación de variable biométrica Tensión / Presión Arterial.
     public void sendInfo_Email_TA(Context context, String email, String subject, String diastolic, String systolic, String pulsemin){
 
-        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+        //sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
                                                   //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
 
         String nombrePaciente = "xxxxxx";
@@ -398,38 +424,7 @@ public class config_sms_social_email {
 
 
 
-    //Función para enviar notificación de variable biométrica Oximetría.
-    public void sendInfo_Email_Oximetria(Context context, String email, String subject, String spo2, String frecuencia_cardiaca){
 
-        sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
-        //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
-
-        String nombrePaciente = "xxxxxx";
-        String nombreEspecialista = "++++++++";
-
-        String message =
-                "*************************************************************\n" +
-                "¡NOTIFICACIÓN OXIMETRÍA!\n\n" +
-                "*************************************************************\n" +
-                "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +"\n" +
-                "*Frecuencia Cardíaca: " + frecuencia_cardiaca +"\n\n" +
-                "\nNombre del Paciente: " + nombrePaciente +"\n" +
-                "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
-                "---------------------------------------------------------------------" + "\n" +
-                //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
-                "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
-                "---------------------------------------------------------------------" + "\n" +
-                "Copyright(c) HOSPITAL 2019~2020. " +
-                "\nAll rights reserved.";
-
-        //String message = diastolic, systolic, pulsemin;                                           //Dato a enviar.
-
-        //Creating SendMail object
-        SendMail sm = new SendMail(context, email, subject, message);
-
-        //Executing sendmail to send email
-        sm.execute();
-    }
 
 
 

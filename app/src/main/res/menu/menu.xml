@@ -16,7 +16,13 @@
 
     <item
         android:id="@+id/menu_detallesPacienteEspecialista"
-        android:title="Detalles Implicados"
+        android:title="Info Responsable"
+        android:icon="@drawable/ic_person"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_onofBt"
+        android:title="ON-OFF Bluetooth"
         android:icon="@drawable/ic_person"
         app:showAsAction="never"/>
 
