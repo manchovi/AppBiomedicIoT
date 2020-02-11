@@ -107,7 +107,20 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
 
     boolean estadoSendDataServer = false;
     boolean ultimoEstado = false;
+    boolean ultimoEstadoCBServer = false;
+    boolean ultimoEstadoCBNotificaciones = false;
+
     int totalSegundos = 0;
+
+    String documentoEspecialista="";
+    String nombreEspecialista="";
+    String nombrePaciente="";
+    String tel_especialista="";
+    String correo_especialista="";
+
+    config_sms_social_email notificacionesUser = new config_sms_social_email();
+    int contadorSMS_Email = 0;
+    int valorFR = 0;
 
     //private BluetoothAdapter bluetoothAdapter;
     //Comprobamos que el dispositivo tiene adaptador bluetooth
@@ -165,7 +178,41 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
 
         descubrirDispositivosBT();                           //FUNCION PUESTA ACA PARA PRUEBAS
 
+
+        try {
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+
+            if (bundle != null) {
+                senal = bundle.getString("senalFC");;
+                documentoEspecialista = bundle.getString("documento");
+                nombreEspecialista = bundle.getString("nombreEspecialista");
+                nombrePaciente = bundle.getString("nombrePaciente");
+                tel_especialista = bundle.getString("telefonoEspecialista");
+                correo_especialista = bundle.getString("emailEspecialista");
+
+                //En esta sección me he quedado, al llegar a casa la probaré.
+                /*AlertDialog.Builder ventana = new AlertDialog.Builder(this);
+                ventana.setCancelable(true);
+                ventana.setTitle("Detalle Info:");
+                ventana.setMessage("Documento Especialísta: "+ documentoEspecialista + "\n"+
+                                   "Nombre Especialísta: "+ nombreEspecialista + "\n" +
+                                   "Nombre Paciente: " + nombrePaciente + "\n" +
+                                   "Tel. Especialísta: " + tel_especialista + "\n" +
+                                   "E-mail Especialísta: " + correo_especialista + "\n");
+                ventana.show();*/
+
+                if (senal.equals("1")) {
+
+                }
+            }
+
+        }catch (Exception e){
+
+        }
+
         ultimoEstado = obtenerEstadoCbox();
+
         if(ultimoEstado){
             startRepeating();
             cb_send.setChecked(ultimoEstado);
@@ -176,6 +223,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
             cb_send.setChecked(false);
             cb_send.setEnabled(false);
         }
+
+        ultimoEstadoCBNotificaciones = obternerEstadoCboxNotificaciones();
 
         //cb_legends.setChecked(false);
         cb_legends.setEnabled(false);
@@ -262,6 +311,10 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
                 }
             }
         });
+
+
+
+
 
     }  //FIn onCreate
 
@@ -400,18 +453,22 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         String valorTime = "";
         //estadoSendDataServer=false;
 
+        CheckBox cb_enabledNotificaciones = (CheckBox)myDialog.findViewById(R.id.cb_enabledNotificaciones);
         CheckBox cb_enabledSend = (CheckBox)myDialog.findViewById(R.id.cb_enabledSend);
         //cb_enabledSend.setChecked(false);
 
         final EditText etTiempo = (EditText)myDialog.findViewById(R.id.etTiempo);
-
         Button btnCancelar = (Button)myDialog.findViewById(R.id.btnCancelar);
         Button btnAplica = (Button)myDialog.findViewById(R.id.btnAplica);
 
         ultimoEstado = obtenerEstadoCbox();
+        ultimoEstadoCBNotificaciones = obternerEstadoCboxNotificaciones();
+
         valorTime = obtenerTiempo();
         etTiempo.setText(valorTime);
+
         cb_enabledSend.setChecked(ultimoEstado);
+        cb_enabledNotificaciones.setChecked(ultimoEstadoCBNotificaciones);
 
         cb_enabledSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -426,6 +483,19 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
             }
         });
 
+        cb_enabledNotificaciones.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean estado) {
+                if(estado){
+                    //estadoSendDataServer=true;
+                    ultimoEstadoCBNotificaciones = true;
+                }else{
+                    //estadoSendDataServer=false;
+                    ultimoEstadoCBNotificaciones = false;
+                }
+            }
+        });
+
         btnAplica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -435,7 +505,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
                 }else{
                     String t = etTiempo.getText().toString();
                     //createfiletime(estadoSendDataServer, t);
-                    createfiletime(ultimoEstado, t);
+                    //createfiletime(ultimoEstado, t);
+                    createfiletime(ultimoEstado, ultimoEstadoCBNotificaciones, t);
 
                     if(obtenerEstadoCbox()){
                         stopRepeating();
@@ -468,7 +539,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
     }  //Fin del Método VentanaDialog2
 
 
-    public void createfiletime(boolean estadocbox, String tiempo){
+    //public void createfiletime(boolean estadocbox, String tiempo){
+    public void createfiletime(boolean estadocbox, boolean estadocboxNotificaciones, String tiempo){
         SharedPreferences preferences = getSharedPreferences("filetime", Context.MODE_PRIVATE);
         //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
         DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
@@ -478,6 +550,7 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("tiempo", tiempo);
         editor.putBoolean("estadocbox", estadocbox);
+        editor.putBoolean("estadocboxNotificacion", estadocboxNotificaciones);
         editor.commit();
     }
 
@@ -493,6 +566,20 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
         SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
         boolean estado = preferences.getBoolean("estadocbox",false);
         return estado;   //return preferences.getString("tiempo", "Sin configurar.");
+    }
+
+
+    public boolean obternerEstadoCboxNotificaciones(){
+        SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
+        boolean estado = preferences.getBoolean("estadocboxNotificacion",false);
+        return estado;   //return preferences.getString("tiempo", "Sin configurar.");
+    }
+
+
+    private String getUmbralFR() {
+        SharedPreferences preferences = getSharedPreferences("Notificaciones", Context.MODE_PRIVATE);
+        String tempe = preferences.getString("fr", "0");
+        return tempe;
     }
 
 
@@ -909,6 +996,8 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
             contador++;
 
             if (contador >= 2) {
+
+                valorFR = Integer.parseInt(vd_fr.getText().toString());
                 volleyBD.sendInfoServer(SignalMonitorFR.this,
                         "Monitor Frecuencia Respiratoria",
                         "0",
@@ -916,12 +1005,45 @@ public class SignalMonitorFR extends AppCompatActivity implements MiAsyncTask.Mi
                         "0",
                         "0",
                         "0",
-                        vd_fr.getText().toString(),
+                        String.valueOf(valorFR),              //vd_fr.getText().toString(),
                         "0",
                         vd_alarma.getText().toString(),
                         volleyBD.getDate(),
                         volleyBD.getTime(),
                         "28227838");
+
+
+                /********************************************************************/
+                /****************BEGIN PARTE DE LA COMUNICACIÓN**********************/
+                /********************************************************************/
+
+                //int dato = Integer.parseInt(vd_tc.getText().toString());
+
+                //int getTemperaturaSeteada = Integer.parseInt(getUmbralSpo2());
+                double getFRSeteada = Integer.parseInt(getUmbralFR());
+                if(contadorSMS_Email == 0) {
+                    //Tengo que poner la condición de activación del checkbox de avisar o notificar.
+                    if(obternerEstadoCboxNotificaciones()) {
+                        if (valorFR >= getFRSeteada) {
+                            //Aca pondré las funciones para enviar las notificaciones:
+                            //VIA: SMS Y EMAIL.
+
+                            //Envio el SMS con el valor actual de la medición de la frecuencia respiratoria.
+                            notificacionesUser.sendInfo_SMS_FR(SignalMonitorFR.this, String.valueOf(valorFR), tel_especialista, nombreEspecialista, nombrePaciente);
+
+                            //Envio el correo electrónico con el valor actual de la medición de la temperatura corporal.
+                            notificacionesUser.sendInfo_Email_FR(SignalMonitorFR.this, correo_especialista, "!!!ALERTA F.R.¡¡¡", String.valueOf(valorFR), nombreEspecialista, nombrePaciente);
+
+                            //Toast.makeText(this, "Vamos bien...", Toast.LENGTH_SHORT).show();
+                            contadorSMS_Email = 1;
+                        }
+                    }
+                }
+
+                /********************************************************************/
+                /****************END PARTE DE LA COMUNICACIÓN************************/
+                /********************************************************************/
+
             }
 
             totalSegundos = Integer.parseInt(obtenerTiempo());

@@ -112,9 +112,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     private boolean getStatusCheckBoxVisibleoculto = false;
 
     int contador = 0;
-    String senal = "";
-
-    AlertDialog.Builder dialogo, dialogo1;
+     AlertDialog.Builder dialogo, dialogo1;
     private ProgressDialog pd;
     //Variable para crear mis propios cuadros de dialogo.
     Dialog myDialog;
@@ -127,7 +125,25 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
     boolean estadoSendDataServer = false;
     boolean ultimoEstado = false;
+
+    boolean ultimoEstadoCBServer = false;
+    boolean ultimoEstadoCBNotificaciones = false;
+
     int totalSegundos = 0;
+
+    String senal = "";
+    String documentoEspecialista="";
+    String nombreEspecialista="";
+    String nombrePaciente="";
+    String tel_especialista="";
+    String correo_especialista="";
+
+    config_sms_social_email notificacionesUser = new config_sms_social_email();
+    int contadorSMS_Email = 0;
+
+    int valorDiastolic = 0;
+    int valorSystolic = 0;
+    int valorHearPulse = 0;
 
     private BluetoothAdapter mBluetoothAdapter;
     private static BluetoothAdapter blue_Adapter;                       //otra var bt
@@ -203,6 +219,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             cb_send.setChecked(false);
             cb_send.setEnabled(false);
         }
+
+        ultimoEstadoCBNotificaciones = obternerEstadoCboxNotificaciones();
 
         //cb_legends.setChecked(false);
         cb_legends.setEnabled(false);
@@ -502,17 +520,20 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         //estadoSendDataServer=false;
 
         CheckBox cb_enabledSend = (CheckBox)myDialog.findViewById(R.id.cb_enabledSend);
+        CheckBox cb_enabledNotificaciones = (CheckBox)myDialog.findViewById(R.id.cb_enabledNotificaciones);
         //cb_enabledSend.setChecked(false);
 
         final EditText etTiempo = (EditText)myDialog.findViewById(R.id.etTiempo);
-
         Button btnCancelar = (Button)myDialog.findViewById(R.id.btnCancelar);
         Button btnAplica = (Button)myDialog.findViewById(R.id.btnAplica);
 
         ultimoEstado = obtenerEstadoCbox();
+
         valorTime = obtenerTiempo();
         etTiempo.setText(valorTime);
+
         cb_enabledSend.setChecked(ultimoEstado);
+        cb_enabledNotificaciones.setChecked(ultimoEstadoCBNotificaciones);
 
         cb_enabledSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -527,6 +548,20 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
             }
         });
 
+        cb_enabledNotificaciones.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean estado) {
+                if(estado){
+                    //estadoSendDataServer=true;
+                    ultimoEstadoCBNotificaciones = true;
+                }else{
+                    //estadoSendDataServer=false;
+                    ultimoEstadoCBNotificaciones = false;
+                }
+            }
+        });
+
+
         btnAplica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -536,7 +571,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                 }else{
                     String t = etTiempo.getText().toString();
                     //createfiletime(estadoSendDataServer, t);
-                    createfiletime(ultimoEstado, t);
+                    //createfiletime(ultimoEstado, t);
+                    createfiletime(ultimoEstado, ultimoEstadoCBNotificaciones, t);
 
                     if(obtenerEstadoCbox()){
                         stopRepeating();
@@ -570,7 +606,8 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
 
 
 
-    public void createfiletime(boolean estadocbox, String tiempo){
+    //public void createfiletime(boolean estadocbox, String tiempo){
+    public void createfiletime(boolean estadocbox, boolean estadocboxNotificaciones, String tiempo){
         SharedPreferences preferences = getSharedPreferences("filetime", Context.MODE_PRIVATE);
         //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
         DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
@@ -580,6 +617,7 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("tiempo", tiempo);
         editor.putBoolean("estadocbox", estadocbox);
+        editor.putBoolean("estadocboxNotificacion", estadocboxNotificaciones);
         editor.commit();
     }
 
@@ -594,6 +632,12 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
     public boolean obtenerEstadoCbox() {
         SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
         boolean estado = preferences.getBoolean("estadocbox",false);
+        return estado;   //return preferences.getString("tiempo", "Sin configurar.");
+    }
+
+    public boolean obternerEstadoCboxNotificaciones(){
+        SharedPreferences preferences = getSharedPreferences("filetime", MODE_PRIVATE);
+        boolean estado = preferences.getBoolean("estadocboxNotificacion",false);
         return estado;   //return preferences.getString("tiempo", "Sin configurar.");
     }
 
@@ -1180,14 +1224,11 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                     //Toast.makeText(SignalMonitorSpo2Pulso.this, "nada", Toast.LENGTH_SHORT).show();
                 }else{
 
-                    try {
-                    /*tv_diastolic.setText(Diastolic_pressure);
-                     tv_systolic.setText(Systolic_pressure);
-                     tv_pulse_min.setText(Heart_rate);*/
-                        /*int diast = Integer.parseInt(tv_diastolic1.getText().toString());
-                        int systo = Integer.parseInt(tv_systolic1.getText().toString());
-                        int pulso = Integer.parseInt(tv_pulse_min1.getText().toString());*/
+                    valorDiastolic = Integer.parseInt(tv_diastolic1.getText().toString());
+                    valorSystolic = Integer.parseInt(tv_systolic1.getText().toString());
+                    valorHearPulse = Integer.parseInt(tv_pulse_min1.getText().toString());
 
+                    try {
                         if (contax == 0) {
                             tv_diastolic.setText(tv_diastolic1.getText().toString());
                             tv_systolic.setText(tv_systolic1.getText().toString());
@@ -1217,7 +1258,6 @@ public class SignalMonitorTA extends AppCompatActivity implements MiAsyncTask.Mi
                         e.getStackTrace();
                     }
                         bandera = false;
-
                 }
                 contador=0;
             }

@@ -80,7 +80,7 @@ public class config_sms_social_email {
     public void sendInfo_SMS_TC(Context context, String temperatura, String telefonoEspecialista, String nombreEspecialista, String nombrePaciente){
         DecimalFormat df = new DecimalFormat("#.00");
         String datosCompletos =
-                "*************************************************************\n" +
+                        "*************************************************************\n" +
                         "¡NOTIFICACIÓN TEMPERATURA CORPORAL!\n\n" +
                         "*************************************************************\n" +
                         "*Temperatura Corporal: " + temperatura + " °C ~ " + df.format(((((Double.parseDouble(String.valueOf(temperatura)))*1.8)+32.0))) + " °F.\n" +
@@ -98,18 +98,16 @@ public class config_sms_social_email {
     }
 
 
-    public void sendInfo_SMS_FR(Context context, String frec_respiratoria, String telefono){
-
-        String nombrePaciente = "xxxxxx";
-        String nombreEspecialista = "++++++++";
+    //public void sendInfo_SMS_FR(Context context, String frec_respiratoria, String telefono){
+    public void sendInfo_SMS_FR(Context context, String frec_respiratoria, String telefonoEspecialista, String nombreEspecialista, String nombrePaciente){
 
         String datosCompletos =
         "*************************************************************\n" +
-        "¡NOTIFICACIÓN FRECUENCIA RESPIRATORIA!\n\n" +
-        "*************************************************************\n" +
+        "¡NOTIFICACIÓN FRECUENCIA RESPIRATORIA!\n" +
+        "*************************************************************\n\n" +
         "*Frecuencia Respiratoria: " + frec_respiratoria +"\n\n" +
-        "\nNombre del Paciente: " + nombrePaciente +"\n" +
-        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+        "Nombre del Paciente: " + nombrePaciente +"\n" +
+        "Nombre del Especialísta: " + nombreEspecialista +"\n\n" +
         "---------------------------------------------------------------------" + "\n" +
         //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
         "\t\tSMS Generado: " + fecha() + " ~ " + hora() + "\n" +
@@ -117,7 +115,7 @@ public class config_sms_social_email {
         "Copyright(c) HOSPITAL 2019~2020. " +
         "\nAll rights reserved.";
 
-        sendSMS(context, datosCompletos, telefono);
+        sendSMS(context, datosCompletos, telefonoEspecialista);
     }
 
 
@@ -149,12 +147,12 @@ public class config_sms_social_email {
 
         String datosCompletos =
         "*************************************************************\n" +
-        "¡NOTIFICACIÓN OXIMETRÍA!\n\n" +
+        "¡NOTIFICACIÓN OXIMETRÍA!\n" +
         "*************************************************************\n" +
         "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +" %\n" +
         "*Frecuencia Cardíaca: " + frecuencia_cardiaca +" PRbpm\n\n" +
-        "\nNombre del Paciente: " + nombrePaciente +"\n" +
-        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+        "Nombre del Paciente: " + nombrePaciente +"\n" +
+        "Nombre del Especialísta: " + nombreEspecialista +"\n\n" +
         "---------------------------------------------------------------------" + "\n" +
         //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
         "\t\tSMS Generado: " + fecha() + " ~ " + hora() + "\n" +
@@ -287,7 +285,7 @@ public class config_sms_social_email {
                 "*************************************************************\n" +
                 "¡NOTIFICACIÓN TEMPERATURA CORPORAL!\n" +
                 "*************************************************************\n\n" +
-                "* Temperatura Corporal: " + temperatura  + " °C ~ " + df.format(((((Double.parseDouble(String.valueOf(temperatura)))*1.8)+32.0))) + " °F.\n" +
+                "* Temperatura Corporal: " + temperatura  + " °C ~ " + df.format(((((Double.parseDouble(String.valueOf(temperatura)))*1.8)+32.0))) + " °F.\n\n" +
                 "* Nombre del Paciente: " + nombrePaciente +"\n" +
                 "* Nombre del Especialísta: " + nombreEspecialista +"\n\n" +
                 "---------------------------------------------------------------------" + "\n" +
@@ -322,6 +320,37 @@ public class config_sms_social_email {
     }
 
 
+    //Función para enviar notificación de variable biométrica Frecuencia Respiratoria.
+    public void sendInfo_Email_FR(Context context, String email, String subject, String frec_respiratoria, String nombreEspecialista, String nombrePaciente){
+
+        //sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
+        //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
+
+        String message =
+                "*************************************************************\n" +
+                        "¡NOTIFICACIÓN FRECUENCIA RESPIRATORIA!\n" +
+                        "*************************************************************\n\n" +
+                        "*Frecuencia Respiratoria: " + frec_respiratoria +"\n" +
+                        "\nNombre del Paciente: " + nombrePaciente +"\n" +
+                        "Nombre del Especialísta: " + nombreEspecialista +"\n\n" +
+                        "---------------------------------------------------------------------" + "\n" +
+                        //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
+                        "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
+                        "---------------------------------------------------------------------" + "\n" +
+                        "Copyright(c) HOSPITAL 2019~2020. " +
+                        "\nAll rights reserved.";
+
+        //String message = fc;          //Dato a enviar.
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(context, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
+    }
+
+
+
     //Función para enviar notificación de variable biométrica Oximetría.
     public void sendInfo_Email_Oximetria(Context context, String email, String subject, String spo2, String frecuencia_cardiaca, String nombreEspecialista, String nombrePaciente){
 
@@ -330,12 +359,12 @@ public class config_sms_social_email {
 
         String message =
                 "*************************************************************\n" +
-                        "¡NOTIFICACIÓN OXIMETRÍA!\n\n" +
+                        "¡NOTIFICACIÓN OXIMETRÍA!\n" +
                         "*************************************************************\n" +
                         "*Saturación Parcial del Oxígeno (SpO2): " + spo2 +" %\n" +
                         "*Frecuencia Cardíaca: " + frecuencia_cardiaca +" PRbpm\n\n" +
                         "\nNombre del Paciente: " + nombrePaciente +"\n" +
-                        "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
+                        "Nombre del Especialísta: " + nombreEspecialista +"\n\n" +
                         "---------------------------------------------------------------------" + "\n" +
                         //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
                         "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
@@ -354,37 +383,7 @@ public class config_sms_social_email {
 
 
 
-    //Función para enviar notificación de variable biométrica Frecuencia Respiratoria.
-    public void sendInfo_Email_FR(Context context, String email, String subject, String fr){
 
-        //sesion_EmailOrigenHospital();             //Evaluaré en esta App si es necesario llamar esta función para enviar el correo.
-                                                  //Esto debido a que he observado que en la clase java "SendMail" ya viene por defecto esta configuración.
-
-        String nombrePaciente = "xxxxxx";
-        String nombreEspecialista = "++++++++";
-
-        String message =
-                "*************************************************************\n" +
-                "¡NOTIFICACIÓN FRECUENCIA RESPIRATORIA!\n\n" +
-                "*************************************************************\n" +
-                "*Frecuencia Respiratoria: " + fr +"\n\n" +
-                "\nNombre del Paciente: " + nombrePaciente +"\n" +
-                "\nNombre del Especialísta: " + nombreEspecialista +"\n" +
-                "---------------------------------------------------------------------" + "\n" +
-                //"\t\tMensaje Generado: " + date + " ~ " + time + "\n" +
-                "\t\tE-mail Generado: " + fecha() + " ~ " + hora() + "\n" +
-                "---------------------------------------------------------------------" + "\n" +
-                "Copyright(c) HOSPITAL 2019~2020. " +
-                "\nAll rights reserved.";
-
-        //String message = fc;          //Dato a enviar.
-
-        //Creating SendMail object
-        SendMail sm = new SendMail(context, email, subject, message);
-
-        //Executing sendmail to send email
-        sm.execute();
-    }
 
 
 

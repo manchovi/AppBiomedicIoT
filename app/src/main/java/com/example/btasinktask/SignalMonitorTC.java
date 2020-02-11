@@ -48,12 +48,9 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     private MiAsyncTask tareaAsincrona;
     SuperClase instanciaSuper = new SuperClase();
     Conexion_volley volleyBD = new Conexion_volley();
-
     private SignalsMonitor.hiloAsyncTask thread;
     private Handler mHandler = new Handler();
-
     boolean estado_leyendaGraph = false;
-
     boolean estado_sw = false;
 
     private double prev;
@@ -62,7 +59,6 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     private double plotRes = 1;
 
     private boolean aviso = false;
-
     public static Handler btHandler;
     final int handlerState = 0;        				 //used to identify handler message
 
@@ -86,14 +82,12 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     String Temp_corporal="";
     int Alarma=0;
 
-
     private boolean getStatusCheckBoxTop = false;
     private boolean getStatusCheckBoxBottom = false;
     private boolean getStatusCheckBoxMiddle = false;
     private boolean getStatusCheckBoxVisibleoculto = false;
 
     int contador = 0;
-
 
     AlertDialog.Builder dialogo, dialogo1;
     private ProgressDialog pd;
@@ -105,9 +99,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
     boolean estadoBottom = false;
     boolean estadoMiddle = false;
     boolean estadoVisibleoculto = false;
-
     boolean estadoSendDataServer = false;
-
     boolean ultimoEstado = false;
     boolean ultimoEstadoCBServer = false;
     boolean ultimoEstadoCBNotificaciones = false;
@@ -178,6 +170,10 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
         cb_send = (CheckBox)findViewById(R.id.cb_send);
         cb_time = (CheckBox)findViewById(R.id.cb_time);
 
+        //limpiarDatosTiempoSend();                         //Me hace falta probar esta función señores.
+        //Toast.makeText(this, "T: "+obtenerTiempo(), Toast.LENGTH_SHORT).show();
+
+
         descubrirDispositivosBT();
 
         try {
@@ -185,7 +181,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
             Bundle bundle = intent.getExtras();
 
             if (bundle != null) {
-                senal = bundle.getString("senal");;
+                senal = bundle.getString("senalTC");;
                 documentoEspecialista = bundle.getString("documento");
                 nombreEspecialista = bundle.getString("nombreEspecialista");
                 nombrePaciente = bundle.getString("nombrePaciente");
@@ -193,7 +189,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                 correo_especialista = bundle.getString("emailEspecialista");
 
                 //En esta sección me he quedado, al llegar a casa la probaré.
-                AlertDialog.Builder ventana = new AlertDialog.Builder(this);
+                /*AlertDialog.Builder ventana = new AlertDialog.Builder(this);
                 ventana.setCancelable(true);
                 ventana.setTitle("Detalle Info:");
                 ventana.setMessage("Documento Especialísta: "+ documentoEspecialista + "\n"+
@@ -201,7 +197,7 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                                    "Nombre Paciente: " + nombrePaciente + "\n" +
                                    "Tel. Especialísta: " + tel_especialista + "\n" +
                                    "E-mail Especialísta: " + correo_especialista + "\n");
-                ventana.show();
+                ventana.show();*/
 
                 if (senal.equals("1")) {
 
@@ -322,6 +318,13 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
 
 
     }  //Fin del Método onCreate
+
+    private void limpiarDatosTiempoSend() {
+            SharedPreferences preferences = getSharedPreferences("filetime", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+    }
 
 
     public void VentanaDialog1(final Context context){
@@ -1107,14 +1110,9 @@ public class SignalMonitorTC extends AppCompatActivity implements MiAsyncTask.Mi
                 }
 
             totalSegundos = Integer.parseInt(obtenerTiempo());
+            //totalSegundos = 10;
             totalSegundos = totalSegundos * 1000;
             mHandler.postDelayed(this, totalSegundos);
         }
     };
-
-
-
-
-
-
 }

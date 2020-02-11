@@ -510,7 +510,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
         //cb_enabledSend.setChecked(false);
 
         final EditText etTiempo = (EditText)myDialog.findViewById(R.id.etTiempo);
-
         Button btnCancelar = (Button)myDialog.findViewById(R.id.btnCancelar);
         Button btnAplica = (Button)myDialog.findViewById(R.id.btnAplica);
 
@@ -595,6 +594,7 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
 
     //public void createfiletime(boolean estadocbox, String tiempo){
     public void createfiletime(boolean estadocbox, boolean estadocboxNotificaciones, String tiempo){
+    //public void createfiletime(boolean estadocbox, String tiempo){
         SharedPreferences preferences = getSharedPreferences("filetime", Context.MODE_PRIVATE);
         //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
         DateFormat formatodate= new SimpleDateFormat("yyyy/MM/dd");
@@ -1173,8 +1173,6 @@ public class SignalMonitorSpo2Pulso extends AppCompatActivity implements MiAsync
                             }
                         }
                     }
-
-
 
                     /********************************************************************/
                     /****************END PARTE DE LA COMUNICACIÓN************************/

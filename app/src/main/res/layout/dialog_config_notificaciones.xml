@@ -189,35 +189,67 @@
                                     android:paddingRight="15dp"
                                     android:orientation="horizontal">
 
-                                        <EditText
-                                            android:id="@+id/et_spo2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:visibility="visible"
-                                            android:layout_weight=".5"
-                                            android:hint="SpO2: 0.0"
-                                            android:textSize="14dp"
-                                            android:inputType="number"
-                                            android:textColor="@color/blue"
-                                            android:drawablePadding="5dp"
-                                            android:paddingLeft="1dp"
-                                            android:drawableStart="@drawable/spo2_ico2"
-                                            />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".5"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
 
-                                        <EditText
-                                            android:id="@+id/et_pulso"
-                                            android:layout_width="wrap_content"
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/tispo2"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight=".5"
-                                            android:visibility="visible"
-                                            android:hint="Pulso: 0.0"
-                                            android:textSize="14dp"
-                                            android:inputType="number"
-                                            android:textColor="@color/blue"
-                                            android:drawablePadding="5dp"
-                                            android:paddingLeft="1dp"
-                                            android:drawableStart="@drawable/spo2_ico2"
-                                            />
+                                            android:layout_marginLeft="2dp"
+                                            android:layout_marginRight="5dp"
+                                            android:textColorHint="@color/blue">
+                                            <EditText
+                                                android:id="@+id/et_spo2"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:visibility="visible"
+                                                android:hint="SpO2: 0.0"
+                                                android:textSize="14dp"
+                                                android:inputType="number"
+                                                android:textColor="@color/blue"
+                                                android:drawablePadding="5dp"
+                                                android:paddingLeft="1dp"
+                                                android:drawableStart="@drawable/spo2_ico2"
+                                                />
+                                        </com.google.android.material.textfield.TextInputLayout>
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".5"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/tipulso"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:textColorHint="@color/blue">
+                                            <EditText
+                                                android:id="@+id/et_pulso"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:visibility="visible"
+                                                android:hint="Pulso: 0.0"
+                                                android:textSize="14dp"
+                                                android:inputType="number"
+                                                android:textColor="@color/blue"
+                                                android:drawablePadding="5dp"
+                                                android:paddingLeft="1dp"
+                                                android:drawableStart="@drawable/spo2_ico2"
+                                                />
+                                        </com.google.android.material.textfield.TextInputLayout>
+                                    </LinearLayout>
+
 
                                 </LinearLayout>
 
@@ -247,7 +279,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="15dp"
                                     android:layout_marginRight="15dp"
-                                    android:textColorHint="@color/grey">
+                                    android:textColorHint="@color/blue">
 
                                     <EditText
                                         android:id="@+id/et_fr"
@@ -285,7 +317,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="15dp"
                                     android:layout_marginRight="15dp"
-                                    android:textColorHint="@color/grey">
+                                    android:textColorHint="@color/blue">
 
                                     <EditText
                                         android:id="@+id/et_tc"
@@ -336,7 +368,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="15dp"
                                     android:layout_marginRight="2dp"
-                                    android:textColorHint="@color/grey">
+                                    android:textColorHint="@color/blue">
 
                                     <EditText
                                         android:id="@+id/et_Diastolic"
@@ -362,7 +394,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="2dp"
                                     android:layout_marginRight="2dp"
-                                    android:textColorHint="@color/grey">
+                                    android:textColorHint="@color/blue">
 
                                     <EditText
                                         android:id="@+id/et_Systolic"
@@ -387,7 +419,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="2dp"
                                     android:layout_marginRight="2dp"
-                                    android:textColorHint="@color/grey">
+                                    android:textColorHint="@color/blue">
 
                                     <EditText
                                         android:id="@+id/et_Pulse_min"
