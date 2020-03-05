@@ -1,17 +1,13 @@
 package com.example.btasinktask;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
 import com.android.volley.AuthFailureError;
@@ -29,7 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Conexion_volley {
+public class Conexion_volley1 {
     /*
     public Conexion_volley() {
     }*/
@@ -183,18 +179,17 @@ public class Conexion_volley {
 
 
     public void registerUserServerRemote(final Context context, final String documento, final String nombres, final String apellidos, final String direccion, final String telefono, final String especialidad, final String sexo, final String comentario, final String user_email, final String clave, final String pregunta, final String respuesta) {
+        String pc = getServer(context).trim();
+        String url_guardar_destinatarios = pc + "/registrar_usuario.php";
 
         String comprobacion = conf_Server(context).trim();
         if (comprobacion.equals("Sin configurar.")) {
-            Toast.makeText(context, "INFORMACIÓN!!!\n\nPara poder crear el usuario para acceso desde la plataforma web.\n" +
-                    "\nValídese con el usuario predeterminado y vaya a la opción configuración del servidor en el menú principal." +
-                    "\n\nConfigurar el PATH y listo.\n\nNo se creo el usuario en el servidor remoto.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "INFORMACIÓN!!!\n\nSe ha detectado que no se ha configurado el path de acceso al servidor remoto.\n" +
+                    "\nPara solventar, validese como usuario master y vaya hasta el menú principal para configurar el path.", Toast.LENGTH_LONG).show();
         }else{
 
         //String pc = "http://mjgl.com.sv/HOSPITAL-2020/service/registrar_usuario.php";
         //String pc = "http://mjgl.com.sv/HOSPITAL-2020/service";
-            String pc = getServer(context).trim();
-            String url_guardar_destinatarios = pc + "/registrar_usuario.php";
 
         try {
             StringRequest request = new StringRequest(Request.Method.POST,
@@ -258,8 +253,7 @@ public class Conexion_volley {
             MySingleton.getInstance(context).addToRequestQueue(request);
 
         }catch (Exception e){
-            //e.printStackTrace();
-            Toast.makeText(context, "Se encontrarón problemas con el PATH configurado: " + url_guardar_destinatarios, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
         }   //cierre de else

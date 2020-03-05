@@ -128,6 +128,28 @@
                             android:textSize="14dp"
                             android:textStyle="bold" />
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp">
+
+                            <CheckBox
+                                android:id="@+id/cb_loginWeb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text=" Crear Cuenta para LOGIN en Portal Web"
+                                android:textColor="#000"
+                                android:textStyle="bold"
+                                android:checked="false"
+                                android:button="@drawable/cbcustom_spo2"
+                                android:layout_marginRight="25dp"
+                                />
+
+                        </LinearLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ti_dui"
                             android:layout_width="match_parent"

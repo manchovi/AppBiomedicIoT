@@ -34,7 +34,7 @@ public class db_SQLite extends SQLiteOpenHelper {
 
 
         //db.execSQL("insert into usuarios values(null,'Administrador','admin','admin@utla.edu.sv','admin','¿Cuál es el nombre de tu universidad favorita?','UTLA',datetime())");
-        db.execSQL("insert into tb_especialista values('1', 'Manuel de Jesús', 'Gámez López', 'Cas, San Nicolas Lempa, Tecoluca-San Vicente', '+50361107065', 'Docente Investigador', 'Masculino', 'N.A', 'manuel.gamez@itca.edu.sv', '12345', '¿Cuál es el nombre de tu universidad favorita?', 'MEGATEC-ZACATECOLUCA', datetime('now','localtime'))");
+        db.execSQL("insert into tb_especialista values('1', 'MEGATEC', 'HOSPITAL', 'Zacatecoluca', '+50323340763', 'Investigación', 'Masculino', 'N.A', 'megatec@itca.edu.sv', 'itca', '¿Cuál es el nombre de tu universidad favorita?', 'itca', datetime('now','localtime'))");
     }
 
     @Override

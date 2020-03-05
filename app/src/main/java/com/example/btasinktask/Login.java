@@ -1,5 +1,6 @@
 package com.example.btasinktask;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -47,6 +48,8 @@ import java.util.Objects;
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
     Dialog myDialog;
+    boolean cb_estado = false;
+    Conexion_volley registrosRemote = new Conexion_volley();
 
     EditText etEmail, etClave;
     TextInputLayout tiEmail, tiClave;
@@ -76,7 +79,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     String elementos[] = {"Uno", "Dos", "Tres", "Cuatro", "Cinco"};
     private Spinner sp_questions;
 
-    private CheckBox cb_masculino, cb_femenino;
+    private CheckBox cb_masculino, cb_femenino, cb_loginWeb;
     private TextInputLayout ti_dui,ti_nombres,ti_apellidos,ti_direccion,ti_telefono,ti_especialidad,ti_comentario,ti_usuario,ti_password1,ti_password2,ti_respuesta;
     private EditText et_dui,et_nombres,et_apellidos,et_direccion,et_telefono,et_especialidad,et_comentario,et_usuario,et_password1,et_password2,et_respuesta;
 
@@ -334,6 +337,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        cb_loginWeb = (CheckBox)mView.findViewById(R.id.cb_loginWeb);
+        cb_loginWeb.setChecked(cb_estado);
+
+        cb_loginWeb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean estado) {
+                if(estado){
+                    cb_estado = true;
+                    //Toast.makeText(Login.this, "Estado checkbox: "+cb_estado, Toast.LENGTH_SHORT).show();
+                }else{
+                    cb_estado = false;
+                    //Toast.makeText(Login.this, "Estado checkbox: "+cb_estado, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+
         sp_questions = (Spinner)mView.findViewById(R.id.sp_questions);  //Aca tomo la pregunta se seguridad seleccionada.
         et_respuesta = (EditText)mView.findViewById(R.id.et_respuesta);
 
@@ -409,7 +431,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         });
 
 
-        sexo = "Masculino";
+
 
 
         cb_masculino.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -438,6 +460,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             }
         });
 
+        if(sexo.isEmpty()){
+            sexo = "Masculino";
+        }
 
         mBuilder.setView(mView);
         //final AlertDialog dialog = mBuilder.create();
@@ -647,7 +672,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
                                                             if(status_documento && status_nombres && status_apellidos && status_telefono && status_usuario && status_clave && status_clave1 && status_pregunta && status_respuesta){
                                                                 //Toast.makeText(Login.this, "Hoy si, a guardar...", Toast.LENGTH_SHORT).show();
-
                                                                 dto datos = new dto();
 
                                                                 //OBTENIENDO LA FECHA Y HORA ACTUAL DEL SISTEMA.
@@ -675,6 +699,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                                                 datos.setPregunta(sp_questions.getSelectedItem().toString());
                                                                 datos.setRespuesta(et_respuesta.getText().toString());
                                                                 datos.setFecha(fecha.toString());
+
+                                                                if(cb_estado){
+                                                                    dialogConfirm(Login.this, et_dui.getText().toString(),
+                                                                            et_nombres.getText().toString(),
+                                                                            et_apellidos.getText().toString(),
+                                                                            et_direccion.getText().toString(),
+                                                                            et_telefono.getText().toString(),
+                                                                            et_especialidad.getText().toString(),
+                                                                            sexo.toString(),
+                                                                            et_comentario.getText().toString(),
+                                                                            et_usuario.getText().toString(),
+                                                                            et_password1.getText().toString(),
+                                                                            sp_questions.getSelectedItem().toString(),
+                                                                            et_respuesta.getText().toString());
+                                                                }else{
+
+                                                                }
+
 
                                                                 if(base.addRegister(datos)){
                                                                     Toast.makeText(getApplicationContext(), "Registro creado correctamente",Toast.LENGTH_LONG).show();
@@ -780,6 +822,30 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             }
         });
 
+    }
+
+
+    private void dialogConfirm(final Context context, final String documento, final String nombres, final String apellidos, final String direccion, final String telefono, final String especialidad, final String sexo, final String comentario, final String user_email, final String clave, final String pregunta, final String respuesta) {
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_check_circle)
+                .setTitle("Confirmación.")
+                .setMessage("Se creará cuenta de usuario para acceso a la información clinica de pacientes desde la plataforma web.\n" +
+                        "\nRealmente desea continuar con esta operación?")
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(Login.this, "Voy a guardar", Toast.LENGTH_SHORT).show();
+                        registrosRemote.registerUserServerRemote(context, documento, nombres, apellidos, direccion, telefono, especialidad, sexo, comentario, user_email, clave, pregunta, respuesta);
+                    }
+
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     private void recuperarPassword(){

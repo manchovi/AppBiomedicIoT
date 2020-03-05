@@ -24,6 +24,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class VisorWeb extends AppCompatActivity {
 
@@ -68,17 +69,28 @@ public class VisorWeb extends AppCompatActivity {
 
         visor = (WebView) findViewById(R.id.webView);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
+        //toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitleMargin(0, 0, 0, 0);
+        toolbar.setSubtitle("Web");
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitle("Portal");
+        setSupportActionBar(toolbar);
+
         //Función para evitar la rotación de la pantalla del CELULAR.
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  //He comentariado esta línea para rotar pantalla.
         //y esto para pantalla completa (oculta incluso la barra de estado)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        /*
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         toolbar.setTitle("Portal");
         toolbar.setTitleMargin(0, 0, 0, 0);
         toolbar.setSubtitle("Web");
         setSupportActionBar(toolbar);
+         */
 
         if (checkConnectivity()) {
             go_home();
@@ -261,13 +273,40 @@ public class VisorWeb extends AppCompatActivity {
     //MENÚ PRINCIPAL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu1, menu);
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+
+        if(id==R.id.menu_retornar){
+            GoMain();
+            return true;
+        }else if(id==R.id.menu_atras) {
+            anterior();
+            return true;
+        }else if(id==R.id.menu_adelante){
+            siguiente();
+            return true;
+        }else if(id==R.id.menu_actualizar){
+            actualizar();
+            return true;
+        }else if(id==R.id.menu_home){
+            if (checkConnectivity()) {
+                go_home();
+            }
+            return true;
+        }else if(id==R.id.menus_stop){
+            detener();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+        /*switch (item.getItemId()) {
             case R.id.menu_retornar:
                 GoMain();
                 return true;
@@ -299,9 +338,6 @@ public class VisorWeb extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-        }
+        }*/
     }
-
-
-
 }
